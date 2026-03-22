@@ -1,0 +1,15 @@
+.section-header {
+  display: flex;
+  align-items: center; /* выравнивание по вертикали */
+  gap: 8px; /* расстояние между иконкой и текстом */
+}
+
+.section-header img.section-icon {
+  width: 45px;  /* размер картинки, можно подогнать */
+  height: 45px;
+  object-fit: contain; /* сохраняем пропорции */
+}
+
+.sidebar-title{
+    color: black;
+}

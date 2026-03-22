@@ -1,0 +1,67 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Application properties (важно!)
+**/application.properties
+**/application-dev.properties
+**/application-prod.properties
+
+
+# Frontend (React)
+frontend/travel-frontend/node_modules/
+frontend/travel-frontend/.cache/
+frontend/travel-frontend/build/
+frontend/travel-frontend/dist/
+frontend/travel-frontend/.env
+frontend/travel-frontend/.env.local
+frontend/travel-frontend/coverage/
+frontend/travel-frontend/.eslintcache
+
+frontend/node_modules/
+
+# Frontend logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Frontend IDE
+frontend/.vscode/
+frontend/.idea/
+
+# Package managers (важно!)
+frontend/travel-frontend/package-lock.json
+frontend/travel-frontend/yarn.lock
+**/package-lock.json
+**/yarn.lock
