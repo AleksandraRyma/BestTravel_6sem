@@ -1,189 +1,156 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { getGuideHome } from "../../api/tourGuideApi";
+import GuideNotesPanel from "./GuideNotesPanel";
 import "../../styles/home/homePage.css";
+import "../../styles/tour_guide/TourGuigeHomePage.css";
 
 export default function TourGuigeHomePage() {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
 
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [stats,       setStats]       = useState(null);
+  const [loading,     setLoading]     = useState(true);
 
+  // ── Load guide stats from backend ────────────────────────────
   useEffect(() => {
-    let alive = true;
     (async () => {
       try {
-        setLoading(true);
-        const res = await getGuideHome();
-        if (!alive) return;
-        setData(res);
-      } catch (e) {
-        if (!alive) return;
-        setError("Не удалось загрузить данные");
+        const { default: axiosClient } = await import("../../api/axiosClient");
+        const res = await axiosClient.get("/guide/home");
+        setStats(res.data);
+      } catch {
+        // backend not available — show empty stats
       } finally {
-        if (!alive) return;
         setLoading(false);
       }
     })();
-    return () => (alive = false);
   }, []);
 
-  const tasks = useMemo(() => data?.tasks ?? [], [data]);
-  const stats = data?.stats ?? { activeTours: 0, requests: 0, rating: 0 };
-
-  const onLogout = () => {
-    logout?.();
-    navigate("/login");
-  };
-
-  // 🔥 НАВИГАЦИЯ (юзкейсы)
-  const goToCreateTour = () => navigate("/guide/create-tour");
-  const goToRequests = () => navigate("/guide/requests");
-  const goToSchedule = () => navigate("/guide/schedule");
-  const goToMessages = () => navigate("/guide/messages");
-  const goToStats = () => navigate("/guide/stats");
-  const goToReport = () => navigate("/guide/report");
+  const onLogout = () => { logout?.(); navigate("/login"); };
 
   return (
-    <div className="home-page">
-      <div className="home-shell">
+    <div className="guide-page">
 
-        {/* TOPBAR */}
-        <header className="home-topbar">
-          <button className="icon-btn" onClick={() => setSidebarOpen(true)}>
-            ☰
+      {/* ── SIDEBAR ─────────────────────────────────────────── */}
+      <aside className={`guide-sidebar ${sidebarOpen ? "open" : ""}`}>
+        <div className="guide-sidebar__brand">
+          <span>🗺️</span>
+          <span>BestTravel</span>
+        </div>
+        <nav className="guide-sidebar__nav">
+          <button
+            className="guide-nav-item guide-nav-item--active"
+            onClick={() => { navigate("/guide"); setSidebarOpen(false); }}
+          >
+            <span>🏠</span> Главная
           </button>
-
-          <div className="home-brand">Guide</div>
-
-          <button className="home-btn" onClick={onLogout}>
-            Выйти
+          <button
+            className="guide-nav-item"
+            onClick={() => { navigate("/guide/create-tour"); setSidebarOpen(false); }}
+          >
+            <span>➕</span> Создать маршрут
           </button>
+          <button
+            className="guide-nav-item"
+            onClick={() => { navigate("/guide/stats"); setSidebarOpen(false); }}
+          >
+            <span>📊</span> Статистика
+          </button>
+          <button
+            className="guide-nav-item"
+            onClick={() => { navigate("/guide/report"); setSidebarOpen(false); }}
+          >
+            <span>📄</span> Отчёты
+          </button>
+        </nav>
+        <button className="guide-sidebar__logout" onClick={onLogout}>
+          Выйти
+        </button>
+      </aside>
+      {sidebarOpen && <div className="guide-overlay" onClick={() => setSidebarOpen(false)} />}
+
+      {/* ── MAIN ─────────────────────────────────────────────── */}
+      <main className="guide-main">
+
+        {/* Topbar */}
+        <header className="guide-topbar">
+          <button className="guide-burger" onClick={() => setSidebarOpen(true)}>☰</button>
+          <div className="guide-topbar__title">
+            <h1>Панель гида</h1>
+            <span className="guide-topbar__sub">BestTravel</span>
+          </div>
+          <button className="guide-topbar__logout" onClick={onLogout}>Выйти</button>
         </header>
 
-        {/* SIDEBAR */}
-        <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-          <div className="sidebar-header">
-            <strong>Меню</strong>
-            <button onClick={() => setSidebarOpen(false)}>✕</button>
+        {/* ── HERO / WELCOME ───────────────────────────────── */}
+        <section className="guide-hero">
+          <div className="guide-hero__text">
+            <h2>Добро пожаловать 👋</h2>
+            <p>Создавайте маршруты, смотрите статистику и формируйте отчёты</p>
           </div>
-
-          <nav className="sidebar-nav">
-            <button onClick={goToCreateTour}>Создать маршрут</button>
-            <button onClick={goToRequests}>Заявки</button>
-            <button onClick={goToSchedule}>Расписание</button>
-            <button onClick={goToMessages}>Сообщения</button>
-            <button onClick={goToStats}>Статистика</button>
-            <button onClick={goToReport}>Отчеты</button>
-          </nav>
-        </div>
-
-        {sidebarOpen && (
-          <div className="overlay" onClick={() => setSidebarOpen(false)} />
-        )}
-
-        {/* HERO */}
-        <section className="hero">
-          <h1>Управляйте турами легко</h1>
-          <p>Создавайте маршруты, работайте с заявками и анализируйте статистику</p>
-
-          {/* 🔎 Поиск как level.travel */}
-          <div className="hero-search">
-            <input placeholder="Куда тур?" />
-            <button onClick={goToCreateTour}>Создать</button>
-          </div>
-        </section>
-
-        {/* СТАТИСТИКА */}
-        <section className="section">
-          <h2>Статистика</h2>
-          <div className="home-stats">
-            <div className="home-stat">
-              <span>Активные туры</span>
-              <strong>{stats.activeTours}</strong>
-            </div>
-            <div className="home-stat">
-              <span>Заявки</span>
-              <strong>{stats.requests}</strong>
-            </div>
-            <div className="home-stat">
-              <span>Рейтинг</span>
-              <strong>{stats.rating}</strong>
-            </div>
-          </div>
-        </section>
-
-        {/* БЫСТРЫЕ ДЕЙСТВИЯ */}
-        <section className="section">
-          <h2>Быстрые действия</h2>
-
-          <div className="horizontal-scroll">
-            <div className="card big" onClick={goToCreateTour}>
-              <div className="card-overlay">
-                <h3>Создать маршрут</h3>
-                <span>Добавьте новый тур</span>
+          {!loading && stats && (
+            <div className="guide-hero__stats">
+              <div className="guide-stat">
+                <span className="guide-stat__num">{stats.totalRoutes ?? 0}</span>
+                <span className="guide-stat__label">маршрутов</span>
+              </div>
+              <div className="guide-stat">
+                <span className="guide-stat__num">{stats.totalParticipants ?? 0}</span>
+                <span className="guide-stat__label">участников</span>
+              </div>
+              <div className="guide-stat">
+                <span className="guide-stat__num">{stats.rating ?? "—"}</span>
+                <span className="guide-stat__label">рейтинг</span>
               </div>
             </div>
+          )}
+        </section>
 
-            <div className="card" onClick={goToRequests}>
-              <h3>Заявки</h3>
-              <span>Обработать клиентов</span>
+        {/* ── USE CASES ────────────────────────────────────── */}
+        <section className="guide-actions-section">
+          <h3 className="guide-section-title">Что вы хотите сделать?</h3>
+          <div className="guide-actions">
+
+            {/* Create route */}
+            <div className="guide-action-card" onClick={() => navigate("/guide/create-tour")}>
+              <div className="guide-action-card__icon guide-action-card__icon--green">➕</div>
+              <div className="guide-action-card__content">
+                <h4>Создать маршрут</h4>
+                <p>Составьте новый туристический маршрут с точками интереса, транспортом и расписанием</p>
+              </div>
+              <div className="guide-action-card__arrow">→</div>
             </div>
 
-            <div className="card" onClick={goToSchedule}>
-              <h3>Расписание</h3>
-              <span>Планирование туров</span>
+            {/* Statistics */}
+            <div className="guide-action-card" onClick={() => navigate("/guide/stats")}>
+              <div className="guide-action-card__icon guide-action-card__icon--blue">📊</div>
+              <div className="guide-action-card__content">
+                <h4>Просмотреть статистику</h4>
+                <p>Аналитика ваших маршрутов: количество участников, популярность, рейтинги</p>
+              </div>
+              <div className="guide-action-card__arrow">→</div>
             </div>
 
-            <div className="card" onClick={goToMessages}>
-              <h3>Сообщения</h3>
-              <span>Чат с туристами</span>
+            {/* Report */}
+            <div className="guide-action-card" onClick={() => navigate("/guide/report")}>
+              <div className="guide-action-card__icon guide-action-card__icon--orange">📄</div>
+              <div className="guide-action-card__content">
+                <h4>Сформировать отчёт</h4>
+                <p>Выгрузите отчёт по маршрутам и участникам за любой период</p>
+              </div>
+              <div className="guide-action-card__arrow">→</div>
             </div>
 
-            <div className="card" onClick={goToStats}>
-              <h3>Статистика</h3>
-              <span>Аналитика</span>
-            </div>
-
-            <div className="card" onClick={goToReport}>
-              <h3>Отчеты</h3>
-              <span>Сформировать отчет</span>
-            </div>
           </div>
         </section>
 
-        {/* ЗАДАЧИ */}
-        {!loading && !error && (
-          <section className="section">
-            <h2>Задачи на сегодня</h2>
+        <footer className="guide-footer">© 2026 BestTravel</footer>
+      </main>
 
-            <div className="home-list">
-              {tasks.map((t, idx) => (
-                <div key={idx} className="home-item">
-                  <div className="home-item-title">{t.title}</div>
-                  <div className="home-item-sub">{t.subtitle}</div>
-                  <div className="home-item-priority">{t.priority}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* STATES */}
-        {loading && <div className="home-state">Загрузка…</div>}
-        {error && <div className="home-state">{error}</div>}
-
-        {/* FOOTER */}
-        <footer className="footer">
-          © 2026 Guide Platform
-        </footer>
-
-      </div>
+      {/* ── FLOATING NOTES ───────────────────────────────────── */}
+      <GuideNotesPanel />
     </div>
   );
 }

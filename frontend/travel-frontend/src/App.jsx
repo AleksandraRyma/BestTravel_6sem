@@ -12,13 +12,11 @@ import OAuthCallback from "./pages/auth/OAuthCallback";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UsersPage from "./pages/admin/UsersPage";
 
-import TourGuigeHomePage from "./pages/guide/TourGuigeHomePage";
-import CreateTourPage from "./pages/guide/CreateTourPage";
-import RequestsPage from "./pages/guide/RequestsPage";
-import SchedulePage from "./pages/guide/SchedulePage";
-import MessagesPage from "./pages/guide/MessagesPage";
-import StatsPage from "./pages/guide/StatsPage";
-import ReportPage from "./pages/guide/ReportPage";
+import TourGuigeHomePage   from "./pages/guide/TourGuigeHomePage";
+import StatsPage   from "./pages/guide/StatsPage";
+import ReportPage   from "./pages/guide/ReportPage";
+
+
 
 import TravelerHomePage from "./pages/traveler/TravelerHomePage";
 import TravelerProfilePage from "./pages/traveler/TravelerProfilePage";
@@ -87,12 +85,12 @@ function App() {
           }
         />
 
-  <Route path="/guide/create-tour" element={<CreateTourPage />} />
-  <Route path="/guide/requests" element={<RequestsPage />} />
-  <Route path="/guide/schedule" element={<SchedulePage />} />
-  <Route path="/guide/messages" element={<MessagesPage />} />
-  <Route path="/guide/stats" element={<StatsPage />} />
-  <Route path="/guide/report" element={<ReportPage />} />
+        <Route path="/guide"             element={<PrivateRoute><TourGuigeHomePage /></PrivateRoute>} />
+        <Route path="/guide/create-tour"  element={<PrivateRoute><TravelerCreateRoutePage /></PrivateRoute>} />
+        <Route path="/guide/routes/:id/edit" element={<PrivateRoute><TravelerCreateRoutePage /></PrivateRoute>} />
+        <Route path="/guide/stats" element={<PrivateRoute><StatsPage /></PrivateRoute>} />
+                <Route path="/guide/report"  element={<PrivateRoute><ReportPage /></PrivateRoute>} />
+
 
 
 <Route path="/traveler/profile" element={<PrivateRoute><TravelerProfilePage /></PrivateRoute>} />

@@ -1,0 +1,209 @@
+/* GuideNotesPanel.css */
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap');
+
+/* ─── Trigger button ──────────────────────────────────────────── */
+.gnp-trigger {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 900;
+
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #0f172a;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  position: fixed;
+}
+.gnp-trigger:hover { transform: scale(1.08); background: #1e293b; }
+.gnp-trigger--open  { background: #334155; transform: scale(1.05); }
+
+.gnp-trigger__icon { font-size: 22px; line-height: 1; }
+
+.gnp-trigger__badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  background: #ef4444; color: white;
+  border-radius: 20px; border: 2px solid white;
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Onest', sans-serif;
+}
+
+/* ─── Overlay ─────────────────────────────────────────────────── */
+.gnp-overlay {
+  position: fixed; inset: 0; z-index: 901;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(1px);
+}
+
+/* ─── Panel ───────────────────────────────────────────────────── */
+.gnp-panel {
+  position: fixed;
+  bottom: 92px; right: 28px;
+  z-index: 902;
+
+  width: 320px;
+  max-height: 520px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.1);
+  display: flex; flex-direction: column;
+
+  transform: translateY(16px) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+.gnp-panel--open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Header */
+.gnp-panel__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.gnp-panel__title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 15px; font-weight: 800; color: #0f172a;
+  font-family: 'Onest', sans-serif;
+}
+.gnp-panel__meta { display: flex; align-items: center; gap: 8px; }
+.gnp-panel__count {
+  font-size: 11px; font-weight: 700; color: #64748b;
+  background: #f1f5f9; padding: 2px 8px; border-radius: 20px;
+}
+.gnp-clear-btn {
+  font-size: 11px; font-weight: 600; color: #0ea5e9;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Onest', sans-serif; padding: 2px 6px;
+  border-radius: 6px; transition: 0.15s;
+}
+.gnp-clear-btn:hover { background: #eff6ff; }
+.gnp-close-btn {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: #f1f5f9; border: none; cursor: pointer;
+  font-size: 12px; color: #64748b;
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.15s;
+}
+.gnp-close-btn:hover { background: #e2e8f0; }
+
+/* Input */
+.gnp-input-row {
+  display: flex; gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.gnp-input {
+  flex: 1; padding: 9px 12px;
+  border: 1.5px solid #e2e8f0; border-radius: 10px;
+  font-size: 13px; font-family: 'Onest', sans-serif;
+  color: #0f172a; outline: none; transition: 0.15s;
+  background: #f8fafc;
+}
+.gnp-input:focus { border-color: #0ea5e9; background: white; box-shadow: 0 0 0 3px rgba(14,165,233,0.1); }
+.gnp-input::placeholder { color: #94a3b8; }
+
+.gnp-add-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  border: none; background: #0f172a; color: white;
+  font-size: 22px; font-weight: 300;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: 0.15s; flex-shrink: 0;
+  line-height: 1;
+}
+.gnp-add-btn:hover:not(:disabled) { background: #1e293b; }
+.gnp-add-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Notes list */
+.gnp-list {
+  flex: 1; overflow-y: auto; padding: 8px 0;
+}
+.gnp-list::-webkit-scrollbar { width: 4px; }
+.gnp-list::-webkit-scrollbar-track { background: transparent; }
+.gnp-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+/* Empty */
+.gnp-empty {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 32px 20px; text-align: center;
+  color: #94a3b8;
+}
+.gnp-empty span { font-size: 36px; }
+.gnp-empty p { font-size: 13px; font-weight: 600; color: #64748b; margin: 0; }
+.gnp-empty__sub { font-size: 12px !important; color: #94a3b8 !important; font-weight: 400 !important; }
+
+/* Note item */
+.gnp-note {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px;
+  transition: background 0.15s;
+}
+.gnp-note:hover { background: #f8fafc; }
+
+/* Circle checkbox */
+.gnp-note__circle {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s;
+  margin-top: 1px;
+}
+.gnp-note__circle:hover:not(.gnp-note__circle--checked) {
+  border-color: #0ea5e9;
+  background: #eff6ff;
+}
+.gnp-note__circle--checked {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+.gnp-note__circle svg { width: 12px; height: 10px; }
+
+/* Text */
+.gnp-note__text {
+  flex: 1; font-size: 13px; line-height: 1.5;
+  color: #1e293b; font-family: 'Onest', sans-serif;
+  word-break: break-word;
+  transition: all 0.2s;
+}
+.gnp-note--done .gnp-note__text {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+/* Delete */
+.gnp-note__delete {
+  width: 20px; height: 20px; flex-shrink: 0;
+  background: none; border: none; cursor: pointer;
+  font-size: 11px; color: #cbd5e1;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px; transition: 0.15s; opacity: 0;
+}
+.gnp-note:hover .gnp-note__delete { opacity: 1; }
+.gnp-note__delete:hover { color: #ef4444; background: #fef2f2; }
+
+/* Footer */
+.gnp-panel__footer {
+  padding: 10px 14px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 10px; color: #cbd5e1;
+  text-align: center; font-family: 'Onest', sans-serif;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .gnp-panel { width: calc(100vw - 32px); right: 16px; bottom: 80px; }
+  .gnp-trigger { bottom: 20px; right: 16px; }
+}
