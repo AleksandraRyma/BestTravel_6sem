@@ -20,33 +20,58 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль"         },
 ];
 
+// const ALL_CATEGORIES = [
+//   { id: "Музеи",                 emoji: "🏛",  color: "#6366f1" },
+//   { id: "Природа",               emoji: "🌿",  color: "#16a34a" },
+//   { id: "Гастрономия",           emoji: "🍽",  color: "#f59e0b" },
+//   { id: "История",               emoji: "🏰",  color: "#b45309" },
+//   { id: "Шопинг",                emoji: "🛍",  color: "#ec4899" },
+//   { id: "Приключения",           emoji: "🧗",  color: "#ef4444" },
+//   { id: "Пляжный отдых",         emoji: "🏖",  color: "#0ea5e9" },
+//   { id: "Горы",                  emoji: "⛰",   color: "#64748b" },
+//   { id: "Архитектура",           emoji: "🏗",  color: "#7c3aed" },
+//   { id: "Ночная жизнь",          emoji: "🌙",  color: "#1d4ed8" },
+//   { id: "Семейный отдых",        emoji: "👨‍👩‍👧",color: "#15803d" },
+//   { id: "Экстремальный туризм",  emoji: "🪂",  color: "#dc2626" },
+//   { id: "Культурные мероприятия",emoji: "🎭",  color: "#9333ea" },
+//   { id: "Фестивали",             emoji: "🎪",  color: "#f97316" },
+//   { id: "Религиозные места",     emoji: "⛪",   color: "#92400e" },
+//   { id: "Фототуризм",            emoji: "📸",  color: "#0891b2" },
+//   { id: "Экотуризм",             emoji: "🌱",  color: "#15803d" },
+//   { id: "Активный отдых",        emoji: "🚵",  color: "#b91c1c" },
+//   { id: "Оздоровительный отдых", emoji: "🧘",  color: "#0d9488" },
+//   { id: "Обзорные экскурсии",    emoji: "🔭",  color: "#4f46e5" },
+// ];
+
 const ALL_CATEGORIES = [
-  { id: "Музеи",                 emoji: "🏛",  color: "#6366f1" },
-  { id: "Природа",               emoji: "🌿",  color: "#16a34a" },
-  { id: "Гастрономия",           emoji: "🍽",  color: "#f59e0b" },
-  { id: "История",               emoji: "🏰",  color: "#b45309" },
-  { id: "Шопинг",                emoji: "🛍",  color: "#ec4899" },
-  { id: "Приключения",           emoji: "🧗",  color: "#ef4444" },
-  { id: "Пляжный отдых",         emoji: "🏖",  color: "#0ea5e9" },
-  { id: "Горы",                  emoji: "⛰",   color: "#64748b" },
-  { id: "Архитектура",           emoji: "🏗",  color: "#7c3aed" },
-  { id: "Ночная жизнь",          emoji: "🌙",  color: "#1d4ed8" },
-  { id: "Семейный отдых",        emoji: "👨‍👩‍👧",color: "#15803d" },
-  { id: "Экстремальный туризм",  emoji: "🪂",  color: "#dc2626" },
-  { id: "Культурные мероприятия",emoji: "🎭",  color: "#9333ea" },
-  { id: "Фестивали",             emoji: "🎪",  color: "#f97316" },
-  { id: "Религиозные места",     emoji: "⛪",   color: "#92400e" },
-  { id: "Фототуризм",            emoji: "📸",  color: "#0891b2" },
-  { id: "Экотуризм",             emoji: "🌱",  color: "#15803d" },
-  { id: "Активный отдых",        emoji: "🚵",  color: "#b91c1c" },
-  { id: "Оздоровительный отдых", emoji: "🧘",  color: "#0d9488" },
-  { id: "Обзорные экскурсии",    emoji: "🔭",  color: "#4f46e5" },
+  { id: "Музеи", icon: "https://img.icons8.com/ios/50/000000/museum.png", color: "#6366f1" },
+  { id: "Природа", icon: "https://img.icons8.com/ios/50/000000/nature.png", color: "#16a34a" },
+  { id: "Гастрономия", icon: "https://img.icons8.com/ios/50/000000/restaurant.png", color: "#f59e0b" },
+  { id: "Шопинг", icon: "https://img.icons8.com/ios/50/000000/shopping-bag.png", color: "#ec4899" },
+  { id: "Приключения", icon: "https://img.icons8.com/ios/50/000000/adventure.png", color: "#ef4444" },
+  { id: "Пляжный отдых", icon: "https://img.icons8.com/ios/50/000000/beach.png", color: "#0ea5e9" },
+  { id: "Горы", icon: "https://img.icons8.com/?size=100&id=25055&format=png&color=000000", color: "#64748b" },
+  { id: "Архитектура", icon: "https://img.icons8.com/?size=100&id=9XlNNA5gCHns&format=png&color=000000", color: "#7c3aed" },
+  { id: "Семейный отдых", icon: "https://img.icons8.com/ios/50/000000/family.png", color: "#15803d" },
+  { id: "Фестивали", icon: "https://img.icons8.com/ios/50/000000/festival.png", color: "#f97316" },
+  { id: "Фототуризм", icon: "https://img.icons8.com/ios/50/000000/camera.png", color: "#0891b2" },
+  { id: "Экотуризм", icon: "https://img.icons8.com/?size=100&id=26111&format=png&color=000000", color: "#15803d" },
+  { id: "Активный отдых", icon: "https://img.icons8.com/?size=100&id=11736&format=png&color=000000", color: "#b91c1c" },
+  { id: "Оздоровительный отдых", icon: "https://img.icons8.com/ios/50/000000/spa.png", color: "#0d9488" },
 ];
 
-const TRANSPORT_LABELS = {
-  WALK: "🚶 Пешком", BIKE: "🚴 Велосипед", CAR: "🚗 Авто",
-  TRANSIT: "🚌 Транспорт", PLANE: "✈️ Самолёт",
-};
+// const TRANSPORT_LABELS = {
+//   WALK: "🚶 Пешком", BIKE: "🚴 Велосипед", CAR: "🚗 Авто",
+//   TRANSIT: "🚌 Транспорт", PLANE: "✈️ Самолёт",
+// };
+
+const TRANSPORT_LABELS = [
+  { value: "WALK", label: "Пешком", icon: "https://img.icons8.com/ios/50/000000/walking.png" },
+  { value: "BIKE", label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png" },
+  { value: "CAR", label: "Авто", icon: "https://img.icons8.com/ios/50/000000/car.png" },
+  { value: "TRANSIT", label: "Транспорт", icon: "https://img.icons8.com/ios/50/000000/bus.png" },
+  { value: "PLANE", label: "Самолёт", icon: "https://img.icons8.com/ios/50/000000/airplane-take-off.png" },
+];
 
 function toDateStr(val) {
   if (!val) return "—";
@@ -175,6 +200,10 @@ export default function TravelerRecommendedPage() {
   const scoreColor = (s) =>
     s >= 90 ? "#16a34a" : s >= 75 ? "#0ea5e9" : "#f59e0b";
 
+const getTransport = (type) =>
+  TRANSPORT_LABELS.find(t => t.value === type);
+
+
   // ─────────────────────────────────────────────────────────────
   return (
     <div className="trec-root">
@@ -245,22 +274,36 @@ export default function TravelerRecommendedPage() {
               <button className="trec-icon-btn" onClick={() => setShowPanel(false)}><FiX /></button>
             </div>
 
-            <div className="trec-cats-grid">
-              {ALL_CATEGORIES.map(cat => {
-                const active = selectedCats.includes(cat.id);
-                return (
-                  <button key={cat.id}
-                    className={`trec-cat ${active ? "trec-cat--active" : ""}`}
-                    style={active ? { borderColor: cat.color, color: cat.color, background: cat.color + "12" } : {}}
-                    onClick={() => toggleCat(cat.id)}
-                  >
-                    <span className="trec-cat__emoji">{cat.emoji}</span>
-                    <span className="trec-cat__name">{cat.id}</span>
-                    {active && <FiCheck className="trec-cat__check" style={{ color: cat.color }} />}
-                  </button>
-                );
-              })}
-            </div>
+            <div className="trec-card__cats">
+  {ALL_CATEGORIES.map(cat => {
+    const active = selectedCats.includes(cat.id);
+
+    return (
+      <button
+        key={cat.id}
+        className={`trec-cat ${active ? "trec-cat--active" : ""}`}
+        onClick={() => toggleCat(cat.id)}
+        type="button"
+      >
+        <img src={cat.icon} alt="" className="trec-cat__icon" />
+        <span>{cat.id}</span>
+      </button>
+    );
+  })}
+</div>
+
+
+        {/* <div className="trec-card__cats">
+                  {(r.matchedCategories || []).map(c => {
+                    const cat = ALL_CATEGORIES.find(x => x.id === c);
+                    return (
+                      <span key={c} className="trec-card__cat">
+                        <img src={cat?.icon} alt="" width={14} />
+                        {c}
+                      </span>
+                    );
+                  })}
+                </div> */}
 
             <div className="trec-panel__footer">
               <span className="trec-panel__count">
@@ -379,9 +422,20 @@ export default function TravelerRecommendedPage() {
 
                     <div className="trec-card__meta">
                       <span><FiClock /> {r.durationDays} дн.</span>
-                      {r.transportType && (
+                      {/* {r.transportType && (
                         <span><FiTruck /> {TRANSPORT_LABELS[r.transportType]?.split(" ")[0] ?? r.transportType}</span>
-                      )}
+                      )} */
+                      
+                      r.transportType && (() => {
+  const t = getTransport(r.transportType);
+  return (
+    <span>
+      <FiTruck /> {t?.label || r.transportType}
+    </span>
+  );
+})()
+
+                      }
                       {r.totalPrice != null && (
                         <span><FiDollarSign />
                           {r.totalPrice > 0

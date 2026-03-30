@@ -36,12 +36,20 @@ const makeNumberedIcon = (num, color = "#0ea5e9") =>
     iconAnchor: [14, 14],
   });
 
+// const TRANSPORT_OPTIONS = [
+//   { value: "WALK",    label: "Пешком",    icon: "🚶", costPer100km: 0  },
+//   { value: "BIKE",    label: "Велосипед", icon: "🚴", costPer100km: 0  },
+//   { value: "CAR",     label: "Авто",      icon: "🚗", costPer100km: 8  },
+//   { value: "TRANSIT", label: "Транспорт", icon: "🚌", costPer100km: 3  },
+//   { value: "PLANE",   label: "Самолёт",   icon: "✈️", costPer100km: 15 },
+// ];
+
 const TRANSPORT_OPTIONS = [
-  { value: "WALK",    label: "Пешком",    icon: "🚶", costPer100km: 0  },
-  { value: "BIKE",    label: "Велосипед", icon: "🚴", costPer100km: 0  },
-  { value: "CAR",     label: "Авто",      icon: "🚗", costPer100km: 8  },
-  { value: "TRANSIT", label: "Транспорт", icon: "🚌", costPer100km: 3  },
-  { value: "PLANE",   label: "Самолёт",   icon: "✈️", costPer100km: 15 },
+  { value: "WALK",    label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png", costPer100km: 0 },
+  { value: "BIKE",    label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png", costPer100km: 0 },
+  { value: "CAR",     label: "Авто",      icon: "https://img.icons8.com/ios/50/000000/car.png", costPer100km: 8 },
+  { value: "TRANSIT", label: "Транспорт", icon: "https://img.icons8.com/ios/50/000000/bus.png", costPer100km: 3 },
+  { value: "PLANE",   label: "Самолёт",   icon: "https://img.icons8.com/ios/50/000000/airplane-take-off.png", costPer100km: 15 },
 ];
 
 const OSRM_PROFILE = {
@@ -623,7 +631,7 @@ export default function TravelerCreateRoutePage() {
 
               <div className="crc-form-group">
                 <label><FiTruck /> Тип транспорта</label>
-                <div className="crc-transport-grid">
+                {/* <div className="crc-transport-grid">
                   {TRANSPORT_OPTIONS.map(t => (
                     <button key={t.value}
                       className={`crc-transport-btn ${transport === t.value ? "active" : ""}`}
@@ -632,7 +640,26 @@ export default function TravelerCreateRoutePage() {
                       <span>{t.label}</span>
                     </button>
                   ))}
-                </div>
+                </div> */
+                
+                <div className="crc-transport-grid">
+  {TRANSPORT_OPTIONS.map(t => (
+    <button 
+      key={t.value}
+      className={`crc-transport-btn ${transport === t.value ? "active" : ""}`}
+      onClick={() => setTransport(t.value)}
+    >
+      <span className="crc-transport-btn__icon">
+        <img 
+          src={t.icon} 
+          alt={t.label} 
+          style={{ width: "20px", height: "20px", objectFit: "contain" }}
+        />
+      </span>
+      <span>{t.label}</span>
+    </button>
+  ))}
+</div>}
               </div>
 
               <div className="crc-form-group">
@@ -807,7 +834,7 @@ export default function TravelerCreateRoutePage() {
             </div>
           )}
 
-          {routeStats && !calcLoading && (
+          {/* {routeStats && !calcLoading && (
             <div className="crc-map-stats">
               <span>📍 {routeStats.distanceKm} км</span>
               <span><FiClock /> {routeStats.durationH} ч</span>
@@ -817,7 +844,30 @@ export default function TravelerCreateRoutePage() {
                 return opt ? <span>{opt.icon} {opt.label}</span> : null;
               })()}
             </div>
-          )}
+          )} */
+          routeStats && !calcLoading && (
+  <div className="crc-map-stats">
+    <span>📍 {routeStats.distanceKm} км</span>
+    <span><FiClock /> {routeStats.durationH} ч</span>
+    <span>💶 {routeStats.costEur} €</span>
+    {(() => {
+      const opt = TRANSPORT_OPTIONS.find(t => t.value === transport);
+      return opt ? (
+        <span>
+          <img 
+            src={opt.icon} 
+            alt={opt.label} 
+            style={{ width: "14px", height: "14px", verticalAlign: "middle", marginRight: "4px" }}
+          />
+          {opt.label}
+        </span>
+      ) : null;
+    })()}
+  </div>
+)
+          }
+
+          
         </div>
       </div>
     </div>

@@ -327,3 +327,491 @@
   .tfp-fstat { min-width: 50%; border-bottom: 1px solid var(--tfp-border); }
   .tfp-sort { min-width: 160px; }
 }
+
+
+
+/*-----------------------------*/
+/* ─── Общие стили для иконок транспорта ────────────────────────── */
+.tfp-transport-icon,
+.tfp-card-transport-icon,
+.tfp-row-transport-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ─── Стили для бейджа транспорта в карточках ─────────────────── */
+.tfp-transport-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 20px;
+  line-height: 1;
+}
+
+.tfp-transport-badge img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* ─── Стили для иконок в фильтрах ─────────────────────────────── */
+.tfp-fbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #334155;
+}
+
+.tfp-fbtn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+.tfp-fbtn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.tfp-fbtn img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.tfp-fbtn.active img {
+  filter: brightness(0) invert(1);
+}
+
+/* ─── Стили для карточек (grid view) ──────────────────────────── */
+.tfp-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #eef2ff;
+}
+
+.tfp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15);
+}
+
+.tfp-card__header {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid #eef2ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tfp-card__status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.tfp-card__status--upcoming {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.tfp-card__status--ongoing {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tfp-card__status--past {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.tfp-card__rating {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f59e0b;
+  background: #fef3c7;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.tfp-card__body {
+  padding: 16px;
+  flex: 1;
+}
+
+.tfp-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #0f172a;
+  line-height: 1.4;
+}
+
+.tfp-card__route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.tfp-card__route svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.tfp-card__route .from,
+.tfp-card__route .to {
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.tfp-card__route .sep {
+  color: #94a3b8;
+}
+
+.tfp-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: #475569;
+  margin: 12px 0;
+}
+
+.tfp-card__meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tfp-card__meta svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tfp-card__meta .price {
+  color: #059669;
+  font-weight: 500;
+}
+
+.tfp-card__meta .free {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.tfp-card__saved {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.tfp-card__actions {
+  padding: 12px 16px;
+  border-top: 1px solid #eef2ff;
+  display: flex;
+  gap: 8px;
+  background: #fafcff;
+}
+
+.tfp-card__view-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tfp-card__view-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.tfp-card__del-btn {
+  padding: 8px 12px;
+  background: #fee2e2;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tfp-card__del-btn svg {
+  color: #dc2626;
+  width: 18px;
+  height: 18px;
+}
+
+.tfp-card__del-btn:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+/* ─── Стили для списка (list view) ───────────────────────────── */
+.tfp-row {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #eef2ff;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tfp-row:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transform: translateX(4px);
+}
+
+.tfp-row__main {
+  flex: 1;
+  min-width: 200px;
+}
+
+.tfp-row__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.tfp-row__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.tfp-row__title:hover {
+  color: #3b82f6;
+}
+
+.tfp-row__rating {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f59e0b;
+  background: #fef3c7;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.tfp-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.tfp-row__meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tfp-row__meta svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tfp-row__meta .price {
+  color: #059669;
+  font-weight: 500;
+}
+
+.tfp-row__meta .free {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.tfp-row__actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tfp-icon-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tfp-icon-btn--view {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.tfp-icon-btn--view:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.tfp-icon-btn--del {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.tfp-icon-btn--del:hover {
+  background: #dc2626;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ─── Адаптивность для карточек ───────────────────────────────── */
+.tfp-content--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 4px;
+}
+
+@media (max-width: 768px) {
+  .tfp-content--grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tfp-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .tfp-row__actions {
+    justify-content: flex-end;
+  }
+  
+  .tfp-card__meta {
+    gap: 8px;
+  }
+  
+  .tfp-transport-badge {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+}
+
+/* ─── Анимации ─────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tfp-card,
+.tfp-row {
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+
+/* ─── Дополнительные улучшения ────────────────────────────────── */
+.tfp-filter-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tfp-fbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #334155;
+}
+
+.tfp-fbtn img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.tfp-fbtn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.tfp-fbtn.active img {
+  filter: brightness(0) invert(1);
+}
+
+/* ─── Иконки в статистике ─────────────────────────────────────── */
+.tfp-fstat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.tfp-fstat strong {
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.tfp-fstat strong[style*="color"] {
+  font-size: 18px;
+}

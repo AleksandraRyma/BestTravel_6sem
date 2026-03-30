@@ -105,9 +105,16 @@ export default function StatsPage() {
         <div className="sp-header__left">
           <button className="sp-back" onClick={() => navigate("/guide")}><FiArrowLeft /></button>
           <div>
-            <h1>📊 Статистика</h1>
+            <h1>
+        <img 
+          src="https://img.icons8.com/?size=100&id=R9JRk80Gstb8&format=png&color=000000" 
+          alt="Статистика" 
+          style={{ width: "28px", height: "28px", marginRight: "8px", verticalAlign: "middle" }} 
+        />
+        Статистика
+      </h1>
             <p>BestTravel — аналитика платформы</p>
-          </div>
+          </div>    
         </div>
         <div className="sp-header__right">
           <button className="sp-icon-btn" title="Обновить"
@@ -186,7 +193,7 @@ export default function StatsPage() {
           {/* Row 1: user growth + transport */}
           <div className="sp-row">
             <div className="sp-card sp-card--wide">
-              <h3>👥 Рост пользователей и маршрутов</h3>
+              <h3>Рост пользователей и маршрутов</h3>
               <ResponsiveContainer width="100%" height={240}>
                 <LineChart data={stats?.userGrowth ?? []}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -201,7 +208,7 @@ export default function StatsPage() {
             </div>
 
             <div className="sp-card">
-              <h3>🚌 Транспорт</h3>
+              <h3>Транспорт</h3>
               <ResponsiveContainer width="100%" height={240}>
                 <PieChart>
                   <Pie data={stats?.transportStats ?? []} dataKey="count" nameKey="type"
@@ -221,7 +228,7 @@ export default function StatsPage() {
           {/* Row 2: routes by month + top destinations */}
           <div className="sp-row">
             <div className="sp-card">
-              <h3>🗺️ Маршруты по месяцам</h3>
+              <h3>Маршруты по месяцам</h3>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={stats?.routesByMonth ?? []}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -234,7 +241,7 @@ export default function StatsPage() {
             </div>
 
             <div className="sp-card">
-              <h3>📍 Топ направлений</h3>
+              <h3>Топ направлений</h3>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={stats?.topDestinations ?? []} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -249,13 +256,13 @@ export default function StatsPage() {
 
           {/* Row 3: users by role + activity by day */}
           <div className="sp-row">
-            <div className="sp-card">
-              <h3>🎭 Пользователи по ролям</h3>
+            <div className="sp-card" >
+              <h3>Пользователи по ролям</h3>
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
                   <Pie data={stats?.usersByRole ?? []} dataKey="count" nameKey="role"
                     cx="50%" cy="50%" innerRadius={55} outerRadius={85}
-                    label={({name, value}) => `${name}: ${value}`}>
+                   >
                     {(stats?.usersByRole ?? []).map((_, i) => (
                       <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
                     ))}
@@ -267,7 +274,7 @@ export default function StatsPage() {
             </div>
 
             <div className="sp-card">
-              <h3>📅 Маршруты по дням недели</h3>
+              <h3>Маршруты по дням недели</h3>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={stats?.activityByDay ?? []}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -283,7 +290,7 @@ export default function StatsPage() {
           {/* Export CTA */}
           <div className="sp-cta">
             <div className="sp-cta__text">
-              <h3>📥 Сформировать Excel-отчёт</h3>
+              <h3>Сформировать Excel-отчёт</h3>
               <p>Включает все данные, дату формирования, имя составителя и выбранный период</p>
             </div>
             <button className="sp-export-btn sp-export-btn--lg" onClick={exportExcel} disabled={exporting}>

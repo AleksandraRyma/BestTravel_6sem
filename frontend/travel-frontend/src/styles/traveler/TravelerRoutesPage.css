@@ -706,3 +706,43 @@
   .trp-footer-stats { flex-wrap: wrap; }
   .trp-fstat { min-width: 50%; border-bottom: 1px solid var(--trp-border); }
 }
+
+/* Добавьте это в конец файла или в секцию с кнопками */
+
+.transport-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.trp-tbtn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--trp-border);
+  background: var(--trp-bg);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Onest', sans-serif;
+  cursor: pointer;
+  color: var(--trp-muted);
+  transition: 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+}
+
+/* Стили для активной кнопки с иконкой */
+.trp-tbtn.active .transport-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Если нужно, чтобы иконки в таблице тоже были одинакового размера */
+.trp-transport__icon img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  vertical-align: middle;
+}

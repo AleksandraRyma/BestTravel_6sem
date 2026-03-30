@@ -41,11 +41,16 @@ export default function TourGuigeHomePage() {
         </div>
         <nav className="guide-sidebar__nav">
           <button
-            className="guide-nav-item guide-nav-item--active"
-            onClick={() => { navigate("/guide"); setSidebarOpen(false); }}
-          >
-            <span>🏠</span> Главная
-          </button>
+  className="guide-nav-item guide-nav-item--active"
+  onClick={() => { navigate("/guide"); setSidebarOpen(false); }}
+>
+  <img 
+    src="https://img.icons8.com/ios-filled/50/000000/home.png" 
+    alt="Главная" 
+    style={{ width: "24px", height: "24px", marginRight: "8px" }} 
+  />
+  Главная
+</button>
           <button
             className="guide-nav-item"
             onClick={() => { navigate("/guide/create-tour"); setSidebarOpen(false); }}
@@ -53,18 +58,28 @@ export default function TourGuigeHomePage() {
             <span>➕</span> Создать маршрут
           </button>
           <button
-            className="guide-nav-item"
-            onClick={() => { navigate("/guide/stats"); setSidebarOpen(false); }}
-          >
-            <span>📊</span> Статистика
-          </button>
-          <button
-            className="guide-nav-item"
-            onClick={() => { navigate("/guide/report"); setSidebarOpen(false); }}
-          >
-            <span>📄</span> Отчёты
-          </button>
-        </nav>
+      className="guide-nav-item"
+      onClick={() => { navigate("/guide/stats"); setSidebarOpen(false); }}
+    >
+      <img 
+        src="https://img.icons8.com/?size=100&id=R9JRk80Gstb8&format=png&color=000000" 
+        alt="Статистика" 
+        style={{ width: "24px", height: "24px", marginRight: "8px" }} 
+      />
+      Статистика
+    </button>
+    <button
+      className="guide-nav-item"
+      onClick={() => { navigate("/guide/report"); setSidebarOpen(false); }}
+    >
+      <img 
+        src="https://img.icons8.com/?size=100&id=sWZInDBCyeeC&format=png&color=000000" 
+        alt="Отчёты" 
+        style={{ width: "24px", height: "24px", marginRight: "8px" }} 
+      />
+      Отчёты
+    </button>
+  </nav>
         <button className="guide-sidebar__logout" onClick={onLogout}>
           Выйти
         </button>
@@ -87,7 +102,7 @@ export default function TourGuigeHomePage() {
         {/* ── HERO / WELCOME ───────────────────────────────── */}
         <section className="guide-hero">
           <div className="guide-hero__text">
-            <h2>Добро пожаловать 👋</h2>
+            <h2>Добро пожаловать</h2>
             <p>Создавайте маршруты, смотрите статистику и формируйте отчёты</p>
           </div>
           {!loading && stats && (
@@ -125,7 +140,15 @@ export default function TourGuigeHomePage() {
 
             {/* Statistics */}
             <div className="guide-action-card" onClick={() => navigate("/guide/stats")}>
-              <div className="guide-action-card__icon guide-action-card__icon--blue">📊</div>
+
+              <div className="guide-action-card__icon guide-action-card__icon--blue">
+  <img 
+    src="https://img.icons8.com/?size=100&id=R9JRk80Gstb8&format=png&color=000000" 
+    alt="Статистика" 
+    style={{ width: "24px", height: "24px" }} 
+  />
+</div>
+
               <div className="guide-action-card__content">
                 <h4>Просмотреть статистику</h4>
                 <p>Аналитика ваших маршрутов: количество участников, популярность, рейтинги</p>
@@ -135,7 +158,14 @@ export default function TourGuigeHomePage() {
 
             {/* Report */}
             <div className="guide-action-card" onClick={() => navigate("/guide/report")}>
-              <div className="guide-action-card__icon guide-action-card__icon--orange">📄</div>
+           
+              <div className="guide-action-card__icon guide-action-card__icon--orange">
+    <img 
+      src="https://img.icons8.com/?size=100&id=sWZInDBCyeeC&format=png&color=000000" 
+      alt="Отчёт" 
+      style={{ width: "24px", height: "24px" }} 
+    />
+  </div>
               <div className="guide-action-card__content">
                 <h4>Сформировать отчёт</h4>
                 <p>Выгрузите отчёт по маршрутам и участникам за любой период</p>

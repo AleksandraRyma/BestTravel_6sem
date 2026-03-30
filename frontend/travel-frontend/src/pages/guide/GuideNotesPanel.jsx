@@ -50,7 +50,15 @@ export default function GuideNotesPanel() {
         onClick={() => setOpen(v => !v)}
         title="Мои заметки"
       >
-        <span className="gnp-trigger__icon">📝</span>
+       <span className="gnp-trigger__icon" style={{ display: "inline-block", width: "24px", height: "24px", verticalAlign: "middle", background: "#fff", borderRadius: "50%", padding: "2px" }}>
+  <img 
+    src="https://img.icons8.com/?size=100&id=TWVL3qGCOW3R&format=png&color=000000" 
+    alt="Мои заметки" 
+    style={{ width: "20px", height: "20px", display: "block", margin: "0 auto" }} 
+  />
+</span>
+
+
         {notes.length > 0 && (
           <span className="gnp-trigger__badge">
             {notes.length - doneCount > 0 ? notes.length - doneCount : "✓"}
@@ -67,7 +75,11 @@ export default function GuideNotesPanel() {
       <div className={`gnp-panel ${open ? "gnp-panel--open" : ""}`}>
         <div className="gnp-panel__header">
           <div className="gnp-panel__title">
-            <span>📝</span>
+            <img 
+        src="https://img.icons8.com/?size=100&id=TWVL3qGCOW3R&format=png&color=000000" 
+        alt="Мои заметки" 
+        style={{ width: "24px", height: "24px", marginRight: "8px", verticalAlign: "middle" }} 
+      />
             <span>Мои заметки</span>
           </div>
           <div className="gnp-panel__meta">
@@ -109,7 +121,16 @@ export default function GuideNotesPanel() {
         <div className="gnp-list">
           {notes.length === 0 ? (
             <div className="gnp-empty">
-              <span>🗒️</span>
+              <span><img 
+    src="https://img.icons8.com/?size=100&id=25591&format=png&color=000000" 
+    alt="Заметки" 
+    style={{ 
+      width: "20px", 
+      height: "20px", 
+      display: "block", 
+      margin: "0 auto" 
+    }} 
+  /></span>
               <p>Нет заметок</p>
               <p className="gnp-empty__sub">Напишите задачу выше и нажмите Enter</p>
             </div>

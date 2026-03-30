@@ -22,12 +22,24 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль" },
 ];
 
+// const TRANSPORT = {
+//   WALK:    { label: "Пешком",    icon: "🚶" },
+//   BIKE:    { label: "Велосипед", icon: "🚴" },
+//   CAR:     { label: "Авто",      icon: "🚗" },
+//   TRANSIT: { label: "Транспорт", icon: "🚌" },
+//   PLANE:   { label: "Самолёт",   icon: "✈️" },
+// };
+
 const TRANSPORT = {
-  WALK:    { label: "Пешком",    icon: "🚶" },
-  BIKE:    { label: "Велосипед", icon: "🚴" },
-  CAR:     { label: "Авто",      icon: "🚗" },
-  TRANSIT: { label: "Транспорт", icon: "🚌" },
-  PLANE:   { label: "Самолёт",   icon: "✈️" },
+  WALK:    { label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png" },
+  BIKE:    { label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png" },
+  CAR:     { label: "Авто",      icon: "https://img.icons8.com/ios/50/000000/car.png" },
+  TRANSIT: { label: "Транспорт", icon: "https://img.icons8.com/ios/50/000000/bus.png" },
+  PLANE:   { label: "Самолёт",   icon: "https://img.icons8.com/ios/50/000000/airplane-take-off.png" },
+};
+
+const COLLAB_ICON = {
+  icon: "https://img.icons8.com/ios/50/000000/groups.png" 
 };
 
 function routeStatus(startDate, endDate) {
@@ -297,7 +309,8 @@ export default function TravelerRoutesPage() {
                     className={`trp-tbtn ${fTransport === k ? "active" : ""}`}
                     onClick={() => setFTransport(fTransport === k ? "" : k)}
                   >
-                    {v.icon} {v.label}
+                     <img src={v.icon} alt={v.label} className="transport-icon" />
+                    {v.label}
                   </button>
                 ))}
               </div>
@@ -323,7 +336,12 @@ export default function TravelerRoutesPage() {
                   onClick={() => setFCollab(false)}>Все маршруты</button>
                 <button className={`trp-tbtn ${fCollab ? "active" : ""}`}
                   onClick={() => setFCollab(!fCollab)}>
-                  👥 Совместные
+                    <img 
+        src="https://img.icons8.com/ios/50/000000/groups.png" 
+        alt="Совместные" 
+        className="transport-icon"
+      />
+                Совместные
                 </button>
               </div>
             </div>
@@ -453,10 +471,22 @@ export default function TravelerRoutesPage() {
                       {/* Транспорт */}
                       <td>
                         {tr ? (
-                          <span className="trp-transport">
-                            <span className="trp-transport__icon">{tr.icon}</span>
-                            <span className="trp-transport__label">{tr.label}</span>
-                          </span>
+                        //   <span className="trp-transport">
+                        //     <span className="trp-transport__icon">{tr.icon}</span>
+                        //     <span className="trp-transport__label">{tr.label}</span>
+                        //   </span>
+                        <span className="trp-transport">
+      <span className="trp-transport__icon">
+        <img 
+          src={tr.icon} 
+          alt={tr.label} 
+          width={24} 
+          height={24} 
+          style={{ display: "inline-block", verticalAlign: "middle" }}
+        />
+      </span>
+      <span className="trp-transport__label">{tr.label}</span>
+    </span>
                         ) : "—"}
                       </td>
 

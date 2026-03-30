@@ -159,3 +159,11 @@
   .guide-actions-section { padding: 20px 16px; }
   .guide-action-card { padding: 16px; }
 }
+
+.guide-nav-item img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  filter: invert(1) drop-shadow(0 0 2px rgba(0,0,0,0.5));
+  vertical-align: middle;
+}

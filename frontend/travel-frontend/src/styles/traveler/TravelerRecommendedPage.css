@@ -393,3 +393,50 @@
   .trec-section-head { padding: 18px 16px 12px; }
   .trec-grid      { padding: 0 16px 24px; grid-template-columns: 1fr; }
 }
+
+
+
+/*--------------------------------------*/
+
+.trec-cat__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.trec-cat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 36px; /* фикс высота */
+  padding: 0 12px;
+
+  border-radius: 10px;
+  border: 1.5px solid var(--trec-border);
+  background: var(--trec-bg);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap; /* чтобы не ломались строки */
+}
+.trec-card__cats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+.trec-cat--active {
+  background: #0ea5e9;
+  color: white;
+  border-color: #0ea5e9;
+  box-shadow: 0 4px 14px rgba(14,165,233,0.35);
+}
+
+.trec-cat--active img {
+  filter: brightness(0) invert(1); /* иконка становится белой */
+}
+.trec-cat:hover {
+  transform: translateY(-2px);
+}

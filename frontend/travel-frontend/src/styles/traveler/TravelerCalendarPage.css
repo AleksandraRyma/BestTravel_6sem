@@ -696,3 +696,25 @@
   .tcp-cal-wrap { height: calc(100vh - 110px); }
   .tcp-popup { width: calc(100vw - 16px); left: 8px !important; }
 }
+
+.tcp-fc-event__icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.tcp-legend-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.tcp-upcoming-card__icon img {
+  width: 18px;
+  height: 18px;
+}
+
+.tcp-popup__icon img {
+  width: 20px;
+  height: 20px;
+}
