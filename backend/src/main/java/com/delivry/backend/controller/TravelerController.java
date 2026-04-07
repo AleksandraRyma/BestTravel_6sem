@@ -5,7 +5,9 @@ import com.delivry.backend.application.service.RouteService;
 import com.delivry.backend.application.service.TravelerService;
 import com.delivry.backend.domain.entity.User;
 import com.delivry.backend.domain.repository.UserRepository;
+import com.delivry.backend.request.SubmitRouteReviewRequest;
 import com.delivry.backend.request.UpdateTravelerProfileRequest;
+import com.delivry.backend.response.ReviewableRouteResponse;
 import com.delivry.backend.response.RouteListResponse;
 import com.delivry.backend.response.TravelerHomeResponse;
 import com.delivry.backend.response.TravelerProfileResponse;
@@ -78,6 +80,22 @@ public class TravelerController {
 
 
     // ─────────────────────────────────────────────────────────────
+    @GetMapping("/reviews/routes")
+    public ResponseEntity<List<ReviewableRouteResponse>> getReviewableRoutes(Authentication authentication) {
+        User user = resolveUser(authentication);
+        return ResponseEntity.ok(travelerService.getReviewableRoutes(user.getUserId()));
+    }
+
+    @PostMapping("/reviews/routes/{routeId}")
+    public ResponseEntity<ReviewableRouteResponse> saveRouteReviews(
+            Authentication authentication,
+            @PathVariable Long routeId,
+            @Valid @RequestBody SubmitRouteReviewRequest request
+    ) {
+        User user = resolveUser(authentication);
+        return ResponseEntity.ok(travelerService.saveRouteReviews(user.getUserId(), routeId, request));
+    }
+
     private User resolveUser(Authentication authentication) {
         return userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
