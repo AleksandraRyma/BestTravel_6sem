@@ -552,7 +552,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FiHome, FiMap, FiPlus, FiSearch, FiStar, FiCalendar,
-  FiHeart, FiBell, FiUser, FiLogOut, FiMenu, FiX,
+  FiHeart, FiBell, FiUser, FiLogOut, FiMenu, FiX, FiMessageSquare,
   FiMapPin, FiClock, FiTruck, FiDollarSign, FiFilter,
   FiArrowUp, FiArrowDown, FiTrash2, FiEye, FiChevronDown,
   FiSliders,
@@ -568,6 +568,7 @@ const NAV = [
   { path: "/traveler/recommended",   icon: <FiStar />,     label: "Рекомендации"    },
   { path: "/traveler/calendar",      icon: <FiCalendar />, label: "Календарь"       },
   { path: "/traveler/favorites",     icon: <FiHeart />,    label: "Избранное"       },
+  { path: "/traveler/reviews",       icon: <FiMessageSquare />, label: "Оставить отзыв" },
   { path: "/traveler/notifications", icon: <FiBell />,     label: "Уведомления"     },
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль"         },
 ];

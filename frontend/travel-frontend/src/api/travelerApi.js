@@ -86,6 +86,16 @@ export async function getUnreadCount() {
   return res.data;
 }
 
+export async function getReviewableRoutes() {
+  const res = await axiosClient.get("/traveler/reviews/routes");
+  return res.data;
+}
+
+export async function saveRouteReviews(routeId, data) {
+  const res = await axiosClient.post(`/traveler/reviews/routes/${routeId}`, data);
+  return res.data;
+}
+
 // ─── Внешние API (без ключей) ─────────────────────────────────────
 
 // Nominatim — геокодинг (OpenStreetMap)
@@ -102,6 +112,22 @@ export async function calculateOsrmRoute(waypoints, profile = "driving") {
   const coords = waypoints.map(w => `${w.lon},${w.lat}`).join(";");
   const url = `https://router.project-osrm.org/route/v1/${profile}/${coords}` +
     `?overview=full&geometries=geojson&steps=true`;
+  const res = await fetch(url);
+  return res.json();
+}
+
+export async function getWeatherPreview(lat, lon, date) {
+  const normalizedDate = typeof date === "string" ? date.slice(0, 10) : "";
+  const url =
+    `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(lat)}` +
+    `&longitude=${encodeURIComponent(lon)}` +
+    `&current=temperature_2m,apparent_temperature,is_day,weather_code,wind_speed_10m` +
+    `&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max` +
+    (normalizedDate
+      ? `&start_date=${normalizedDate}&end_date=${normalizedDate}`
+      : "&forecast_days=1") +
+    `&timezone=auto`;
+
   const res = await fetch(url);
   return res.json();
 }

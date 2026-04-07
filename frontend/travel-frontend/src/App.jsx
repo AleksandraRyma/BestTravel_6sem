@@ -107,6 +107,7 @@ function App() {
 <Route path="/traveler/notifications" element={<PrivateRoute><TravelerNotificationsPage /></PrivateRoute>} />
 <Route path="/traveler/collaboration" element={<PrivateRoute><TravelerCollaborationPage /></PrivateRoute>} />
 <Route path="/traveler/search" element={<PrivateRoute><TravelerSearchPage /></PrivateRoute>} />
+<Route path="/traveler/reviews" element={<PrivateRoute><TravelerReviewPage /></PrivateRoute>} />
 <Route path="/traveler/review/:routeId" element={<PrivateRoute><TravelerReviewPage /></PrivateRoute>} />
 
 

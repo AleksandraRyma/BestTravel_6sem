@@ -514,6 +514,9 @@ export default function TravelerHomePage() {
           <button onClick={() => navigate("/traveler/calendar")}>
             <div className="icon-box" /> Календарь
           </button>
+          <button onClick={() => navigate("/traveler/reviews")}>
+            <div className="icon-box" /> Оставить отзыв
+          </button>
           <button onClick={() => navigate("/traveler/notifications")}>
             <div className="icon-box" /> Уведомления
           </button>

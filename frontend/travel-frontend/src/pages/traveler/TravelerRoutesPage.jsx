@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   FiMap, FiPlus, FiSearch, FiStar, FiUsers, FiCalendar,
   FiBell, FiUser, FiMenu, FiX, FiFilter,
-  FiTrash2, FiEdit2, FiLogOut, FiHome, FiHeart,
+  FiTrash2, FiEdit2, FiLogOut, FiHome, FiHeart, FiMessageSquare,
   FiArrowUp, FiArrowDown, FiChevronDown,
 } from "react-icons/fi";
 import { getMyRoutes, deleteRoute } from "../../api/travelerApi";
@@ -18,6 +18,7 @@ const NAV = [
   { path: "/traveler/recommended",   icon: <FiStar />,     label: "Рекомендации" },
   { path: "/traveler/calendar",      icon: <FiCalendar />, label: "Календарь" },
   { path: "/traveler/favorites",     icon: <FiHeart />,    label: "Избранное" },
+  { path: "/traveler/reviews",       icon: <FiMessageSquare />, label: "Оставить отзыв" },
   { path: "/traveler/notifications", icon: <FiBell />,     label: "Уведомления" },
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль" },
 ];

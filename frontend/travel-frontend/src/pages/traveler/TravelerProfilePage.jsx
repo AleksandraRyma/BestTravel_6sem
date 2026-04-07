@@ -5,7 +5,7 @@ import { getTravelerProfile, updateTravelerProfile } from "../../api/travelerApi
 import { FiHome } from "react-icons/fi"; 
 import {
   FiMenu, FiUser, FiMap, FiPlus, FiBell,
-  FiCalendar, FiSearch, FiStar, FiUsers,
+  FiCalendar, FiSearch, FiStar, FiUsers, FiMessageSquare,
 } from "react-icons/fi";
 
 import "../../styles/home/homePage.css";
@@ -57,6 +57,7 @@ export default function TravelerProfilePage() {
           <button onClick={() => navigate("/traveler/search")}><FiSearch /> Найти маршруты</button>
           <button onClick={() => navigate("/traveler/recommended")}><FiStar /> Рекомендации</button>
           <button onClick={() => navigate("/traveler/calendar")}><FiCalendar /> Календарь</button>
+          <button onClick={() => navigate("/traveler/reviews")}><FiMessageSquare /> Оставить отзыв</button>
           <button onClick={() => navigate("/traveler/notifications")}><FiBell /> Уведомления</button>
           <button onClick={() => navigate("/traveler/profile")}><FiUser /> Профиль</button>
         </nav>

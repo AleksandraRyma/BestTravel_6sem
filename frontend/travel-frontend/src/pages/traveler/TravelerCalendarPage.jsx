@@ -960,7 +960,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import ruLocale from "@fullcalendar/core/locales/ru";
 import {
   FiMap, FiPlus, FiSearch, FiStar, FiUsers, FiCalendar,
-  FiBell, FiUser, FiMenu, FiX, FiLogOut, FiHome, FiHeart,
+  FiBell, FiUser, FiMenu, FiX, FiLogOut, FiHome, FiHeart, FiMessageSquare,
   FiChevronLeft, FiChevronRight, FiList, FiGrid, FiMapPin,
   FiClock, FiTruck, FiDollarSign, FiExternalLink,
 } from "react-icons/fi";
@@ -976,6 +976,7 @@ const NAV = [
   { path: "/traveler/recommended",   icon: <FiStar />,     label: "Рекомендации" },
   { path: "/traveler/calendar",      icon: <FiCalendar />, label: "Календарь" },
   { path: "/traveler/favorites",     icon: <FiHeart />,    label: "Избранное" },
+  { path: "/traveler/reviews",       icon: <FiMessageSquare />, label: "Оставить отзыв" },
   { path: "/traveler/notifications", icon: <FiBell />,     label: "Уведомления" },
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль" },
 ];

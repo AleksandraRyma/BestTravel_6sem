@@ -13,7 +13,7 @@ import {
 } from "react-icons/fi";
 import {
   createRoute, updateRoute, getRouteById,
-  geocodeAddress, calculateOsrmRoute, inviteParticipant,
+  geocodeAddress, calculateOsrmRoute, inviteParticipant, getWeatherPreview,
 } from "../../api/travelerApi";
 import "../../styles/traveler/TravelerCreateRoutePage.css";
 
@@ -114,6 +114,38 @@ function extractErrorMessage(e) {
 }
 
 // ─── Map: click to add point ──────────────────────────────────────
+function weatherCodeMeta(code) {
+  if ([0].includes(code)) return { icon: "☀", label: "Ясно" };
+  if ([1, 2].includes(code)) return { icon: "⛅", label: "Переменная облачность" };
+  if ([3].includes(code)) return { icon: "☁", label: "Пасмурно" };
+  if ([45, 48].includes(code)) return { icon: "🌫", label: "Туман" };
+  if ([51, 53, 55, 56, 57].includes(code)) return { icon: "🌦", label: "Морось" };
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return { icon: "🌧", label: "Дождь" };
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return { icon: "🌨", label: "Снег" };
+  if ([95, 96, 99].includes(code)) return { icon: "⛈", label: "Гроза" };
+  return { icon: "🌤", label: "Погода" };
+}
+
+function normalizeWeatherDate(value) {
+  if (!value || typeof value !== "string") return "";
+  return value.slice(0, 10);
+}
+
+function getPointWeatherDate(point, routeStartDate) {
+  return normalizeWeatherDate(point?.plannedTime) || normalizeWeatherDate(routeStartDate);
+}
+
+function isForecastDateAvailable(dateStr) {
+  if (!dateStr) return false;
+
+  const target = new Date(`${dateStr}T00:00:00`);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.floor((target - today) / 86400000);
+  return diffDays >= 0 && diffDays <= 15;
+}
+
 function MapClickHandler({ onMapClick }) {
   useMapEvents({ click: (e) => onMapClick(e.latlng) });
   return null;
@@ -163,6 +195,7 @@ export default function TravelerCreateRoutePage() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [activeSearch,  setActiveSearch]  = useState(false);
+  const [weatherByPoint, setWeatherByPoint] = useState({});
 
   // ── OSRM ──────────────────────────────────────────────────────
   const [routeGeometry, setRouteGeometry] = useState(null);
@@ -266,6 +299,106 @@ export default function TravelerCreateRoutePage() {
     }, 700);
     return () => clearTimeout(timer);
   }, [points, transport]);
+
+  useEffect(() => {
+    points.forEach((point) => {
+      if (!Number.isFinite(point.lat) || !Number.isFinite(point.lon)) return;
+
+      const weatherDate = getPointWeatherDate(point, startDate);
+      const requestKey = `${point.lat}:${point.lon}:${weatherDate || "no-date"}`;
+      const currentState = weatherByPoint[point.id];
+
+      if (currentState?.requestKey === requestKey &&
+          (currentState.loaded || currentState.loading || currentState.noForecast)) {
+        return;
+      }
+
+      if (!weatherDate) {
+        setWeatherByPoint((prev) => ({
+          ...prev,
+          [point.id]: {
+            loading: false,
+            loaded: false,
+            error: false,
+            noForecast: true,
+            reason: "Выберите дату маршрута или время посещения точки",
+            requestKey,
+          },
+        }));
+        return;
+      }
+
+      if (!isForecastDateAvailable(weatherDate)) {
+        setWeatherByPoint((prev) => ({
+          ...prev,
+          [point.id]: {
+            loading: false,
+            loaded: false,
+            error: false,
+            noForecast: true,
+            reason: "Прогноз доступен примерно на 16 дней вперёд",
+            targetDate: weatherDate,
+            requestKey,
+          },
+        }));
+        return;
+      }
+
+      setWeatherByPoint((prev) => ({
+        ...prev,
+        [point.id]: {
+          ...prev[point.id],
+          loading: true,
+          loaded: false,
+          error: false,
+          noForecast: false,
+          targetDate: weatherDate,
+          requestKey,
+        },
+      }));
+
+      getWeatherPreview(point.lat, point.lon, weatherDate)
+        .then((data) => {
+          const current = data?.current ?? {};
+          const daily = data?.daily ?? {};
+          const weatherCode = daily.weather_code?.[0] ?? current.weather_code;
+          const meta = weatherCodeMeta(weatherCode);
+
+          setWeatherByPoint((prev) => ({
+            ...prev,
+            [point.id]: {
+              loading: false,
+              loaded: true,
+              error: false,
+              noForecast: false,
+              targetDate: weatherDate,
+              requestKey,
+              icon: meta.icon,
+              label: meta.label,
+              temp: current.temperature_2m,
+              apparent: current.apparent_temperature,
+              wind: daily.wind_speed_10m_max?.[0] ?? current.wind_speed_10m,
+              isDay: Boolean(current.is_day),
+              min: daily.temperature_2m_min?.[0],
+              max: daily.temperature_2m_max?.[0],
+            },
+          }));
+        })
+        .catch(() => {
+          setWeatherByPoint((prev) => ({
+            ...prev,
+            [point.id]: {
+              loading: false,
+              loaded: false,
+              error: true,
+              noForecast: false,
+              targetDate: weatherDate,
+              requestKey,
+            },
+          }));
+        });
+    });
+  }, [points, weatherByPoint, startDate]);
 
   // ──────────────────────────────────────────────────────────────
   // SEARCH
@@ -582,6 +715,47 @@ export default function TravelerCreateRoutePage() {
                           className="crc-point-card__time"
                         />
                       </div>
+                      {weatherByPoint[pt.id]?.loading && (
+                        <div className="crc-weather-card crc-weather-card--loading">
+                          <FiLoader className="spin" />
+                          <span>Загружаем погоду...</span>
+                        </div>
+                      )}
+                      {weatherByPoint[pt.id]?.loaded && (
+                        <div className={`crc-weather-card ${weatherByPoint[pt.id].isDay ? "" : "night"}`}>
+                          <div className="crc-weather-card__main">
+                            <span className="crc-weather-card__icon">{weatherByPoint[pt.id].icon}</span>
+                            <div>
+                              <strong>
+                                {Number.isFinite(weatherByPoint[pt.id].temp)
+                                  ? `${Math.round(weatherByPoint[pt.id].temp)}°C`
+                                  : `${Math.round(weatherByPoint[pt.id].min)}° / ${Math.round(weatherByPoint[pt.id].max)}°`}
+                              </strong>
+                              <p>{weatherByPoint[pt.id].label}</p>
+                            </div>
+                          </div>
+                          <div className="crc-weather-card__meta">
+                            <span>Дата: {weatherByPoint[pt.id].targetDate}</span>
+                            {Number.isFinite(weatherByPoint[pt.id].apparent) && (
+                              <span>Ощущается {Math.round(weatherByPoint[pt.id].apparent)}°</span>
+                            )}
+                            <span>{Math.round(weatherByPoint[pt.id].min)}° / {Math.round(weatherByPoint[pt.id].max)}°</span>
+                            <span>Ветер {Math.round(weatherByPoint[pt.id].wind)} км/ч</span>
+                          </div>
+                        </div>
+                      )}
+                      {weatherByPoint[pt.id]?.noForecast && (
+                        <div className="crc-weather-card crc-weather-card--error">
+                          {weatherByPoint[pt.id].targetDate
+                            ? `${weatherByPoint[pt.id].targetDate}: ${weatherByPoint[pt.id].reason}`
+                            : weatherByPoint[pt.id].reason}
+                        </div>
+                      )}
+                      {weatherByPoint[pt.id]?.error && (
+                        <div className="crc-weather-card crc-weather-card--error">
+                          Не удалось получить погоду для этой точки
+                        </div>
+                      )}
                     </div>
                     <div className="crc-point-card__actions">
                       <button onClick={() => movePoint(idx, -1)} disabled={idx === 0}>
@@ -671,7 +845,15 @@ export default function TravelerCreateRoutePage() {
 
               {routeStats && (
                 <div className={`crc-stats-card ${overBudget ? "over-budget" : ""}`}>
-                  <h4>📊 Расчёт маршрута</h4>
+                  <h4>
+  <img
+    src="https://img.icons8.com/?size=100&id=7885&format=png&color=000000"
+    alt="иконка"
+    style={{ width: "20px", height: "20px", verticalAlign: "middle", marginRight: "5px" }}
+  />
+  Расчёт маршрута
+</h4>
+
                   <div className="crc-stats-grid">
                     <div className="crc-stat">
                       <span>📍 Расстояние</span>
@@ -815,6 +997,31 @@ export default function TravelerCreateRoutePage() {
                 <Popup>
                   <strong>{pt.name}</strong>
                   {pt.description && <p style={{ margin: "4px 0 0" }}>{pt.description}</p>}
+                  {weatherByPoint[pt.id]?.loaded && (
+                    <div className={`crc-popup-weather ${weatherByPoint[pt.id].isDay ? "" : "night"}`}>
+                      <div className="crc-popup-weather__top">
+                        <span>{weatherByPoint[pt.id].icon}</span>
+                        <strong>
+                          {Number.isFinite(weatherByPoint[pt.id].temp)
+                            ? `${Math.round(weatherByPoint[pt.id].temp)}°C`
+                            : `${Math.round(weatherByPoint[pt.id].min)}° / ${Math.round(weatherByPoint[pt.id].max)}°`}
+                        </strong>
+                      </div>
+                      <div className="crc-popup-weather__label">{weatherByPoint[pt.id].label}</div>
+                      <div className="crc-popup-weather__meta">
+                        {weatherByPoint[pt.id].targetDate} • {Math.round(weatherByPoint[pt.id].min)}° / {Math.round(weatherByPoint[pt.id].max)}° • ветер {Math.round(weatherByPoint[pt.id].wind)} км/ч
+                      </div>
+                    </div>
+                  )}
+                  {weatherByPoint[pt.id]?.noForecast && (
+                    <div className="crc-popup-weather">
+                      <div className="crc-popup-weather__label">
+                        {weatherByPoint[pt.id].targetDate
+                          ? `${weatherByPoint[pt.id].targetDate}: ${weatherByPoint[pt.id].reason}`
+                          : weatherByPoint[pt.id].reason}
+                      </div>
+                    </div>
+                  )}
                   {pt.category    && <p style={{ margin: "4px 0 0", color: "#64748b" }}>📌 {pt.category}</p>}
                 </Popup>
               </Marker>
