@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +23,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +35,8 @@ import java.util.stream.Collectors;
 @Tag(name = "Admin", description = "Управление системой — доступно только Администратору")
 @SecurityRequirement(name = "bearerAuth")
 public class AdminController {
+
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     private final AdminService adminService;
     private final UserRepository userRepository;
@@ -48,9 +53,12 @@ public class AdminController {
     })
     @GetMapping("/users")
     public ResponseEntity<Page<AdminUserResponse>> getUsers(
+            Authentication authentication,
             @Parameter(hidden = true)
             @PageableDefault(sort = "userId", direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        log.info("Admin users list requested: admin={}, page={}, size={}",
+                authentication.getName(), pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(adminService.getUsers(pageable));
     }
 
@@ -60,8 +68,11 @@ public class AdminController {
     })
     @PostMapping("/users")
     public ResponseEntity<AdminUserResponse> createEmployee(
+            Authentication authentication,
             @Valid @RequestBody CreateEmployeeRequest request
     ) {
+        log.info("Admin create user requested: admin={}, targetEmail={}, targetRole={}",
+                authentication.getName(), request.getEmail(), request.getRole());
         AdminUserResponse created = adminService.createEmployee(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -72,9 +83,12 @@ public class AdminController {
     })
     @PutMapping("/users/{id}")
     public ResponseEntity<AdminUserResponse> updateUser(
+            Authentication authentication,
             @PathVariable("id") Long id,
             @Valid @RequestBody UpdateUserRequest request
     ) {
+        log.info("Admin update user requested: admin={}, userId={}, newEmail={}, newRole={}, newStatus={}",
+                authentication.getName(), id, request.getEmail(), request.getRole(), request.getStatus());
         AdminUserResponse updated = adminService.updateUser(id, request);
         return ResponseEntity.ok(updated);
     }
@@ -85,8 +99,10 @@ public class AdminController {
     })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(
+            Authentication authentication,
             @PathVariable("id") Long id
     ) {
+        log.info("Admin delete user requested: admin={}, userId={}", authentication.getName(), id);
         adminService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
@@ -97,15 +113,19 @@ public class AdminController {
     })
     @PatchMapping("/users/{id}/block")
     public ResponseEntity<AdminUserResponse> blockUser(
+            Authentication authentication,
             @PathVariable("id") Long id,
             @RequestParam("block") boolean block
     ) {
+        log.info("Admin block toggle requested: admin={}, userId={}, block={}",
+                authentication.getName(), id, block);
         AdminUserResponse updated = adminService.setUserBlocked(id, block);
         return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/stats")
-    public AdminStatsResponse getAdminStats() {
+    public AdminStatsResponse getAdminStats(Authentication authentication) {
+        log.info("Admin stats requested: admin={}", authentication.getName());
         long activeUsers = userRepository.countByUserStatus_UserStatusName("ACTIVE");
         long blockedUsers = userRepository.countByUserStatus_UserStatusName("BLOCKED");
 

@@ -10,6 +10,8 @@ import com.delivry.backend.request.CreateEmployeeRequest;
 import com.delivry.backend.request.UpdateUserRequest;
 import com.delivry.backend.response.AdminUserResponse;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,8 @@ import java.time.LocalDate;
 @Service
 @Transactional
 public class AdminService {
+
+    private static final Logger log = LoggerFactory.getLogger(AdminService.class);
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -39,6 +43,7 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public Page<AdminUserResponse> getUsers(Pageable pageable) {
+        log.info("Loading admin users page: page={}, size={}", pageable.getPageNumber(), pageable.getPageSize());
         return userRepository.findAll(pageable)
                 .map(this::toAdminUserResponse);
     }
@@ -64,6 +69,8 @@ public class AdminService {
                 .build();
 
         User saved = userRepository.save(user);
+        log.info("Admin created user: userId={}, email={}, role={}, status={}",
+                saved.getUserId(), saved.getEmail(), role.getRoleName(), status.getUserStatusName());
         return toAdminUserResponse(saved);
     }
 
@@ -79,6 +86,8 @@ public class AdminService {
         user.setUserStatus(status);
 
         User saved = userRepository.save(user);
+        log.info("Admin changed user block status: userId={}, email={}, newStatus={}",
+                saved.getUserId(), saved.getEmail(), saved.getUserStatus().getUserStatusName());
         return toAdminUserResponse(saved);
     }
 
@@ -105,6 +114,10 @@ public class AdminService {
         }
 
         User saved = userRepository.save(user);
+        log.info("Admin updated user: userId={}, email={}, role={}, status={}",
+                saved.getUserId(), saved.getEmail(),
+                saved.getRole() != null ? saved.getRole().getRoleName() : null,
+                saved.getUserStatus() != null ? saved.getUserStatus().getUserStatusName() : null);
         return toAdminUserResponse(saved);
     }
 
@@ -113,6 +126,7 @@ public class AdminService {
             throw new EntityNotFoundException("Пользователь не найден");
         }
         userRepository.deleteById(userId);
+        log.info("Admin deleted user: userId={}", userId);
     }
 
     private Role resolveRole(String roleName) {

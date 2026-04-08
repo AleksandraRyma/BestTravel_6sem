@@ -8,6 +8,8 @@ import com.delivry.backend.request.InviteParticipantRequest;
 import com.delivry.backend.response.RouteDetailResponse;
 import com.delivry.backend.response.RouteListResponse;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/traveler/routes")
 public class RouteController {
+
+    private static final Logger log = LoggerFactory.getLogger(RouteController.class);
 
     private final RouteService routeService;
     private final UserRepository userRepository;
@@ -35,6 +39,8 @@ public class RouteController {
             @Valid @RequestBody CreateRouteRequest request
     ) {
         User user = getUser(authentication);
+        log.info("Route create requested: userId={}, title={}, start={}, end={}, transportType={}",
+                user.getUserId(), request.getTitle(), request.getStartLocation(), request.getEndLocation(), request.getTransportType());
         return ResponseEntity.ok(routeService.createRoute(user.getUserId(), request));
     }
 
@@ -61,6 +67,7 @@ public class RouteController {
             @PathVariable Long id
     ) {
         User user = getUser(authentication);
+        log.info("Route detail requested: userId={}, routeId={}", user.getUserId(), id);
         return ResponseEntity.ok(routeService.getRouteDetail(id, user.getUserId()));
     }
 
@@ -74,6 +81,7 @@ public class RouteController {
             @Valid @RequestBody CreateRouteRequest request
     ) {
         User user = getUser(authentication);
+        log.info("Route update requested: userId={}, routeId={}, title={}", user.getUserId(), id, request.getTitle());
         return ResponseEntity.ok(routeService.updateRoute(id, user.getUserId(), request));
     }
 
@@ -86,6 +94,7 @@ public class RouteController {
             @PathVariable Long id
     ) {
         User user = getUser(authentication);
+        log.info("Route delete requested: userId={}, routeId={}", user.getUserId(), id);
         routeService.deleteRoute(id, user.getUserId());
         return ResponseEntity.noContent().build();
     }
@@ -100,6 +109,8 @@ public class RouteController {
             @Valid @RequestBody InviteParticipantRequest request
     ) {
         User user = getUser(authentication);
+        log.info("Participant invite requested: inviterId={}, routeId={}, inviteeEmail={}",
+                user.getUserId(), id, request.getEmail());
         routeService.inviteParticipant(id, user.getUserId(), request.getEmail());
         return ResponseEntity.ok("Приглашение отправлено");
     }
@@ -114,6 +125,7 @@ public class RouteController {
             @RequestParam String status   // ACCEPTED | REJECTED
     ) {
         User user = getUser(authentication);
+        log.info("Invite response requested: userId={}, routeId={}, status={}", user.getUserId(), id, status);
         routeService.respondToInvite(id, user.getUserId(), status);
         return ResponseEntity.ok("Статус обновлён");
     }

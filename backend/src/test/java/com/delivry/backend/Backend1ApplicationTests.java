@@ -1,10 +1,9 @@
 package com.delivry.backend;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.Disabled;
 
-@SpringBootTest
+@Disabled("Replaced by focused unit, MockMvc and DataJpaTest suites.")
 class Backend1ApplicationTests {
 
     @Test

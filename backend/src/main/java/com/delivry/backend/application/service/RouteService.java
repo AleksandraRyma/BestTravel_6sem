@@ -6,6 +6,8 @@ import com.delivry.backend.request.CreateRouteRequest;
 import com.delivry.backend.response.RouteDetailResponse;
 import com.delivry.backend.response.RouteListResponse;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RouteService {
+
+    private static final Logger log = LoggerFactory.getLogger(RouteService.class);
 
     private final RouteRepository             routeRepository;
     private final RoutePointRepository        routePointRepository;
@@ -77,6 +81,8 @@ public class RouteService {
 
         routeRepository.save(route);
         savePoints(route, request.getPoints());
+        log.info("Route created: routeId={}, creatorId={}, title={}, pointsCount={}",
+                route.getRouteId(), creatorId, route.getTitle(), request.getPoints() != null ? request.getPoints().size() : 0);
         return buildDetail(route, creatorId);
     }
 
@@ -104,6 +110,8 @@ public class RouteService {
         routePointRepository.deleteByRoute_RouteId(routeId);
         savePoints(route, request.getPoints());
         notifyParticipants(route, "Маршрут «" + route.getTitle() + "» был изменён организатором.");
+        log.info("Route updated: routeId={}, userId={}, title={}, pointsCount={}",
+                routeId, userId, route.getTitle(), request.getPoints() != null ? request.getPoints().size() : 0);
         return buildDetail(route, userId);
     }
 
@@ -114,6 +122,7 @@ public class RouteService {
         Route route = findRoute(routeId);
         assertOwner(route, userId);
         routeRepository.delete(route);
+        log.info("Route deleted: routeId={}, userId={}, title={}", routeId, userId, route.getTitle());
     }
 
     // ─────────────────────────────────────────
@@ -121,6 +130,7 @@ public class RouteService {
     // ─────────────────────────────────────────
     @Transactional(readOnly = true)
     public RouteDetailResponse getRouteDetail(Long routeId, Long requesterId) {
+        log.info("Route detail loaded: routeId={}, requesterId={}", routeId, requesterId);
         return buildDetail(findRoute(routeId), requesterId);
     }
 
