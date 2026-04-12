@@ -404,7 +404,7 @@ import { FiArrowRight, FiArrowLeft, FiMenu } from "react-icons/fi";
 import "../../styles/home/homePage.css";
 import "../../styles/traveler/TravelerHomePage2.css";
 
-// ─── Категории → ведут на поиск ──────────────────────────────────
+
 const CATEGORIES = [
   { label: "Музеи", color: "#6366f1", bg: "#eef2ff" },
   { label: "Природа", color: "#16a34a", bg: "#f0fdf4" },
@@ -721,7 +721,7 @@ export default function TravelerHomePage() {
           </section>
         )}
 
-        {/* КАК ЭТО РАБОТАЕТ */}
+        {}
         <section className="section thp-section thp-how">
           <h2>Как это работает</h2>
           <div className="thp-how__steps">
@@ -740,7 +740,7 @@ export default function TravelerHomePage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {}
         <section className="thp-cta">
           <h2>Готов к приключению?</h2>
           <p>Создай свой маршрут или найди идеальный от наших гидов</p>

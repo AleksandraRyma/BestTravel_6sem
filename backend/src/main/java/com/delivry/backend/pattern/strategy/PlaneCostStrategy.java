@@ -3,9 +3,7 @@ package com.delivry.backend.pattern.strategy;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * Стратегия для авиаперелета
- */
+
 public class PlaneCostStrategy implements CostCalculationStrategy {
 
     private static final BigDecimal COST_PER_100KM = BigDecimal.valueOf(15); // €15 на 100км

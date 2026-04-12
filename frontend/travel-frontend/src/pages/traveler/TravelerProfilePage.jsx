@@ -47,7 +47,7 @@ export default function TravelerProfilePage() {
 
   return (
     <div className="home-page">
-      {/* SIDEBAR */}
+      {}
       <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <h3 className="sidebar-title">Travel</h3>
         <nav className="sidebar-nav">
@@ -68,7 +68,7 @@ export default function TravelerProfilePage() {
       )}
 
       <div className="home-shell">
-        {/* TOPBAR */}
+        {}
         <header className="home-topbar">
           <button className="icon-btn" onClick={() => setSidebarOpen(true)}>
             <FiMenu />
@@ -77,16 +77,16 @@ export default function TravelerProfilePage() {
           <button className="home-btn" onClick={onLogout}>Выйти</button>
         </header>
 
-        {/* HERO */}
+        {}
         <section className="hero">
           <h1>Профиль</h1>
           <p>{profile.fullName}</p>
         </section>
 
-        {/* CONTENT */}
+        {}
         <section className="section">
           <div className="home-grid">
-            {/* Личные данные */}
+            {}
             <div className="home-section">
               <h2>Личные данные</h2>
               <div className="home-list">
@@ -150,7 +150,7 @@ export default function TravelerProfilePage() {
               )}
             </div>
 
-            {/* Статистика */}
+            {}
             <div className="home-section">
               <h2>Статистика</h2>
               <div className="home-stats">

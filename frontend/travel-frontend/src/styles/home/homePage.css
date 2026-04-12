@@ -461,21 +461,21 @@
   cursor: pointer;
 }
 
-/* overlay */
+
 .overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.3);
 }
 
-/* footer */
+
 .footer {
   margin-top: 40px;
   text-align: center;
   color: #64748b;
 }
 
-/*-------------------------------------------*/
+
 
 .home-page {
   background: #f8fafc;
@@ -535,12 +535,12 @@
   border-radius: 0 12px 12px 0;
 }
 
-/* SECTION */
+
 .section {
   margin-top: 30px;
 }
 
-/* SLIDER */
+
 .slider-wrapper {
   position: relative;
 }
@@ -581,7 +581,7 @@
   display: none;
 }
 
-/* CARDS */
+
 .card {
   min-width: 200px;
   height: 140px;

@@ -36,9 +36,7 @@ public class CreateRouteRequest {
 
     private String imageUrl;
 
-    /**
-     * Список точек маршрута (POI) в порядке посещения
-     */
+
     private List<RoutePointRequest> points;
 
     @Data
@@ -57,10 +55,10 @@ public class CreateRouteRequest {
 
         private String category;
 
-        /** Порядковый номер посещения */
+
         private Integer visitOrder;
 
-        /** Запланированное время посещения */
-        private String plannedTime;   // ISO datetime string
+
+        private String plannedTime;
     }
 }

@@ -1,7 +1,7 @@
-/* GuideNotesPanel.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap');
 
-/* ─── Trigger button ──────────────────────────────────────────── */
+
 .gnp-trigger {
   position: fixed;
   bottom: 28px;
@@ -35,14 +35,14 @@
   font-family: 'Onest', sans-serif;
 }
 
-/* ─── Overlay ─────────────────────────────────────────────────── */
+
 .gnp-overlay {
   position: fixed; inset: 0; z-index: 901;
   background: rgba(0,0,0,0.2);
   backdrop-filter: blur(1px);
 }
 
-/* ─── Panel ───────────────────────────────────────────────────── */
+
 .gnp-panel {
   position: fixed;
   bottom: 92px; right: 28px;
@@ -125,7 +125,7 @@
 .gnp-add-btn:hover:not(:disabled) { background: #1e293b; }
 .gnp-add-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* Notes list */
+
 .gnp-list {
   flex: 1; overflow-y: auto; padding: 8px 0;
 }
@@ -133,7 +133,7 @@
 .gnp-list::-webkit-scrollbar-track { background: transparent; }
 .gnp-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
 
-/* Empty */
+
 .gnp-empty {
   display: flex; flex-direction: column; align-items: center;
   gap: 6px; padding: 32px 20px; text-align: center;
@@ -143,7 +143,7 @@
 .gnp-empty p { font-size: 13px; font-weight: 600; color: #64748b; margin: 0; }
 .gnp-empty__sub { font-size: 12px !important; color: #94a3b8 !important; font-weight: 400 !important; }
 
-/* Note item */
+
 .gnp-note {
   display: flex; align-items: flex-start; gap: 10px;
   padding: 10px 14px;
@@ -151,7 +151,7 @@
 }
 .gnp-note:hover { background: #f8fafc; }
 
-/* Circle checkbox */
+
 .gnp-note__circle {
   width: 20px; height: 20px; flex-shrink: 0;
   border-radius: 50%;
@@ -171,7 +171,7 @@
 }
 .gnp-note__circle svg { width: 12px; height: 10px; }
 
-/* Text */
+
 .gnp-note__text {
   flex: 1; font-size: 13px; line-height: 1.5;
   color: #1e293b; font-family: 'Onest', sans-serif;
@@ -183,7 +183,7 @@
   color: #94a3b8;
 }
 
-/* Delete */
+
 .gnp-note__delete {
   width: 20px; height: 20px; flex-shrink: 0;
   background: none; border: none; cursor: pointer;
@@ -194,7 +194,7 @@
 .gnp-note:hover .gnp-note__delete { opacity: 1; }
 .gnp-note__delete:hover { color: #ef4444; background: #fef2f2; }
 
-/* Footer */
+
 .gnp-panel__footer {
   padding: 10px 14px;
   border-top: 1px solid #f1f5f9;
@@ -202,7 +202,7 @@
   text-align: center; font-family: 'Onest', sans-serif;
 }
 
-/* Mobile */
+
 @media (max-width: 480px) {
   .gnp-panel { width: calc(100vw - 32px); right: 16px; bottom: 80px; }
   .gnp-trigger { bottom: 20px; right: 16px; }

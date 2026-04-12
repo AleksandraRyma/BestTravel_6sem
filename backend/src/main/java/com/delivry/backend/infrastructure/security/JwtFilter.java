@@ -111,8 +111,7 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.extractUsername(jwt);
             } catch (ExpiredJwtException e) {
-                // токен протух — не падаем, просто идём дальше без аутентификации
-                // Spring Security сам вернёт 401 на защищённые эндпоинты
+
                 logger.warn("JWT токен истёк: " + e.getMessage());
             } catch (JwtException e) {
                 logger.warn("Невалидный JWT токен: " + e.getMessage());

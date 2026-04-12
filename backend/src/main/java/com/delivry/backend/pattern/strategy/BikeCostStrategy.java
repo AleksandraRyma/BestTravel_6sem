@@ -3,9 +3,7 @@ package com.delivry.backend.pattern.strategy;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * Стратегия для велосипедного маршрута
- */
+
 public class BikeCostStrategy implements CostCalculationStrategy {
 
     private static final BigDecimal COST_PER_DAY = BigDecimal.valueOf(25); // €25 в день

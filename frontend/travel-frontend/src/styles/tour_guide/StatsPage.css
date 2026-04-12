@@ -22,7 +22,6 @@
   color: var(--sp-text);
 }
 
-/* ─── Header ─────────────────────────────────────────────────── */
 .sp-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 28px;
@@ -74,7 +73,7 @@
 .sp-export-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 .sp-export-btn--lg { padding: 13px 28px; font-size: 14px; }
 
-/* ─── Filter panel ───────────────────────────────────────────── */
+
 .sp-panel {
   margin: 0; padding: 18px 28px;
   background: var(--sp-surface); border-bottom: 1px solid var(--sp-border);
@@ -105,7 +104,7 @@
 .sp-btn--primary { background: #0f172a; color: white; border-color: #0f172a; }
 .sp-btn--primary:hover { background: #1e293b; }
 
-/* ─── Active filter chips ─────────────────────────────────────── */
+
 .sp-chips {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 28px;
@@ -116,7 +115,7 @@
 .sp-chip-x { background: none; border: none; cursor: pointer; color: var(--sp-muted); display: flex; align-items: center; padding: 2px; font-size: 14px; }
 .sp-chip-x:hover { color: #ef4444; }
 
-/* ─── States ─────────────────────────────────────────────────── */
+
 .sp-error {
   display: flex; align-items: center; gap: 14px;
   margin: 20px 28px; padding: 16px 18px;
@@ -135,10 +134,10 @@
 .sp-dots span:nth-child(3) { animation-delay: 0.30s; }
 @keyframes spBounce { 0%,100% { transform:scale(0.6); opacity:0.4; } 50% { transform:scale(1); opacity:1; } }
 
-/* ─── Body ───────────────────────────────────────────────────── */
+
 .sp-body { padding: 20px 28px 40px; display: flex; flex-direction: column; gap: 20px; }
 
-/* ─── KPIs ───────────────────────────────────────────────────── */
+
 .sp-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
 .sp-kpi {
   background: var(--sp-surface); border: 1px solid var(--sp-border);
@@ -152,7 +151,7 @@
 .sp-kpi__num  { font-size: 26px; font-weight: 900; letter-spacing: -0.03em; font-family: 'JetBrains Mono', monospace; color: var(--sp-text); }
 .sp-kpi__label { font-size: 12px; font-weight: 600; color: var(--sp-muted); text-align: center; }
 
-/* ─── Charts ─────────────────────────────────────────────────── */
+
 .sp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 900px) { .sp-row { grid-template-columns: 1fr; } }
 
@@ -163,7 +162,7 @@
 .sp-card--wide { grid-column: 1 / -1; }
 .sp-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
 
-/* ─── Export CTA ─────────────────────────────────────────────── */
+
 .sp-cta {
   display: flex; align-items: center; justify-content: space-between;
   gap: 20px; padding: 28px 32px;

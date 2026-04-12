@@ -34,7 +34,7 @@ export default function StatsPage() {
   const [dateTo,   setDateTo]   = useState("");
   const [active,   setActive]   = useState({ from: "", to: "" });
 
-  // ── Load ──────────────────────────────────────────────────
+  
   const load = async (from = "", to = "") => {
     setLoading(true); setError("");
     try {
@@ -66,7 +66,7 @@ export default function StatsPage() {
     load("", "");
   };
 
-  // ── Export Excel ─────────────────────────────────────────
+ 
   const exportExcel = async () => {
     setExporting(true);
     try {
@@ -100,7 +100,7 @@ export default function StatsPage() {
   return (
     <div className="sp-root">
 
-      {/* ── Header ─────────────────────────────────────────── */}
+      {}
       <header className="sp-header">
         <div className="sp-header__left">
           <button className="sp-back" onClick={() => navigate("/guide")}><FiArrowLeft /></button>
@@ -133,7 +133,7 @@ export default function StatsPage() {
         </div>
       </header>
 
-      {/* ── Filter panel ───────────────────────────────────── */}
+      {}
       {panelOpen && (
         <div className="sp-panel">
           <div className="sp-panel__title"><FiFilter /> Период</div>
@@ -164,7 +164,7 @@ export default function StatsPage() {
         </div>
       )}
 
-      {/* ── States ─────────────────────────────────────────── */}
+      {}
       {error ? (
         <div className="sp-error">
           <span>⚠️</span>
@@ -179,7 +179,7 @@ export default function StatsPage() {
       ) : (
         <div className="sp-body">
 
-          {/* KPIs */}
+          {}
           <div className="sp-kpis">
             {kpis.map((k, i) => (
               <div key={i} className="sp-kpi" style={{"--c": k.color}}>
@@ -190,7 +190,7 @@ export default function StatsPage() {
             ))}
           </div>
 
-          {/* Row 1: user growth + transport */}
+          {}
           <div className="sp-row">
             <div className="sp-card sp-card--wide">
               <h3>Рост пользователей и маршрутов</h3>
@@ -225,7 +225,7 @@ export default function StatsPage() {
             </div>
           </div>
 
-          {/* Row 2: routes by month + top destinations */}
+          {}
           <div className="sp-row">
             <div className="sp-card">
               <h3>Маршруты по месяцам</h3>
@@ -254,7 +254,7 @@ export default function StatsPage() {
             </div>
           </div>
 
-          {/* Row 3: users by role + activity by day */}
+          {}
           <div className="sp-row">
             <div className="sp-card" >
               <h3>Пользователи по ролям</h3>

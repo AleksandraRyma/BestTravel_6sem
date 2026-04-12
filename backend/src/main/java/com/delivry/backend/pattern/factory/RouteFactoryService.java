@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Сервис-фабрика для создания маршрутов по типу
- */
+
 @Slf4j
 @Component
 public class RouteFactoryService {
@@ -25,9 +23,7 @@ public class RouteFactoryService {
         factories.put("TRANSIT", new TransitTourFactory());
     }
 
-    /**
-     * Создать маршрут по типу
-     */
+
     public Route createRouteByType(String type, String title, User creator) {
         RouteFactory factory = factories.get(type.toUpperCase());
 
@@ -41,9 +37,7 @@ public class RouteFactoryService {
         return route;
     }
 
-    /**
-     * Создать стандартный маршрут (если тип не распознан)
-     */
+
     public Route createDefaultRoute(String title, User creator) {
         Route route = new Route();
         route.setTitle(title);
@@ -58,9 +52,6 @@ public class RouteFactoryService {
         return route;
     }
 
-    /**
-     * Получить список доступных типов маршрутов
-     */
     public Map<String, String> getAvailableRouteTypes() {
         Map<String, String> types = new HashMap<>();
         types.put("HIKING", "Пеший туризм - для любителей природы и пеших прогулок");

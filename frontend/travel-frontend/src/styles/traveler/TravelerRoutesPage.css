@@ -694,7 +694,6 @@
   justify-content: center;
 }
 
-/* ─── Responsive ────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .trp-topbar  { padding: 14px 16px; }
   .trp-toolbar { padding: 12px 16px 0; }
@@ -707,7 +706,7 @@
   .trp-fstat { min-width: 50%; border-bottom: 1px solid var(--trp-border); }
 }
 
-/* Добавьте это в конец файла или в секцию с кнопками */
+
 
 .transport-icon {
   width: 16px;
@@ -734,12 +733,12 @@
   line-height: 1;
 }
 
-/* Стили для активной кнопки с иконкой */
+
 .trp-tbtn.active .transport-icon {
   filter: brightness(0) invert(1);
 }
 
-/* Если нужно, чтобы иконки в таблице тоже были одинакового размера */
+
 .trp-transport__icon img {
   width: 18px;
   height: 18px;

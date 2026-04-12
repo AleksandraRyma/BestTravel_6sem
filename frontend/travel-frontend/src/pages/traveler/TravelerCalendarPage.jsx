@@ -967,7 +967,7 @@ import {
 import { getMyRoutes } from "../../api/travelerApi";
 import "../../styles/traveler/TravelerCalendarPage.css";
 
-// ─── Sidebar nav ──────────────────────────────────────────────────
+
 const NAV = [
   { path: "/traveler",               icon: <FiHome />,     label: "Главная" },
   { path: "/traveler/my-routes",     icon: <FiMap />,      label: "Мои маршруты" },
@@ -981,7 +981,7 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль" },
 ];
 
-// ─── Транспорт с картинками ──────────────────────────────────────
+
 const TRANSPORT_OPTIONS = [
   { value: "WALK",    label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png" },
   { value: "BIKE",    label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png" },
@@ -993,7 +993,7 @@ const TRANSPORT_OPTIONS = [
 const getTransportOption = (type) =>
   TRANSPORT_OPTIONS.find(t => t.value === type);
 
-// ─── Цвета ─────────────────────────────────────────────
+
 const TRANSPORT_COLORS = {
   WALK:    { bg: "#dcfce7", border: "#16a34a", text: "#14532d" },
   BIKE:    { bg: "#fef9c3", border: "#ca8a04", text: "#713f12" },
@@ -1033,7 +1033,7 @@ const MOCK_ROUTES = [
   { id:7, title:"Транссибирская",     startLocation:"Москва",  endLocation:"Владивосток",startDate:"2026-07-01",endDate:"2026-07-15", durationDays:15, transportType:"TRANSIT", totalPrice:280,  participantsCount:5 },
 ];
 
-// Компонент для иконки транспорта
+
 const TransportIcon = ({ type, className = "" }) => {
   const option = getTransportOption(type);
   if (!option) return null;
@@ -1052,7 +1052,7 @@ export default function TravelerCalendarPage() {
   const [popup, setPopup]         = useState(null);
   const [currentTitle, setTitle]  = useState("");
 
-  // ─── Load routes ────────────────────────────────────────────────
+  
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -1067,7 +1067,7 @@ export default function TravelerCalendarPage() {
     })();
   }, []);
 
-  // ─── Convert routes → FullCalendar events ───────────────────────
+ 
   const events = routes.map(r => {
     const color = getColor(r.transportType);
     const endExclusive = new Date(r.endDate);
@@ -1090,13 +1090,13 @@ export default function TravelerCalendarPage() {
     };
   });
 
-  // ─── Upcoming routes sidebar list ────────────────────────────────
+ 
   const upcoming = [...routes]
     .filter(r => new Date(r.endDate) >= new Date())
     .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
     .slice(0, 8);
 
-  // ─── Calendar navigation helpers ────────────────────────────────
+ 
   const calApi = () => calRef.current?.getApi();
   const prev   = () => { calApi()?.prev();  syncTitle(); };
   const next   = () => { calApi()?.next();  syncTitle(); };
@@ -1110,7 +1110,7 @@ export default function TravelerCalendarPage() {
     syncTitle();
   };
 
-  // ─── Event click ─────────────────────────────────────────────────
+
   const handleEventClick = (info) => {
     info.jsEvent.preventDefault();
     const rect = info.el.getBoundingClientRect();
@@ -1121,7 +1121,7 @@ export default function TravelerCalendarPage() {
     });
   };
 
-  // ─── Close popup on outside click ───────────────────────────────
+  
   useEffect(() => {
     const handler = (e) => {
       if (!e.target.closest(".tcp-popup")) setPopup(null);
@@ -1130,13 +1130,13 @@ export default function TravelerCalendarPage() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // ─── Sync title on mount ─────────────────────────────────────────
+ 
   useEffect(() => { syncTitle(); }, [loading]);
 
   return (
     <div className="tcp-root">
 
-      {/* ══ SIDEBAR ══════════════════════════════════════════════ */}
+      {}
       <aside className={`tcp-sidebar ${sidebar ? "tcp-sidebar--open" : ""}`}>
         <div className="tcp-sidebar__brand">
           <span>✈️</span>
@@ -1171,16 +1171,16 @@ export default function TravelerCalendarPage() {
 
       {sidebar && <div className="tcp-overlay" onClick={() => setSidebar(false)} />}
 
-      {/* ══ MAIN ═════════════════════════════════════════════════ */}
+      {}
       <main className="tcp-main">
 
-        {/* ── Topbar ─────────────────────────────────────────── */}
+        {}
         <header className="tcp-topbar">
           <button className="tcp-burger" onClick={() => setSidebar(true)}>
             <FiMenu />
           </button>
 
-          {/* Calendar nav controls */}
+          {}
           <div className="tcp-cal-nav">
             <button className="tcp-nav-btn" onClick={prev}><FiChevronLeft /></button>
             <button className="tcp-today-btn" onClick={today}>Сегодня</button>
@@ -1188,7 +1188,7 @@ export default function TravelerCalendarPage() {
             <h1 className="tcp-cal-title">{currentTitle}</h1>
           </div>
 
-          {/* View switcher */}
+          {}
           <div className="tcp-view-switcher">
             {[
               { v: "dayGridMonth", icon: <FiGrid />,     label: "Месяц" },
@@ -1213,10 +1213,10 @@ export default function TravelerCalendarPage() {
           </button>
         </header>
 
-        {/* ── Body ───────────────────────────────────────────── */}
+        {}
         <div className="tcp-body">
 
-          {/* ── Legend с цветными точками и картинками ────────────────────────── */}
+          {}
           <div className="tcp-legend">
             {TRANSPORT_OPTIONS.map(t => {
               const color = getColor(t.value);
@@ -1235,7 +1235,7 @@ export default function TravelerCalendarPage() {
 
           <div className="tcp-cal-wrap">
 
-            {/* ── Upcoming sidebar ──────────────────────────── */}
+            {}
             <aside className="tcp-upcoming">
               <h3 className="tcp-upcoming__title">
                 <FiCalendar /> Ближайшие
@@ -1294,7 +1294,7 @@ export default function TravelerCalendarPage() {
                 </div>
               )}
 
-              {/* Stats */}
+              {}
               {!loading && (
                 <div className="tcp-stats">
                   <div className="tcp-stat">
@@ -1317,7 +1317,7 @@ export default function TravelerCalendarPage() {
               )}
             </aside>
 
-            {/* ── FullCalendar ──────────────────────────────── */}
+            {}
             <div className="tcp-calendar">
               {loading ? (
                 <div className="tcp-loading">
@@ -1361,7 +1361,7 @@ export default function TravelerCalendarPage() {
         </div>
       </main>
 
-      {/* ══ POPUP (клик по событию) ═══════════════════════════════ */}
+      {}
       {popup && (
         <div
           className="tcp-popup"

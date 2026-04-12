@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Наблюдатель для создателя маршрута
- */
 @Slf4j
 @RequiredArgsConstructor
 public class CreatorObserver implements RouteObserver {
@@ -22,7 +19,7 @@ public class CreatorObserver implements RouteObserver {
         log.info("Уведомление для создателя {} о маршруте {}: {} - {}",
                 creator.getFullName(), route.getTitle(), eventType, message);
 
-        // Специальная логика для создателя
+
         if (eventType.equals("PARTICIPANT_JOINED")) {
             log.info("Создатель маршрута: новый участник присоединился!");
         } else if (eventType.equals("ROUTE_CHANGED")) {

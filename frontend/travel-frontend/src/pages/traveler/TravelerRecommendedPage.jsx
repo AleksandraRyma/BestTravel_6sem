@@ -21,28 +21,7 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль"         },
 ];
 
-// const ALL_CATEGORIES = [
-//   { id: "Музеи",                 emoji: "🏛",  color: "#6366f1" },
-//   { id: "Природа",               emoji: "🌿",  color: "#16a34a" },
-//   { id: "Гастрономия",           emoji: "🍽",  color: "#f59e0b" },
-//   { id: "История",               emoji: "🏰",  color: "#b45309" },
-//   { id: "Шопинг",                emoji: "🛍",  color: "#ec4899" },
-//   { id: "Приключения",           emoji: "🧗",  color: "#ef4444" },
-//   { id: "Пляжный отдых",         emoji: "🏖",  color: "#0ea5e9" },
-//   { id: "Горы",                  emoji: "⛰",   color: "#64748b" },
-//   { id: "Архитектура",           emoji: "🏗",  color: "#7c3aed" },
-//   { id: "Ночная жизнь",          emoji: "🌙",  color: "#1d4ed8" },
-//   { id: "Семейный отдых",        emoji: "👨‍👩‍👧",color: "#15803d" },
-//   { id: "Экстремальный туризм",  emoji: "🪂",  color: "#dc2626" },
-//   { id: "Культурные мероприятия",emoji: "🎭",  color: "#9333ea" },
-//   { id: "Фестивали",             emoji: "🎪",  color: "#f97316" },
-//   { id: "Религиозные места",     emoji: "⛪",   color: "#92400e" },
-//   { id: "Фототуризм",            emoji: "📸",  color: "#0891b2" },
-//   { id: "Экотуризм",             emoji: "🌱",  color: "#15803d" },
-//   { id: "Активный отдых",        emoji: "🚵",  color: "#b91c1c" },
-//   { id: "Оздоровительный отдых", emoji: "🧘",  color: "#0d9488" },
-//   { id: "Обзорные экскурсии",    emoji: "🔭",  color: "#4f46e5" },
-// ];
+
 
 const ALL_CATEGORIES = [
   { id: "Музеи", icon: "https://img.icons8.com/ios/50/000000/museum.png", color: "#6366f1" },
@@ -61,10 +40,6 @@ const ALL_CATEGORIES = [
   { id: "Оздоровительный отдых", icon: "https://img.icons8.com/ios/50/000000/spa.png", color: "#0d9488" },
 ];
 
-// const TRANSPORT_LABELS = {
-//   WALK: "🚶 Пешком", BIKE: "🚴 Велосипед", CAR: "🚗 Авто",
-//   TRANSIT: "🚌 Транспорт", PLANE: "✈️ Самолёт",
-// };
 
 const TRANSPORT_LABELS = [
   { value: "WALK", label: "Пешком", icon: "https://img.icons8.com/ios/50/000000/walking.png" },
@@ -83,15 +58,6 @@ function toDateStr(val) {
   return String(val).slice(0, 10);
 }
 
-// const MOCK_RECS = [
-//   { id:10, title:"Горная Грузия", matchScore:96, startLocation:"Тбилиси", endLocation:"Казбеги", startDate:"2026-05-15", endDate:"2026-05-22", durationDays:8, transportType:"CAR", totalPrice:280, matchedCategories:["Природа","Горы","Активный отдых"], description:"Живописные горные тропы, старинные башни и монастыри Грузии." },
-//   { id:11, title:"Токио — гастрономический тур", matchScore:91, startLocation:"Токио", endLocation:"Осака", startDate:"2026-06-01", endDate:"2026-06-10", durationDays:10, transportType:"TRANSIT", totalPrice:1800, matchedCategories:["Гастрономия","Культурные мероприятия","Архитектура"], description:"Мишленовские рестораны, уличная еда и храмы — всё в одном маршруте." },
-//   { id:12, title:"Амальфитанское побережье", matchScore:88, startLocation:"Неаполь", endLocation:"Позитано", startDate:"2026-07-10", endDate:"2026-07-17", durationDays:8, transportType:"CAR", totalPrice:950, matchedCategories:["Пляжный отдых","Гастрономия","Архитектура"], description:"Лазурное море, лимонные рощи и средневековые городки Италии." },
-//   { id:13, title:"Исландия: северное сияние", matchScore:85, startLocation:"Рейкьявик", endLocation:"Акюрейри", startDate:"2026-02-01", endDate:"2026-02-08", durationDays:8, transportType:"CAR", totalPrice:2200, matchedCategories:["Природа","Фототуризм","Экотуризм"], description:"Ледники, гейзеры и лучшие места для наблюдения за северным сиянием." },
-//   { id:14, title:"Марокко: пустыня Сахара", matchScore:82, startLocation:"Марракеш", endLocation:"Мерзуга", startDate:"2026-03-20", endDate:"2026-03-28", durationDays:9, transportType:"CAR", totalPrice:680, matchedCategories:["Приключения","История","Фототуризм"], description:"Лабиринты медины, берберские деревни и ночёвка в пустыне." },
-//   { id:15, title:"Балтийские столицы", matchScore:79, startLocation:"Таллин", endLocation:"Вильнюс", startDate:"2026-05-01", endDate:"2026-05-07", durationDays:7, transportType:"TRANSIT", totalPrice:380, matchedCategories:["История","Архитектура","Обзорные экскурсии"], description:"Три средневековых столицы — Таллин, Рига и Вильнюс за одну поездку." },
-// ];
-
 export default function TravelerRecommendedPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -108,7 +74,7 @@ export default function TravelerRecommendedPage() {
   const [toast,             setToast]              = useState("");
   const [refreshKey,        setRefreshKey]         = useState(0);
 
-  // ── Load ──────────────────────────────────────────────────────
+ 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -117,7 +83,7 @@ export default function TravelerRecommendedPage() {
       try {
         const { default: axiosClient } = await import("../../api/axiosClient");
 
-        // 1. Get user interests
+
         try {
           const res = await axiosClient.get("/traveler/interests");
           const data = res.data || [];
@@ -127,7 +93,7 @@ export default function TravelerRecommendedPage() {
           }
         } catch {}
 
-        // 2. Get recommendations
+
         try {
           const res = await axiosClient.get("/traveler/recommendations");
           if (!cancelled) setRecommendations(res.data || []);
@@ -145,7 +111,7 @@ export default function TravelerRecommendedPage() {
     return () => { cancelled = true; };
   }, [refreshKey]);
 
-  // ── Save interests to backend ─────────────────────────────────
+
   const saveInterests = async () => {
     setSavingInterests(true);
     try {
@@ -162,7 +128,7 @@ export default function TravelerRecommendedPage() {
   const toggleCat = (id) =>
     setSelectedCats(prev => prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]);
 
-  // ── Favorite ──────────────────────────────────────────────────
+
   const toggleFav = async (routeId) => {
     const next = new Set(favorites);
     if (next.has(routeId)) {
@@ -179,7 +145,7 @@ export default function TravelerRecommendedPage() {
     setFavorites(next);
   };
 
-  // ── Save to my routes ─────────────────────────────────────────
+
   const saveRoute = async (route) => {
     if (savedRoutes.has(route.id)) {
       navigate(`/traveler/routes/${route.id}`);
@@ -205,11 +171,11 @@ const getTransport = (type) =>
   TRANSPORT_LABELS.find(t => t.value === type);
 
 
-  // ─────────────────────────────────────────────────────────────
+
   return (
     <div className="trec-root">
 
-      {/* SIDEBAR */}
+      {}
       <aside className={`trec-sidebar ${sidebar ? "trec-sidebar--open" : ""}`}>
         <div className="trec-sidebar__brand">
           <span>✈️</span>
@@ -237,10 +203,10 @@ const getTransport = (type) =>
       </aside>
       {sidebar && <div className="trec-overlay" onClick={() => setSidebar(false)} />}
 
-      {/* MAIN */}
+      {}
       <main className="trec-main">
 
-        {/* Topbar */}
+        {}
         <header className="trec-topbar">
           <button className="trec-burger" onClick={() => setSidebar(true)}><FiMenu /></button>
           <div className="trec-topbar__title">
@@ -294,17 +260,7 @@ const getTransport = (type) =>
 </div>
 
 
-        {/* <div className="trec-card__cats">
-                  {(r.matchedCategories || []).map(c => {
-                    const cat = ALL_CATEGORIES.find(x => x.id === c);
-                    return (
-                      <span key={c} className="trec-card__cat">
-                        <img src={cat?.icon} alt="" width={14} />
-                        {c}
-                      </span>
-                    );
-                  })}
-                </div> */}
+        {}
 
             <div className="trec-panel__footer">
               <span className="trec-panel__count">
@@ -371,7 +327,7 @@ const getTransport = (type) =>
             </button>
           </div>
         ) : (
-          /* Cards grid */
+          
           <div className="trec-grid">
             {recommendations.map((r, idx) => {
               const isFav   = favorites.has(r.id);
@@ -423,9 +379,7 @@ const getTransport = (type) =>
 
                     <div className="trec-card__meta">
                       <span><FiClock /> {r.durationDays} дн.</span>
-                      {/* {r.transportType && (
-                        <span><FiTruck /> {TRANSPORT_LABELS[r.transportType]?.split(" ")[0] ?? r.transportType}</span>
-                      )} */
+                      {
                       
                       r.transportType && (() => {
   const t = getTransport(r.transportType);

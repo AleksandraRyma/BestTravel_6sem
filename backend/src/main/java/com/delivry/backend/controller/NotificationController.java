@@ -31,28 +31,21 @@ public class NotificationController {
         this.participantRepository = participantRepository;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GET /api/traveler/notifications
-    // Возвращает список уведомлений с инфо о маршруте и отправителе
-    // ─────────────────────────────────────────────────────────────
+
     @GetMapping
     public ResponseEntity<List<NotificationResponse>> getAll(Authentication auth) {
         User user = resolve(auth);
         return ResponseEntity.ok(notificationService.getNotifications(user.getUserId()));
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GET /api/traveler/notifications/unread-count
-    // ─────────────────────────────────────────────────────────────
+
     @GetMapping("/unread-count")
     public ResponseEntity<Long> unreadCount(Authentication auth) {
         User user = resolve(auth);
         return ResponseEntity.ok(notificationService.countUnread(user.getUserId()));
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // PUT /api/traveler/notifications/{id}/read
-    // ─────────────────────────────────────────────────────────────
+
     @PutMapping("/{id}/read")
     public ResponseEntity<Void> markRead(Authentication auth, @PathVariable Long id) {
         User user = resolve(auth);
@@ -60,9 +53,7 @@ public class NotificationController {
         return ResponseEntity.noContent().build();
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // PUT /api/traveler/notifications/read-all
-    // ─────────────────────────────────────────────────────────────
+
     @PutMapping("/read-all")
     public ResponseEntity<Void> markAllRead(Authentication auth) {
         User user = resolve(auth);
@@ -75,13 +66,6 @@ public class NotificationController {
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
     }
 
-
-
-// ─────────────────────────────────────────────────────────────
-// GET /api/traveler/notifications/pending-invites
-// Возвращает routeId маршрутов с PENDING статусом текущего
-// пользователя — нужно для старых уведомлений где routeId=null
-// ─────────────────────────────────────────────────────────────
 @GetMapping("/pending-invites")
 public ResponseEntity<List<Long>> getPendingRouteIds(Authentication auth) {
     User user = resolve(auth);

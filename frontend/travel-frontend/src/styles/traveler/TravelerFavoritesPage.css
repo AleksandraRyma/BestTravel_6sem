@@ -741,7 +741,7 @@
   }
 }
 
-/* ─── Анимации ─────────────────────────────────────────────────── */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -759,7 +759,7 @@
   opacity: 0;
 }
 
-/* ─── Дополнительные улучшения ────────────────────────────────── */
+
 .tfp-filter-btns {
   display: flex;
   flex-wrap: wrap;
@@ -797,7 +797,6 @@
   filter: brightness(0) invert(1);
 }
 
-/* ─── Иконки в статистике ─────────────────────────────────────── */
 .tfp-fstat {
   display: flex;
   flex-direction: column;

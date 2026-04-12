@@ -54,9 +54,7 @@ public class RouteService {
 
     }
 
-    // ─────────────────────────────────────────
-    // Создание маршрута
-    // ─────────────────────────────────────────
+
     public RouteDetailResponse createRoute(Long creatorId, CreateRouteRequest request) {
         User creator = userRepository.findById(creatorId)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
@@ -86,9 +84,7 @@ public class RouteService {
         return buildDetail(route, creatorId);
     }
 
-    // ─────────────────────────────────────────
-    // Обновление маршрута
-    // ─────────────────────────────────────────
+
     public RouteDetailResponse updateRoute(Long routeId, Long userId, CreateRouteRequest request) {
         Route route = findRoute(routeId);
         assertOwner(route, userId);
@@ -115,9 +111,7 @@ public class RouteService {
         return buildDetail(route, userId);
     }
 
-    // ─────────────────────────────────────────
-    // Удаление маршрута
-    // ─────────────────────────────────────────
+
     public void deleteRoute(Long routeId, Long userId) {
         Route route = findRoute(routeId);
         assertOwner(route, userId);
@@ -125,18 +119,14 @@ public class RouteService {
         log.info("Route deleted: routeId={}, userId={}, title={}", routeId, userId, route.getTitle());
     }
 
-    // ─────────────────────────────────────────
-    // Детали маршрута
-    // ─────────────────────────────────────────
+
     @Transactional(readOnly = true)
     public RouteDetailResponse getRouteDetail(Long routeId, Long requesterId) {
         log.info("Route detail loaded: routeId={}, requesterId={}", routeId, requesterId);
         return buildDetail(findRoute(routeId), requesterId);
     }
 
-    // ─────────────────────────────────────────
-    // Мои маршруты (старый метод, совместимость)
-    // ─────────────────────────────────────────
+
     @Transactional(readOnly = true)
     public List<RouteListResponse> getMyRoutes(Long userId, String search, String transportType, String sortBy) {
         return applyFilterSort(
@@ -146,10 +136,7 @@ public class RouteService {
         );
     }
 
-    // ─────────────────────────────────────────
-    // Мои маршруты — полная фильтрация
-    // По умолчанию: startDate asc (ближайшие первыми)
-    // ─────────────────────────────────────────
+
     @Transactional(readOnly = true)
     public List<RouteListResponse> getMyRoutesFiltered(
             Long userId,
@@ -170,9 +157,7 @@ public class RouteService {
         );
     }
 
-    // ─────────────────────────────────────────
-    // Публичные маршруты
-    // ─────────────────────────────────────────
+
     @Transactional(readOnly = true)
     public List<RouteListResponse> getPublicRoutes(
             String search, String transportType, String sortBy, Double maxBudget
@@ -184,9 +169,7 @@ public class RouteService {
         );
     }
 
-    // ─────────────────────────────────────────
-    // Пригласить участника + email
-    // ─────────────────────────────────────────
+
     public void inviteParticipant(Long routeId, Long inviterId, String inviteeEmail) {
         Route route = findRoute(routeId);
         assertOwner(route, inviterId);
@@ -195,8 +178,7 @@ public class RouteService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Пользователь с email «" + inviteeEmail + "» не найден на платформе"));
 
-        // ИСПРАВЛЕНИЕ: используем JPQL-запрос вместо existsById
-        // чтобы избежать проблем с порядком полей составного ключа
+
         if (participantRepository.existsByRouteIdAndUserId(routeId, invitee.getUserId())) {
             throw new RuntimeException("Пользователь уже приглашён или участвует в маршруте");
         }
@@ -222,16 +204,13 @@ public class RouteService {
 
     }
 
-    // ─────────────────────────────────────────
-    // Ответ на приглашение
-    // ─────────────────────────────────────────
+
     public void respondToInvite(Long routeId, Long userId, String statusName) {
-        // Ищем запись участника: сначала по конкретному routeId
+
         RouteParticipant participant = participantRepository
                 .findByRouteIdAndUserId(routeId, userId)
                 .orElseGet(() -> {
-                    // Фолбэк: ищем любое PENDING-приглашение этого пользователя
-                    // для случаев когда запись создана старым кодом или routeId не совпадает
+
                     return participantRepository
                             .findByUser_UserIdAndParticipantStatus_Name(userId, "PENDING")
                             .stream()
@@ -261,9 +240,7 @@ public class RouteService {
                 .isRead(false).createdAt(LocalDateTime.now()).build());
     }
 
-    // ════════════════════════════════════════════════════════════════
-    // PRIVATE HELPERS
-    // ════════════════════════════════════════════════════════════════
+
 
     private void savePoints(Route route, List<CreateRouteRequest.RoutePointRequest> points) {
         if (points == null) return;

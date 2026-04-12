@@ -62,7 +62,6 @@ public class NotificationService {
                 });
     }
 
-    // ─────────────────────────────────────────────────────────────
     private NotificationResponse toResponse(Notification n, Long userId) {
         NotificationResponse r = new NotificationResponse();
         r.setId(n.getId());
@@ -72,10 +71,10 @@ public class NotificationService {
 
         Long routeId = n.getRouteId();
         r.setRouteId(routeId);
-        r.setSenderId(n.getSenderId());   // кто инициировал уведомление
+        r.setSenderId(n.getSenderId());
 
         if (routeId != null) {
-            // ── Загружаем маршрут ──────────────────────────────────
+
             routeRepository.findById(routeId).ifPresent(route -> {
                 r.setRoute(buildRouteDto(route));
 
@@ -89,9 +88,6 @@ public class NotificationService {
                 }
             });
 
-            // ── КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ ───────────────────────────────
-            // Проверяем актуальный статус участия пользователя в маршруте.
-            // Если ACCEPTED или REJECTED — фронт скроет кнопки принять/отклонить.
             Optional<RouteParticipant> participation =
                     participantRepository.findByRouteIdAndUserId(routeId, userId);
 
@@ -99,7 +95,7 @@ public class NotificationService {
                 String status = p.getParticipantStatus() != null
                         ? p.getParticipantStatus().getName()
                         : null;
-                // "PENDING" | "ACCEPTED" | "REJECTED"
+
                 r.setParticipantStatus(status);
             });
         }

@@ -9,18 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Субъект (издатель) для управления подписками на маршруты
- */
+
 @Slf4j
 @Component
 public class RouteSubject {
 
     private final Map<Long, List<RouteObserver>> observersByRoute = new HashMap<>();
 
-    /**
-     * Подписать наблюдателя на маршрут
-     */
+
     public void subscribe(Route route, RouteObserver observer) {
         Long routeId = route.getRouteId();
         observersByRoute.computeIfAbsent(routeId, k -> new ArrayList<>());
@@ -32,9 +28,7 @@ public class RouteSubject {
         }
     }
 
-    /**
-     * Отписать наблюдателя от маршрута
-     */
+
     public void unsubscribe(Route route, RouteObserver observer) {
         Long routeId = route.getRouteId();
         if (observersByRoute.containsKey(routeId)) {
@@ -44,9 +38,7 @@ public class RouteSubject {
         }
     }
 
-    /**
-     * Уведомить всех наблюдателей об изменении маршрута
-     */
+
     public void notifyObservers(Route route, String eventType, String message) {
         Long routeId = route.getRouteId();
         if (!observersByRoute.containsKey(routeId)) {
@@ -67,40 +59,29 @@ public class RouteSubject {
         }
     }
 
-    /**
-     * Уведомить о создании маршрута
-     */
+
     public void notifyRouteCreated(Route route) {
         notifyObservers(route, "ROUTE_CREATED", "Маршрут \"" + route.getTitle() + "\" создан");
     }
 
-    /**
-     * Уведомить об изменении маршрута
-     */
+
     public void notifyRouteChanged(Route route) {
         notifyObservers(route, "ROUTE_CHANGED", "Маршрут \"" + route.getTitle() + "\" был изменен");
     }
 
-    /**
-     * Уведомить о присоединении участника
-     */
+
     public void notifyParticipantJoined(Route route, String participantName) {
         notifyObservers(route, "PARTICIPANT_JOINED",
                 participantName + " присоединился к маршруту \"" + route.getTitle() + "\"");
     }
 
-    /**
-     * Уведомить об удалении маршрута
-     */
+
     public void notifyRouteDeleted(Route route) {
         notifyObservers(route, "ROUTE_DELETED", "Маршрут \"" + route.getTitle() + "\" удален");
         // Очистить подписчиков после удаления
         observersByRoute.remove(route.getRouteId());
     }
 
-    /**
-     * Получить количество наблюдателей для маршрута
-     */
     public int getObserverCount(Route route) {
         return observersByRoute.getOrDefault(route.getRouteId(), new ArrayList<>()).size();
     }

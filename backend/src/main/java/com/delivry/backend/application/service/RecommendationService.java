@@ -38,9 +38,7 @@ public class RecommendationService {
         this.participantRepository      = participantRepository;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Получить интересы пользователя
-    // ─────────────────────────────────────────────────────────────
+
     @Transactional(readOnly = true)
     public List<Map<String, String>> getUserInterests(Long userId) {
         return userInterestRepository.findByUser_UserId(userId)
@@ -53,17 +51,15 @@ public class RecommendationService {
                 .collect(Collectors.toList());
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Обновить интересы пользователя
-    // ─────────────────────────────────────────────────────────────
+
     public void updateUserInterests(Long userId, List<String> categoryNames) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
-        // Удаляем старые интересы
+
         userInterestRepository.deleteByUser_UserId(userId);
 
-        // Добавляем новые
+
         for (String name : categoryNames) {
             interestCategoryRepository.findByName(name).ifPresent(cat -> {
                 UserInterest ui = new UserInterest();
@@ -75,28 +71,17 @@ public class RecommendationService {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Алгоритм рекомендаций:
-    //
-    // 1. Берём интересы пользователя (user_interest)
-    // 2. Смотрим категории точек его прошлых маршрутов
-    // 3. Объединяем в набор "предпочтительных категорий"
-    // 4. Из всех публичных маршрутов выбираем те что НЕ принадлежат пользователю
-    // 5. Для каждого маршрута считаем matchScore:
-    //    - +10 за каждую точку интереса совпадающую с категорией
-    //    - +5 за каждого участника (популярность)
-    // 6. Сортируем по score, возвращаем топ-20
-    // ─────────────────────────────────────────────────────────────
+
     @Transactional(readOnly = true)
     public List<RouteListResponse> getRecommendations(Long userId) {
 
-        // 1. Интересы пользователя
+
         Set<String> userCats = userInterestRepository.findByUser_UserId(userId)
                 .stream()
                 .map(ui -> ui.getCategory().getName().toLowerCase())
                 .collect(Collectors.toSet());
 
-        // 2. Категории точек из прошлых маршрутов пользователя
+
         List<Route> myRoutes = routeRepository.findByCreator_UserId(userId);
         for (Route r : myRoutes) {
             routePointRepository.findByRoute_RouteIdOrderByVisitOrderAsc(r.getRouteId())
@@ -107,13 +92,13 @@ public class RecommendationService {
                     .forEach(userCats::add);
         }
 
-        // 3. Транспортные типы которые пользователь уже использовал
+
         Set<String> preferredTransport = myRoutes.stream()
                 .map(Route::getTransportType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        // 4. Все маршруты кроме собственных пользователя
+
         Set<Long> myRouteIds = myRoutes.stream()
                 .map(Route::getRouteId)
                 .collect(Collectors.toSet());
@@ -124,18 +109,18 @@ public class RecommendationService {
                 .filter(r -> !myRouteIds.contains(r.getRouteId()))
                 .collect(Collectors.toList());
 
-        // 5. Считаем score для каждого маршрута
+
         List<RouteWithScore> scored = new ArrayList<>();
 
         for (Route r : candidates) {
             int score = 0;
 
-            // Очки за совпадение транспорта
+
             if (r.getTransportType() != null && preferredTransport.contains(r.getTransportType())) {
                 score += 15;
             }
 
-            // Очки за категории точек
+
             List<RoutePoint> points = routePointRepository.findByRoute_RouteIdOrderByVisitOrderAsc(r.getRouteId());
             Set<String> matchedCats = new LinkedHashSet<>();
             for (RoutePoint rp : points) {
@@ -146,17 +131,17 @@ public class RecommendationService {
                 }
             }
 
-            // Очки за популярность (участники)
+
             int participantCount = participantRepository.findByRoute_RouteId(r.getRouteId()).size();
             score += participantCount * 5;
 
-            // Нормализуем до 100
+
             int finalScore = Math.min(99, Math.max(10, score));
 
             scored.add(new RouteWithScore(r, finalScore, new ArrayList<>(matchedCats)));
         }
 
-        // 6. Сортируем по убыванию score, берём топ-20
+
         return scored.stream()
                 .sorted((a, b) -> b.score - a.score)
                 .limit(20)
@@ -166,7 +151,7 @@ public class RecommendationService {
 
 
 
-    // ─────────────────────────────────────────────────────────────
+
     private RouteListResponse toDto(Route r, int score, List<String> matchedCats) {
         RouteListResponse dto = new RouteListResponse();
         dto.setId(r.getRouteId());
@@ -187,7 +172,7 @@ public class RecommendationService {
         return dto;
     }
 
-    // ─── Inner helper ─────────────────────────────────────────────
+
     private static class RouteWithScore {
         final Route  route;
         final int    score;

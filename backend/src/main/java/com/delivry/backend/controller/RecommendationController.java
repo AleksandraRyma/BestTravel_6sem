@@ -30,19 +30,13 @@ public class RecommendationController {
         this.userRepository        = userRepository;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GET /api/traveler/interests
-    // ─────────────────────────────────────────────────────────────
+
     @GetMapping("/interests")
     public ResponseEntity<List<Map<String, String>>> getInterests(Authentication auth) {
         User user = resolve(auth);
         return ResponseEntity.ok(recommendationService.getUserInterests(user.getUserId()));
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // PUT /api/traveler/interests
-    // Body: { "categories": ["Природа", "Горы"] }
-    // ─────────────────────────────────────────────────────────────
     @PutMapping("/interests")
     public ResponseEntity<String> updateInterests(
             Authentication auth,
@@ -57,20 +51,13 @@ public class RecommendationController {
         return ResponseEntity.ok("Интересы обновлены");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GET /api/traveler/recommendations
-    // ─────────────────────────────────────────────────────────────
+
     @GetMapping("/recommendations")
     public ResponseEntity<List<RouteListResponse>> getRecommendations(Authentication auth) {
         User user = resolve(auth);
         return ResponseEntity.ok(recommendationService.getRecommendations(user.getUserId()));
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // POST /api/traveler/recommendations/{routeId}/save
-    // Сохранить рекомендованный маршрут в избранное
-    // (делегируем в FavoritesService — единый источник правды)
-    // ─────────────────────────────────────────────────────────────
     @PostMapping("/recommendations/{routeId}/save")
     public ResponseEntity<String> saveRecommendation(
             Authentication auth,
@@ -81,11 +68,6 @@ public class RecommendationController {
         return ResponseEntity.ok("Маршрут сохранён в избранное");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Методы favorites/{routeId} УБРАНЫ отсюда — они живут только
-    // в FavoritesController (/api/traveler/favorites/{routeId})
-    // чтобы не было Ambiguous mapping конфликта
-    // ─────────────────────────────────────────────────────────────
 
     private User resolve(Authentication auth) {
         return userRepository.findByEmail(auth.getName())

@@ -30,9 +30,6 @@ public class RouteController {
         this.userRepository = userRepository;
     }
 
-    // ─────────────────────────────────────────
-    // POST /api/traveler/routes — создать маршрут
-    // ─────────────────────────────────────────
     @PostMapping
     public ResponseEntity<RouteDetailResponse> createRoute(
             Authentication authentication,
@@ -44,9 +41,6 @@ public class RouteController {
         return ResponseEntity.ok(routeService.createRoute(user.getUserId(), request));
     }
 
-    // ─────────────────────────────────────────
-    // GET /api/traveler/routes — мои маршруты
-    // ─────────────────────────────────────────
     @GetMapping
     public ResponseEntity<List<RouteListResponse>> getMyRoutes(
             Authentication authentication,
@@ -58,9 +52,6 @@ public class RouteController {
         return ResponseEntity.ok(routeService.getMyRoutes(user.getUserId(), search, transportType, sortBy));
     }
 
-    // ─────────────────────────────────────────
-    // GET /api/traveler/routes/{id} — детали
-    // ─────────────────────────────────────────
     @GetMapping("/{id}")
     public ResponseEntity<RouteDetailResponse> getRoute(
             Authentication authentication,
@@ -71,9 +62,6 @@ public class RouteController {
         return ResponseEntity.ok(routeService.getRouteDetail(id, user.getUserId()));
     }
 
-    // ─────────────────────────────────────────
-    // PUT /api/traveler/routes/{id} — обновить
-    // ─────────────────────────────────────────
     @PutMapping("/{id}")
     public ResponseEntity<RouteDetailResponse> updateRoute(
             Authentication authentication,
@@ -85,9 +73,6 @@ public class RouteController {
         return ResponseEntity.ok(routeService.updateRoute(id, user.getUserId(), request));
     }
 
-    // ─────────────────────────────────────────
-    // DELETE /api/traveler/routes/{id}
-    // ─────────────────────────────────────────
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoute(
             Authentication authentication,
@@ -99,9 +84,6 @@ public class RouteController {
         return ResponseEntity.noContent().build();
     }
 
-    // ─────────────────────────────────────────
-    // POST /api/traveler/routes/{id}/invite — пригласить участника
-    // ─────────────────────────────────────────
     @PostMapping("/{id}/invite")
     public ResponseEntity<String> inviteParticipant(
             Authentication authentication,
@@ -115,9 +97,7 @@ public class RouteController {
         return ResponseEntity.ok("Приглашение отправлено");
     }
 
-    // ─────────────────────────────────────────
-    // POST /api/traveler/routes/{id}/respond — принять/отклонить приглашение
-    // ─────────────────────────────────────────
+
     @PostMapping("/{id}/respond")
     public ResponseEntity<String> respondToInvite(
             Authentication authentication,
@@ -130,9 +110,6 @@ public class RouteController {
         return ResponseEntity.ok("Статус обновлён");
     }
 
-    // ─────────────────────────────────────────
-    // GET /api/traveler/routes/public — все публичные маршруты
-    // ─────────────────────────────────────────
     @GetMapping("/public")
     public ResponseEntity<List<RouteListResponse>> getPublicRoutes(
             @RequestParam(required = false) String search,

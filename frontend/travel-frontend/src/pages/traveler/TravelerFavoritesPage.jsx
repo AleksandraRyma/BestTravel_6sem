@@ -559,7 +559,7 @@ import {
 } from "react-icons/fi";
 import "../../styles/traveler/TravelerFavoritesPage.css";
 
-// ─── Sidebar nav ──────────────────────────────────────────────────
+
 const NAV = [
   { path: "/traveler",               icon: <FiHome />,     label: "Главная"         },
   { path: "/traveler/my-routes",     icon: <FiMap />,      label: "Мои маршруты"    },
@@ -573,7 +573,7 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль"         },
 ];
 
-// ─── Транспорт с картинками ──────────────────────────────────────
+
 const TRANSPORT = {
   WALK:    { label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png" },
   BIKE:    { label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png" },
@@ -582,7 +582,7 @@ const TRANSPORT = {
   PLANE:   { label: "Самолёт",   icon: "https://img.icons8.com/ios/50/000000/airplane-take-off.png" },
 };
 
-// Компонент для иконки транспорта
+
 const TransportIcon = ({ type, className = "" }) => {
   const transport = TRANSPORT[type];
   if (!transport) return null;
@@ -635,9 +635,9 @@ export default function TravelerFavoritesPage() {
   const [filtersOpen,  setFiltersOpen]  = useState(false);
   const [removeId,     setRemoveId]     = useState(null);
   const [removing,     setRemoving]     = useState(false);
-  const [viewMode,     setViewMode]     = useState("grid"); // grid | list
+  const [viewMode,     setViewMode]     = useState("grid"); 
 
-  // ── Filters ───────────────────────────────────────────────────
+  
   const [search,       setSearch]       = useState("");
   const [fTransport,   setFTransport]   = useState("");
   const [fPriceMin,    setFPriceMin]    = useState("");
@@ -649,7 +649,7 @@ export default function TravelerFavoritesPage() {
   const [fDateTo,      setFDateTo]      = useState("");
   const [sortBy,       setSortBy]       = useState("savedAt_desc");
 
-  // ── Load ──────────────────────────────────────────────────────
+  
   useEffect(() => {
     setLoading(true);
     (async () => {
@@ -671,7 +671,7 @@ export default function TravelerFavoritesPage() {
     })();
   }, []);
 
-  // ── Remove from favorites ─────────────────────────────────────
+  
   const confirmRemove = async () => {
     if (!removeId) return;
     setRemoving(true);
@@ -684,7 +684,7 @@ export default function TravelerFavoritesPage() {
     setRemoving(false);
   };
 
-  // ── Filter + sort ─────────────────────────────────────────────
+ 
   const processed = favorites
     .filter(r => {
       const q = search.trim().toLowerCase();
@@ -730,11 +730,11 @@ export default function TravelerFavoritesPage() {
     setFDateFrom(""); setFDateTo("");
   };
 
-  // ─────────────────────────────────────────────────────────────
+  
   return (
     <div className="tfp-root">
 
-      {/* ── SIDEBAR ─────────────────────────────────────────── */}
+      {}
       <aside className={`tfp-sidebar ${sidebar ? "tfp-sidebar--open" : ""}`}>
         <div className="tfp-sidebar__brand">
           <span>✈️</span>
@@ -762,10 +762,10 @@ export default function TravelerFavoritesPage() {
       </aside>
       {sidebar && <div className="tfp-overlay" onClick={() => setSidebar(false)} />}
 
-      {/* ── MAIN ─────────────────────────────────────────────── */}
+      {}
       <main className="tfp-main">
 
-        {/* Topbar */}
+        {}
         <header className="tfp-topbar">
           <button className="tfp-burger" onClick={() => setSidebar(true)}><FiMenu /></button>
           <div className="tfp-topbar__title">
@@ -776,7 +776,7 @@ export default function TravelerFavoritesPage() {
             )}
           </div>
           <div className="tfp-topbar__right">
-            {/* View mode toggle */}
+            {}
             <div className="tfp-view-toggle">
               <button className={`tfp-view-btn ${viewMode === "grid" ? "active" : ""}`}
                 onClick={() => setViewMode("grid")} title="Сетка">
@@ -790,9 +790,9 @@ export default function TravelerFavoritesPage() {
           </div>
         </header>
 
-        {/* Toolbar */}
+        {}
         <div className="tfp-toolbar">
-          {/* Search */}
+          {}
           <div className="tfp-search-wrap">
             <FiSearch className="tfp-search-icon" />
             <input
@@ -948,7 +948,7 @@ export default function TravelerFavoritesPage() {
               const rating = r.averageRating;
 
               return viewMode === "grid" ? (
-                /* ── GRID CARD ── */
+               
                 <article key={r.id} className="tfp-card"
                   style={{ animationDelay: `${idx * 45}ms` }}>
 
@@ -1006,7 +1006,7 @@ export default function TravelerFavoritesPage() {
                   </div>
                 </article>
               ) : (
-                /* ── LIST ROW ── */
+                
                 <div key={r.id} className="tfp-row"
                   style={{ animationDelay: `${idx * 35}ms` }}>
                   <div className="tfp-row__main">
@@ -1056,7 +1056,7 @@ export default function TravelerFavoritesPage() {
           </div>
         )}
 
-        {/* Stats footer */}
+        {}
         {!loading && favorites.length > 0 && (
           <div className="tfp-footer">
             <div className="tfp-fstat">
@@ -1095,7 +1095,7 @@ export default function TravelerFavoritesPage() {
         )}
       </main>
 
-      {/* Remove confirm modal */}
+      {}
       {removeId && (
         <div className="tfp-modal-back" onClick={() => setRemoveId(null)}>
           <div className="tfp-modal" onClick={e => e.stopPropagation()}>

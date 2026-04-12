@@ -531,7 +531,7 @@
   padding: 8px 0;
 }
 
-/* ─── Invite ───────────────────────────────────────────────────── */
+
 .crc-invite-row {
   display: flex;
   gap: 8px;
@@ -585,20 +585,20 @@
 .crc-invite-item__badge.accepted { background: #dcfce7; color: #166534; }
 .crc-invite-item__badge.rejected { background: #fee2e2; color: #991b1b; }
 
-/* ─── Map wrapper ──────────────────────────────────────────────── */
+
 .crc-map-wrapper {
   flex: 1;
   position: relative;
   overflow: hidden;
 }
 
-/* Leaflet container fix */
+
 .crc-map-wrapper .leaflet-container {
   height: 100% !important;
   width: 100% !important;
 }
 
-/* ─── Map legend ───────────────────────────────────────────────── */
+
 .crc-map-legend {
   position: absolute;
   bottom: 16px;

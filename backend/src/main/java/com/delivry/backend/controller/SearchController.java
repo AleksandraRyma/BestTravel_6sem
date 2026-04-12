@@ -17,24 +17,7 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    /**
-     * GET /api/traveler/search
-     *
-     * Параметры (все необязательны):
-     *   search      — поиск по названию / откуда / куда
-     *   transport   — WALK|BIKE|CAR|TRANSIT|PLANE (можно несколько: ?transport=CAR&transport=PLANE)
-     *   category    — название категории (можно несколько)
-     *   priceMin    — минимальная цена
-     *   priceMax    — максимальная цена
-     *   durMin      — минимальное количество дней
-     *   durMax      — максимальное количество дней
-     *   dateFrom    — дата начала от (yyyy-MM-dd)
-     *   dateTo      — дата начала до (yyyy-MM-dd)
-     *   sortBy      — startDate|price|duration|title (default: startDate)
-     *   sortDir     — asc|desc (default: asc)
-     *
-     * Возвращает маршруты созданные пользователями с role_id = 2 (GUIDE)
-     */
+
     @GetMapping
     public ResponseEntity<List<SearchRouteResponse>> search(
             @RequestParam(required = false) String search,

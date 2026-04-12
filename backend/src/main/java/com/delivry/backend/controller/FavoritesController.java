@@ -64,10 +64,7 @@ public class FavoritesController {
         );
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // POST /api/traveler/favorites/{routeId}
-    // ─────────────────────────────────────────────────────────────
-    @PostMapping("/{routeId}")
+       @PostMapping("/{routeId}")
     public ResponseEntity<Map<String, Serializable>> add(Authentication auth, @PathVariable Long routeId) {
         User user = resolve(auth);
         favoritesService.addFavorite(user.getUserId(), routeId);
@@ -79,9 +76,6 @@ public class FavoritesController {
 
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // DELETE /api/traveler/favorites/{routeId}
-    // ─────────────────────────────────────────────────────────────
     @DeleteMapping("/{routeId}")
     public ResponseEntity<String> remove(Authentication auth, @PathVariable Long routeId) {
         User user = resolve(auth);
@@ -89,10 +83,6 @@ public class FavoritesController {
         return ResponseEntity.ok("Removed from favorites");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GET /api/traveler/favorites/{routeId}/check
-    // Проверить добавлен ли маршрут в избранное
-    // ─────────────────────────────────────────────────────────────
     @GetMapping("/{routeId}/check")
     public ResponseEntity<Boolean> check(Authentication auth, @PathVariable Long routeId) {
         User user = resolve(auth);

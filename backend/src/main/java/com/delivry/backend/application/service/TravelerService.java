@@ -114,8 +114,7 @@ public class TravelerService {
 
     public TravelerHomeResponse getHome() {
 
-        //List<Route> promoRoutes = routeRepository.findTop10ByStartDateAfterOrderByStartDateAsc(LocalDate.now());
-        // Горящие предложения
+
         LocalDate today = LocalDate.now();
         List<TravelerHomeResponse.PromoDto> promoRoutes = routeRepository
                 .findTop10ByStartDateAfterOrderByStartDateAsc(today)
@@ -140,12 +139,12 @@ public class TravelerService {
                 .toList();
         TravelerHomeResponse response = new TravelerHomeResponse();
 
-        // Горящие предложения
+
         List<TravelerHomeResponse.PromoDto> promos = promoRoutes.stream()
                 .limit(10)
                 .toList();
 
-        // Популярные направления
+
         List<TravelerHomeResponse.DestinationDto> destinations = destinationRoutes.stream()
                 .limit(10)
                 .map(this::toDestination)

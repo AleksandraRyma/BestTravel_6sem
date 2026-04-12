@@ -22,7 +22,7 @@ public class Auth2Controller {
     private final UserStatusRepository userStatusRepository;
     private final JwtTokenUtil jwtTokenUtil;
 
-    // ← явный конструктор вместо @RequiredArgsConstructor
+
     public Auth2Controller(UserRepository userRepository,
                            RoleRepository roleRepository,
                            UserStatusRepository userStatusRepository,
@@ -84,6 +84,6 @@ public class Auth2Controller {
     }
 }
 
-// ← вынесены из класса, теперь на уровне файла
+
 record OAuthResponse(String token, String fullName, String email) {}
 record OAuthLoginInfo(String message, String redirectUrl) {}

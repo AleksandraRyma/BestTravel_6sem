@@ -6,7 +6,7 @@ import java.util.List;
 @Data
 public class GuideStatsResponse {
 
-    // ── KPI карточки ──────────────────────────────────────────
+
     private Long    totalUsers;
     private Long    totalRoutes;
     private Long    totalParticipants;
@@ -14,33 +14,24 @@ public class GuideStatsResponse {
     private Long    totalFavorites;
     private Long    guideRoutes;
 
-    // ── Графики ───────────────────────────────────────────────
 
-    // Рост пользователей и маршрутов по месяцам
-    // [{ month: "Янв", users: 12, routes: 3 }, ...]
     private List<MonthlyGrowth> userGrowth;
 
-    // Маршруты по месяцам
-    // [{ month: "Янв", count: 3 }, ...]
+
     private List<MonthCount> routesByMonth;
 
-    // Транспорт
-    // [{ type: "CAR", count: 15 }, ...]
+
     private List<TypeCount> transportStats;
 
-    // Топ направлений
-    // [{ city: "Париж", count: 8 }, ...]
+
     private List<CityCount> topDestinations;
 
-    // Пользователи по ролям
-    // [{ role: "TRAVELER", count: 45 }, ...]
+
     private List<RoleCount> usersByRole;
 
-    // Активность по дням недели
-    // [{ day: "Пн", count: 5 }, ...]
+
     private List<DayCount> activityByDay;
 
-    // ── Inner DTOs ────────────────────────────────────────────
 
     @Data
     public static class MonthlyGrowth {

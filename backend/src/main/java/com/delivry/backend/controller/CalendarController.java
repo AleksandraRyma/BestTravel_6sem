@@ -22,20 +22,14 @@ public class CalendarController {
         this.userRepository  = userRepository;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GET /api/traveler/calendar/events
-    // Возвращает все маршруты пользователя как события календаря
-    // ─────────────────────────────────────────────────────────────
+
     @GetMapping("/events")
     public ResponseEntity<List<CalendarEventResponse>> getEvents(Authentication auth) {
         User user = resolve(auth);
         return ResponseEntity.ok(calendarService.getCalendarEvents(user.getUserId()));
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // POST /api/traveler/calendar/routes/{routeId}
-    // Добавить маршрут в календарь (пометить как "в календаре")
-    // ─────────────────────────────────────────────────────────────
+
     @PostMapping("/routes/{routeId}")
     public ResponseEntity<String> addToCalendar(
             Authentication auth,
@@ -46,10 +40,7 @@ public class CalendarController {
         return ResponseEntity.ok("Маршрут добавлен в календарь");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // DELETE /api/traveler/calendar/routes/{routeId}
-    // Убрать маршрут из календаря
-    // ─────────────────────────────────────────────────────────────
+
     @DeleteMapping("/routes/{routeId}")
     public ResponseEntity<String> removeFromCalendar(
             Authentication auth,

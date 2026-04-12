@@ -5,9 +5,7 @@ import com.delivry.backend.domain.entity.User;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * Фабрика для создания пеших туристических маршрутов
- */
+
 public class HikingRouteFactory extends RouteFactory {
 
     @Override

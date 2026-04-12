@@ -79,7 +79,6 @@ public class TravelerController {
     }
 
 
-    // ─────────────────────────────────────────────────────────────
     @GetMapping("/reviews/routes")
     public ResponseEntity<List<ReviewableRouteResponse>> getReviewableRoutes(Authentication authentication) {
         User user = resolveUser(authentication);

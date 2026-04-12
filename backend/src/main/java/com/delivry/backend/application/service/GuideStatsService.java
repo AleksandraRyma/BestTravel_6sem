@@ -55,7 +55,7 @@ public class GuideStatsService {
 
         GuideStatsResponse res = new GuideStatsResponse();
 
-        // ── KPIs ──────────────────────────────────────────────
+
         res.setTotalUsers((long) users.size());
         res.setTotalRoutes((long) routes.size());
         res.setTotalParticipants(participantRepository.count());
@@ -66,8 +66,7 @@ public class GuideStatsService {
                         && r.getCreator().getRole().getRoleId() == GUIDE_ROLE_ID)
                 .count());
 
-        // Средний рейтинг: берём из RoutePointRepository напрямую
-        // (у Route нет поля points — используем репозиторий)
+
         Set<Long> routeIds = routes.stream().map(Route::getRouteId).collect(Collectors.toSet());
         double avgRating = routeIds.stream()
                 .flatMap(id -> routePointRepository
@@ -81,7 +80,7 @@ public class GuideStatsService {
                 .orElse(0.0);
         res.setAverageRating(Math.round(avgRating * 10.0) / 10.0);
 
-        // ── Графики ───────────────────────────────────────────
+
         res.setUserGrowth(buildMonthlyGrowth(users, routes));
         res.setRoutesByMonth(buildRoutesByMonth(routes));
         res.setTransportStats(buildTransportStats(routes));
@@ -92,9 +91,7 @@ public class GuideStatsService {
         return res;
     }
 
-    // ─────────────────────────────────────────────────────────
-    // Excel export — Apache POI
-    // ─────────────────────────────────────────────────────────
+
     public byte[] exportExcel(User author, String dateFrom, String dateTo) throws Exception {
 
         GuideStatsResponse stats = getStats(dateFrom, dateTo);
@@ -102,8 +99,7 @@ public class GuideStatsService {
         try (XSSFWorkbook wb = new XSSFWorkbook();
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
-            // ── Стили ─────────────────────────────────────────
-            // Заголовок отчёта (тёмный фон, белый текст)
+
             XSSFCellStyle titleStyle = wb.createCellStyle();
             XSSFFont titleFont = wb.createFont();
             titleFont.setBold(true);
@@ -114,7 +110,7 @@ public class GuideStatsService {
             titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             titleStyle.setAlignment(HorizontalAlignment.LEFT);
 
-            // Шапка таблицы (синий фон, белый текст)
+
             XSSFCellStyle headerStyle = wb.createCellStyle();
             XSSFFont headerFont = wb.createFont();
             headerFont.setBold(true);
@@ -126,25 +122,25 @@ public class GuideStatsService {
             headerStyle.setBorderBottom(BorderStyle.THIN);
             headerStyle.setAlignment(HorizontalAlignment.CENTER);
 
-            // Чётные строки (светло-голубой фон)
+
             XSSFCellStyle altStyle = wb.createCellStyle();
             altStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
             altStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-            // Мета-информация (жирный)
+
             XSSFCellStyle metaKeyStyle = wb.createCellStyle();
             XSSFFont metaFont = wb.createFont();
             metaFont.setBold(true);
             metaKeyStyle.setFont(metaFont);
 
-            // ── Лист 1: Общая статистика ──────────────────────
+
             XSSFSheet sheet1 = wb.createSheet("Общая статистика");
             sheet1.setColumnWidth(0, 9000);
             sheet1.setColumnWidth(1, 5000);
 
             int r = 0;
 
-            // Заголовок
+
             Row titleRow = sheet1.createRow(r++);
             Cell titleCell = titleRow.createCell(0);
             titleCell.setCellValue("BestTravel — Отчёт по статистике платформы");
@@ -152,20 +148,18 @@ public class GuideStatsService {
             sheet1.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
             titleRow.setHeightInPoints(26);
 
-            // Мета
+
             addMetaRow(sheet1, r++, metaKeyStyle, "Дата формирования:", LocalDate.now().toString());
             addMetaRow(sheet1, r++, metaKeyStyle, "Составил:",
                     author.getFullName() + " (" + author.getEmail() + ")");
             String period = nvl(dateFrom, "начало") + " — " + nvl(dateTo, "сейчас");
             addMetaRow(sheet1, r++, metaKeyStyle, "Период:", period);
-            r++; // пустая строка
+            r++;
 
-            // Шапка KPI
             Row kpiHead = sheet1.createRow(r++);
             addHeaderCell(kpiHead, 0, "Показатель", headerStyle);
             addHeaderCell(kpiHead, 1, "Значение",   headerStyle);
 
-            // KPI данные
             Object[][] kpis = {
                     {"Всего пользователей",       stats.getTotalUsers()},
                     {"Всего маршрутов",            stats.getTotalRoutes()},
@@ -185,7 +179,6 @@ public class GuideStatsService {
                 else v.setCellValue(val != null ? val.toString() : "—");
             }
 
-            // ── Лист 2: Рост по месяцам ───────────────────────
             XSSFSheet sheet2 = wb.createSheet("Рост по месяцам");
             setWidths(sheet2, 4000, 4000, 4000);
             Row sh2h = sheet2.createRow(0);
@@ -200,7 +193,6 @@ public class GuideStatsService {
                 row.createCell(2).setCellValue(mg.getRoutes() != null ? mg.getRoutes() : 0L);
             }
 
-            // ── Лист 3: Транспорт ─────────────────────────────
             XSSFSheet sheet3 = wb.createSheet("Транспорт");
             setWidths(sheet3, 5000, 4000);
             Row sh3h = sheet3.createRow(0);
@@ -213,7 +205,6 @@ public class GuideStatsService {
                 row.createCell(1).setCellValue(tc.getCount() != null ? tc.getCount() : 0L);
             }
 
-            // ── Лист 4: Направления ───────────────────────────
             XSSFSheet sheet4 = wb.createSheet("Направления");
             setWidths(sheet4, 6000, 4000);
             Row sh4h = sheet4.createRow(0);
@@ -231,9 +222,6 @@ public class GuideStatsService {
         }
     }
 
-    // ─────────────────────────────────────────────────────────
-    // Вспомогательные методы
-    // ─────────────────────────────────────────────────────────
 
     private List<Route> filterRoutes(List<Route> all, LocalDate from, LocalDate to) {
         return all.stream().filter(r -> {

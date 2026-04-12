@@ -9,7 +9,7 @@ import java.util.List;
 public class RouteListResponse {
     private Long         id;
     private String       title;
-    private String       description;         // описание для карточек рекомендаций
+    private String       description;
     private String       startLocation;
     private String       endLocation;
     private LocalDate    startDate;
@@ -20,10 +20,7 @@ public class RouteListResponse {
     private String       imageUrl;
     private int          participantsCount;
 
-    // ── Поля для страницы рекомендаций ────────────────────────
-    // Процент совпадения с интересами пользователя (10–99)
     private Integer      matchScore;
 
-    // Категории которые совпали с интересами пользователя
     private List<String> matchedCategories;
 }

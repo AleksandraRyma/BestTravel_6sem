@@ -385,7 +385,7 @@
 @keyframes trecToastIn  { from { opacity:0; transform:translateX(-50%) translateY(12px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
 @keyframes trecToastOut { from { opacity:1; } to { opacity:0; } }
 
-/* ─── Responsive ────────────────────────────────────────────────── */
+
 @media (max-width: 768px) {
   .trec-topbar    { padding: 12px 16px; }
   .trec-panel     { padding: 16px; }
@@ -396,7 +396,7 @@
 
 
 
-/*--------------------------------------*/
+
 
 .trec-cat__icon {
   width: 20px;
@@ -410,7 +410,7 @@
   justify-content: center;
   gap: 8px;
 
-  height: 36px; /* фикс высота */
+  height: 36px; 
   padding: 0 12px;
 
   border-radius: 10px;
@@ -420,7 +420,7 @@
   font-size: 13px;
   font-weight: 600;
 
-  white-space: nowrap; /* чтобы не ломались строки */
+  white-space: nowrap; 
 }
 .trec-card__cats {
   display: grid;
@@ -435,7 +435,7 @@
 }
 
 .trec-cat--active img {
-  filter: brightness(0) invert(1); /* иконка становится белой */
+  filter: brightness(0) invert(1);  
 }
 .trec-cat:hover {
   transform: translateY(-2px);

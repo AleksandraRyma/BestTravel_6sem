@@ -21,22 +21,7 @@ public class GuideReportController {
         this.userRepository = userRepository;
     }
 
-    /**
-     * GET /api/guide/reports/export
-     *
-     * Параметры:
-     *   type     — тип отчёта:
-     *              popular_poi       — популярные точки интереса
-     *              transport_analysis — анализ транспорта
-     *              price_duration    — стоимость и длительность
-     *              destinations      — популярные направления
-     *              favorites_analysis — анализ избранного
-     *              user_activity     — активность пользователей
-     *              ratings           — рейтинги точек по категориям
-     *              full_report       — все отчёты в одном файле
-     *   dateFrom — период от (yyyy-MM-dd), необязателен
-     *   dateTo   — период до (yyyy-MM-dd), необязателен
-     */
+
     @GetMapping("/export")
     public ResponseEntity<byte[]> export(
             Authentication auth,

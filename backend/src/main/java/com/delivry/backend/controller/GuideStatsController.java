@@ -22,12 +22,7 @@ public class GuideStatsController {
         this.userRepository = userRepository;
     }
 
-    /**
-     * GET /api/guide/stats
-     * Параметры (необязательны):
-     *   dateFrom — yyyy-MM-dd
-     *   dateTo   — yyyy-MM-dd
-     */
+
     @GetMapping("/stats")
     public ResponseEntity<GuideStatsResponse> getStats(
             @RequestParam(required = false) String dateFrom,
@@ -36,11 +31,7 @@ public class GuideStatsController {
         return ResponseEntity.ok(statsService.getStats(dateFrom, dateTo));
     }
 
-    /**
-     * GET /api/guide/stats/export
-     * Возвращает Excel (.xlsx) с полным отчётом.
-     * В шапке отчёта: дата формирования, имя пользователя, период.
-     */
+
     @GetMapping("/stats/export")
     public ResponseEntity<byte[]> exportExcel(
             Authentication auth,
@@ -62,9 +53,7 @@ public class GuideStatsController {
                 .body(xlsx);
     }
 
-    /**
-     * GET /api/guide/home — заглушка чтобы TourGuigeHomePage не получала 404
-     */
+
     @GetMapping("/home")
     public ResponseEntity<?> getHome(Authentication auth) {
         try {

@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-/**
- * Сервис для работы с фабрикой маршрутов
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -16,25 +14,18 @@ public class RouteCreationService {
 
     private final RouteFactoryService routeFactoryService;
 
-    /**
-     * Создать маршрут указанного типа
-     */
+
     public Route createRoute(String type, String title, User creator) {
         log.info("Запрос на создание маршрута типа: {}, название: {}", type, title);
 
         Route route = routeFactoryService.createRouteByType(type, title, creator);
 
-        // Здесь можно добавить дополнительную логику
-        // - Сохранение в базу данных
-        // - Отправка уведомлений
-        // - Проверка бюджета и т.д.
+
 
         return route;
     }
 
-    /**
-     * Создать несколько маршрутов разных типов
-     */
+
     public void createSampleRoutes(User creator) {
         log.info("Создание примеров маршрутов для пользователя: {}", creator.getFullName());
 

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class SearchService {
 
-    // role_id = 2 — GUIDE согласно схеме БД
+
     private static final long GUIDE_ROLE_ID = 2L;
 
     private final RouteRepository      routeRepository;
@@ -28,7 +28,7 @@ public class SearchService {
         this.routePointRepository = routePointRepository;
     }
 
-    // ─────────────────────────────────────────────────────────────
+
     public List<SearchRouteResponse> searchGuideRoutes(
             String search,
             List<String> transports,
@@ -38,27 +38,27 @@ public class SearchService {
             String dateFrom, String dateTo,
             String sortBy,   String sortDir
     ) {
-        // 1. Загружаем все маршруты созданные гидами (role_id = 2)
+
         List<Route> guideRoutes = routeRepository.findByCreator_Role_RoleId(GUIDE_ROLE_ID);
 
-        // 2. Парсим даты фильтра
+
         LocalDate parsedFrom = parseDate(dateFrom);
         LocalDate parsedTo   = parseDate(dateTo);
 
-        // 3. Фильтрация
+
         List<SearchRouteResponse> result = guideRoutes.stream()
                 .map(r -> toResponse(r))
                 .filter(r -> filterMatches(r, search, transports, categories,
                         priceMin, priceMax, durMin, durMax, parsedFrom, parsedTo))
                 .collect(Collectors.toList());
 
-        // 4. Сортировка
+
         result.sort(buildComparator(sortBy, sortDir));
 
         return result;
     }
 
-    // ─────────────────────────────────────────────────────────────
+
     private boolean filterMatches(
             SearchRouteResponse r,
             String search, List<String> transports, List<String> categories,
@@ -66,7 +66,7 @@ public class SearchService {
             Integer durMin, Integer durMax,
             LocalDate parsedFrom, LocalDate parsedTo
     ) {
-        // Текстовый поиск
+
         if (search != null && !search.isBlank()) {
             String q = search.toLowerCase();
             boolean match = safeContains(r.getTitle(), q)
@@ -76,25 +76,25 @@ public class SearchService {
             if (!match) return false;
         }
 
-        // Транспорт (несколько значений — OR логика)
+
         if (transports != null && !transports.isEmpty()) {
             if (r.getTransportType() == null ||
                     !transports.contains(r.getTransportType())) return false;
         }
 
-        // Категории (несколько значений — маршрут должен иметь ХОТЯ БЫ одну из выбранных)
+
         if (categories != null && !categories.isEmpty()) {
             List<String> routeCats = r.getCategories() != null ? r.getCategories() : List.of();
             boolean hasAny = categories.stream().anyMatch(routeCats::contains);
             if (!hasAny) return false;
         }
 
-        // Цена
+
         double price = r.getTotalPrice() != null ? r.getTotalPrice().doubleValue() : 0;
         if (priceMin != null && price < priceMin) return false;
         if (priceMax != null && price > priceMax) return false;
 
-        // Длительность
+
         int dur = r.getDurationDays() != null ? r.getDurationDays() : 0;
         if (durMin != null && dur < durMin) return false;
         if (durMax != null && dur > durMax) return false;
@@ -109,7 +109,6 @@ public class SearchService {
         return true;
     }
 
-    // ─────────────────────────────────────────────────────────────
     private SearchRouteResponse toResponse(Route r) {
         SearchRouteResponse res = new SearchRouteResponse();
         res.setId(r.getRouteId());
@@ -123,14 +122,13 @@ public class SearchService {
         res.setTransportType(r.getTransportType());
         res.setTotalPrice(r.getTotalPrice());
 
-        // Данные гида
+
         if (r.getCreator() != null) {
             res.setGuideId(r.getCreator().getUserId());
             res.setGuideFullName(r.getCreator().getFullName());
             res.setGuideEmail(r.getCreator().getEmail());
         }
 
-        // Категории точек маршрута (уникальные)
         List<String> cats = routePointRepository
                 .findByRoute_RouteIdOrderByVisitOrderAsc(r.getRouteId())
                 .stream()
@@ -144,7 +142,6 @@ public class SearchService {
         return res;
     }
 
-    // ─────────────────────────────────────────────────────────────
     private Comparator<SearchRouteResponse> buildComparator(String sortBy, String sortDir) {
         Comparator<SearchRouteResponse> cmp = switch (sortBy == null ? "startDate" : sortBy) {
             case "price"    -> Comparator.comparing(r ->

@@ -26,9 +26,7 @@ public class AuthController {
 
     @Autowired private PasswordEncoder passwordEncoder;
 
-    // ─────────────────────────────────────────
-    // POST /api/auth/login
-    // ─────────────────────────────────────────
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
@@ -62,29 +60,27 @@ public class AuthController {
         }
     }
 
-    // ─────────────────────────────────────────
-    // POST /api/auth/register
-    // ─────────────────────────────────────────
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
-        // 1. Проверка уникальности email
+
         if (userRepository.existsByEmail(request.getEmail())) {
             return ResponseEntity.badRequest().body("Email уже занят");
         }
 
-        // 2. Определяем роль (по умолчанию — Клиент)
+
         String roleName = (request.getRoleName() != null)
                 ? request.getRoleName()
                 : "TRAVELER";
 
         Role role = roleRepository.findByRoleName(roleName);
 
-        // 3. Статус «Активен» по умолчанию
+
         UserStatus activeStatus = userStatusRepository.findByUserStatusName("ACTIVE")
                 .orElseThrow(() -> new RuntimeException("Статус 'Активен' не найден"));
 
-        // 4. Создаём пользователя
+
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
@@ -94,15 +90,12 @@ public class AuthController {
         user.setCreatedAt(LocalDate.now());
         userRepository.save(user);
 
-        // 5. Если роль — Клиент, создаём запись в таблице client
+
 
         return ResponseEntity.ok("Регистрация прошла успешно");
     }
 }
 
-// ─────────────────────────────────────────
-// DTO: LoginRequest
-// ─────────────────────────────────────────
 class LoginRequest {
     private String email;
     private String password;
@@ -113,14 +106,12 @@ class LoginRequest {
     public void setPassword(String password) { this.password = password; }
 }
 
-// ─────────────────────────────────────────
-// DTO: RegisterRequest
-// ─────────────────────────────────────────
+
 class RegisterRequest {
     private String email;
     private String password;
-    private String fullName;      // maps → user.full_name     // maps → user.phone
-    private String roleName;      // "Клиент" | "Курьер" | "Логист" | "Администратор"
+    private String fullName;
+    private String roleName;
 
 
 

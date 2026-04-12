@@ -216,7 +216,7 @@
 }
 @keyframes rpSpin { to { transform: rotate(360deg); } }
 
-/* Toast */
+
 .rp-toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
   background: #0f172a; color: white;

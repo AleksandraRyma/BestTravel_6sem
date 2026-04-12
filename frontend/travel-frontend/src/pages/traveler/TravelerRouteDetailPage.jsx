@@ -587,7 +587,7 @@ import {
 import { getRouteById, deleteRoute, calculateOsrmRoute } from "../../api/travelerApi";
 import "../../styles/traveler/TravelerRouteDetailPage.css";
 
-// ─── Fix Leaflet icons ────────────────────────────────────────────
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -606,7 +606,7 @@ const numberedIcon = (num, color = "#0ea5e9") =>
     iconAnchor: [16, 16],
   });
 
-// ─── Транспорт с картинками ──────────────────────────────────────
+
 const TRANSPORT = {
   WALK:    { label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png", osrm: "foot",    color: "#16a34a" },
   BIKE:    { label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png", osrm: "cycling", color: "#ca8a04" },
@@ -615,7 +615,7 @@ const TRANSPORT = {
   PLANE:   { label: "Самолёт",   icon: "https://img.icons8.com/ios/50/000000/airplane-take-off.png", osrm: "driving", color: "#ea580c" },
 };
 
-// Компонент для отображения иконки транспорта
+
 const TransportIcon = ({ type, className = "", size = 20 }) => {
   const transport = TRANSPORT[type];
   if (!transport) return null;
@@ -680,13 +680,13 @@ export default function TravelerRouteDetailPage() {
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState("");
   const [geometry, setGeometry] = useState(null);
-  const [activeTab, setTab]     = useState("info"); // info | points | participants
+  const [activeTab, setTab]     = useState("info"); 
   const [deleting, setDeleting] = useState(false);
   const [showDel,  setShowDel]  = useState(false);
   const [favorite, setFavorite] = useState(false);
   const mapRef = useRef(null);
 
-  // ─── Load route ────────────────────────────────────────────────
+
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -701,7 +701,6 @@ export default function TravelerRouteDetailPage() {
     })();
   }, [id]);
 
-  // ─── Load OSRM route geometry ──────────────────────────────────
   useEffect(() => {
     if (!route?.points || route.points.length < 2) return;
     const sorted = [...route.points].sort((a, b) => a.visitOrder - b.visitOrder);
@@ -718,7 +717,7 @@ export default function TravelerRouteDetailPage() {
       .catch(() => {});
   }, [route]);
 
-  // ─── Fit map bounds ────────────────────────────────────────────
+  
   useEffect(() => {
     if (!route?.points?.length || !mapRef.current) return;
     const map = mapRef.current;
@@ -729,7 +728,7 @@ export default function TravelerRouteDetailPage() {
     }
   }, [route, mapRef.current]);
 
-  // ─── Delete ────────────────────────────────────────────────────
+ 
   const handleDelete = async () => {
     setDeleting(true);
     try {
@@ -741,7 +740,7 @@ export default function TravelerRouteDetailPage() {
     }
   };
 
-  // ─── Print ─────────────────────────────────────────────────────
+  
   const handlePrint = () => window.print();
 
   if (loading) return (
@@ -768,13 +767,13 @@ export default function TravelerRouteDetailPage() {
 
   return (
     <>
-      {/* ═══ BACKDROP ═══════════════════════════════════════════ */}
+      {}
       <div className="rdp-overlay" onClick={() => navigate(-1)} />
 
-      {/* ═══ MODAL ══════════════════════════════════════════════ */}
+      {}
       <div className="rdp-modal" onClick={e => e.stopPropagation()}>
 
-        {/* ── Top action bar ─────────────────────────────────── */}
+        {}
         <div className="rdp-topbar">
           <button className="rdp-topbar__back" onClick={() => navigate(-1)}>
             <FiArrowLeft /> Назад
@@ -814,13 +813,13 @@ export default function TravelerRouteDetailPage() {
           </div>
         </div>
 
-        {/* ── Main content: two columns ──────────────────────── */}
+        {}
         <div className="rdp-body">
 
-          {/* ── LEFT: Info panel ─────────────────────────────── */}
+          {}
           <div className="rdp-panel">
 
-            {/* Hero header */}
+            {}
             <div className="rdp-hero">
               <div className="rdp-hero__transport" style={{ background: tr.color + "18", color: tr.color }}>
                 {tr.icon && <TransportIcon type={route.transportType} size={20} />}
@@ -861,11 +860,11 @@ export default function TravelerRouteDetailPage() {
               ))}
             </div>
 
-            {/* ─ Tab: Info ─ */}
+            {}
             {activeTab === "info" && (
               <div className="rdp-tab-content">
 
-                {/* Key stats grid */}
+                {}
                 <div className="rdp-stats">
                   <div className="rdp-stat">
                     <FiCalendar className="rdp-stat__icon" style={{ color: "#0ea5e9" }} />
@@ -918,7 +917,7 @@ export default function TravelerRouteDetailPage() {
                   </div>
                 </div>
 
-                {/* Budget card */}
+                {}
                 {(route.totalPrice != null || route.budgetLimit != null) && (
                   <div className="rdp-budget">
                     <div className="rdp-budget__header">
@@ -958,7 +957,7 @@ export default function TravelerRouteDetailPage() {
                   </div>
                 )}
 
-                {/* Description */}
+                {}
                 {route.description && (
                   <div className="rdp-desc">
                     <h4>Описание</h4>
@@ -966,7 +965,7 @@ export default function TravelerRouteDetailPage() {
                   </div>
                 )}
 
-                {/* Quick point preview */}
+                {}
                 {sorted.length > 0 && (
                   <div className="rdp-route-preview">
                     <h4>Маршрут</h4>
@@ -1028,10 +1027,10 @@ export default function TravelerRouteDetailPage() {
               </div>
             )}
 
-            {/* ─ Tab: Participants ─ */}
+            {}
             {activeTab === "participants" && (
               <div className="rdp-tab-content">
-                {/* Creator */}
+                {}
                 {route.creator && (
                   <div className="rdp-participant rdp-participant--creator">
                     <div className="rdp-participant__avatar">
@@ -1072,7 +1071,7 @@ export default function TravelerRouteDetailPage() {
             )}
           </div>
 
-          {/* ── RIGHT: Map ───────────────────────────────────── */}
+          {}
           <div className="rdp-map-wrap">
             <MapContainer
               center={mapCenter}
@@ -1085,7 +1084,7 @@ export default function TravelerRouteDetailPage() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
-              {/* Route polyline */}
+              {}
               {geometry && (
                 <Polyline
                   positions={geometry}
@@ -1143,7 +1142,7 @@ export default function TravelerRouteDetailPage() {
         </div>
       </div>
 
-      {/* ═══ DELETE CONFIRM ══════════════════════════════════════ */}
+      {}
       {showDel && (
         <div className="rdp-del-backdrop" onClick={() => setShowDel(false)}>
           <div className="rdp-del-modal" onClick={e => e.stopPropagation()}>

@@ -4,9 +4,7 @@ import com.delivry.backend.domain.entity.Route;
 import com.delivry.backend.domain.entity.User;
 import java.math.BigDecimal;
 
-/**
- * Фабрика для создания туров на общественном транспорте
- */
+
 public class TransitTourFactory extends RouteFactory {
 
     @Override

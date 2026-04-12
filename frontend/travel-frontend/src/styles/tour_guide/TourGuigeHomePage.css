@@ -24,7 +24,7 @@
   color: var(--g-text);
 }
 
-/* ─── Sidebar ─────────────────────────────────────────────────── */
+
 .guide-sidebar {
   position: fixed; top: 0; left: 0;
   width: var(--g-sidebar); height: 100vh;
@@ -74,11 +74,11 @@
 
 .guide-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 190; backdrop-filter: blur(2px); }
 
-/* ─── Main ────────────────────────────────────────────────────── */
+
 .guide-main { flex: 1; margin-left: var(--g-sidebar); display: flex; flex-direction: column; min-height: 100vh; }
 @media (max-width: 860px) { .guide-main { margin-left: 0; } }
 
-/* ─── Topbar ──────────────────────────────────────────────────── */
+
 .guide-topbar {
   display: flex; align-items: center; gap: 12px;
   padding: 16px 28px;
@@ -98,7 +98,6 @@
 }
 .guide-topbar__logout:hover { background: #fef2f2; color: #ef4444; border-color: #fecaca; }
 
-/* ─── Hero ────────────────────────────────────────────────────── */
 .guide-hero {
   background: linear-gradient(135deg, var(--g-dark) 0%, #1e3a5f 100%);
   padding: 36px 28px;
@@ -116,7 +115,7 @@
 }
 .guide-stat__label { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
-/* ─── Actions ─────────────────────────────────────────────────── */
+
 .guide-actions-section { padding: 28px; flex: 1; }
 .guide-section-title { font-size: 16px; font-weight: 800; color: var(--g-muted); letter-spacing: -0.01em; margin-bottom: 16px; text-transform: uppercase; font-size: 12px; letter-spacing: 0.08em; }
 
@@ -150,10 +149,10 @@
 .guide-action-card__arrow { font-size: 18px; color: var(--g-muted); transition: 0.15s; }
 .guide-action-card:hover .guide-action-card__arrow { color: var(--g-accent); transform: translateX(4px); }
 
-/* ─── Footer ──────────────────────────────────────────────────── */
+
 .guide-footer { padding: 20px 28px; font-size: 12px; color: #cbd5e1; text-align: center; }
 
-/* ─── Responsive ─────────────────────────────────────────────── */
+
 @media (max-width: 600px) {
   .guide-hero { padding: 24px 16px; flex-direction: column; align-items: flex-start; }
   .guide-actions-section { padding: 20px 16px; }

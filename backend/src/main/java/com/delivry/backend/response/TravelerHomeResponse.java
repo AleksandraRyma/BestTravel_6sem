@@ -3,12 +3,7 @@ package com.delivry.backend.response;
 import lombok.Data;
 import java.util.List;
 
-/**
- * ВАЖНО: эта версия совместима с оригинальным TravelerService.java
- * Не добавляем новые поля — оставляем как было чтобы не ломать компиляцию.
- * totalRoutes, totalGuideRoutes, routeCount убраны — они добавляются
- * только если полностью обновить TravelerService.getHome()
- */
+
 @Data
 public class TravelerHomeResponse {
 

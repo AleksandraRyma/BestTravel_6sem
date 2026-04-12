@@ -640,17 +640,17 @@ export default function TravelerSearchPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ── UI state ──────────────────────────────────────────────────
+
   const [sidebar,      setSidebar]      = useState(false);
   const [filtersOpen,  setFiltersOpen]  = useState(false);
 
-  // ── Data state ────────────────────────────────────────────────
+
   const [routes,    setRoutes]    = useState([]);
   const [loading,   setLoading]   = useState(false);
   const [error,     setError]     = useState("");
   const [total,     setTotal]     = useState(0);
 
-  // ── Filter state ──────────────────────────────────────────────
+ 
   const [search,       setSearch]       = useState("");
   const [transports,   setTransports]   = useState([]);
   const [categories,   setCategories]   = useState([]);
@@ -662,12 +662,12 @@ export default function TravelerSearchPage() {
   const [dateTo,       setDateTo]       = useState("");
   const [sortBy,       setSortBy]       = useState("startDate_asc");
 
-  // ── Favorites state (local) ───────────────────────────────────
+  
   const [favorites, setFavorites] = useState(new Set());
   const [saved,     setSaved]     = useState(new Set());
   const [toast,     setToast]     = useState("");
 
-  // ── Fetch from backend ────────────────────────────────────────
+  
   const fetchRoutes = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -706,7 +706,7 @@ export default function TravelerSearchPage() {
     return () => clearTimeout(timer);
   }, [fetchRoutes]);
 
-  // ── Toggle helpers ────────────────────────────────────────────
+
   const toggleTransport = (v) =>
     setTransports(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v]);
   const toggleCategory  = (v) =>
@@ -723,7 +723,7 @@ export default function TravelerSearchPage() {
   const activeFilterCount = transports.length + categories.length +
     [priceMin,priceMax,durMin,durMax,dateFrom,dateTo].filter(Boolean).length;
 
-  // ── Favorites ─────────────────────────────────────────────────
+
   const toggleFav = async (routeId) => {
     const next = new Set(favorites);
     if (next.has(routeId)) {
@@ -749,11 +749,11 @@ export default function TravelerSearchPage() {
     setTimeout(() => setToast(""), 2800);
   };
 
-  // ─────────────────────────────────────────────────────────────
+ 
   return (
     <div className="tsp-root">
 
-      {/* ── SIDEBAR ─────────────────────────────────────────── */}
+      {}
       <aside className={`tsp-sidebar ${sidebar ? "tsp-sidebar--open" : ""}`}>
         <div className="tsp-sidebar__brand">
           <span>✈️</span>
@@ -781,7 +781,7 @@ export default function TravelerSearchPage() {
       </aside>
       {sidebar && <div className="tsp-overlay" onClick={() => setSidebar(false)} />}
 
-      {/* ── MAIN ─────────────────────────────────────────────── */}
+      {}
       <main className="tsp-main">
 
         {/* Topbar */}
@@ -840,11 +840,11 @@ export default function TravelerSearchPage() {
           </button>
         </div>
 
-        {/* ── Filter panel ────────────────────────────────── */}
+        {}
         {filtersOpen && (
           <div className="tsp-filters">
 
-            {/* Transport — checkboxes */}
+            {}
             <div className="tsp-filter-section">
               <h4 className="tsp-filter-section__title">
                 <FiTruck /> Транспорт
@@ -873,7 +873,7 @@ export default function TravelerSearchPage() {
               </div>
             </div>
 
-            {/* Categories — checkboxes */}
+            {}
             <div className="tsp-filter-section">
               <h4 className="tsp-filter-section__title">
                 🗂 Категории
@@ -992,7 +992,7 @@ export default function TravelerSearchPage() {
           )}
         </div>
 
-        {/* ── Results ──────────────────────────────────────── */}
+        {}
         {error ? (
           <div className="tsp-state">
             <div className="tsp-state__icon">⚠️</div>

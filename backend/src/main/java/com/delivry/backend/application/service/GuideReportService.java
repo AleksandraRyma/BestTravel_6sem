@@ -37,8 +37,7 @@ public class GuideReportService {
         this.participantRepo = participantRepo;
     }
 
-    // ─────────────────────────────────────────────────────────
-    public byte[] generate(User author, String type, String dateFrom, String dateTo)
+        public byte[] generate(User author, String type, String dateFrom, String dateTo)
             throws Exception {
 
         LocalDate from = parseDate(dateFrom);
@@ -78,10 +77,7 @@ public class GuideReportService {
         }
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 1. ПОПУЛЯРНЫЕ ТОЧКИ ИНТЕРЕСА
-    // ═════════════════════════════════════════════════════════
-    private void buildPopularPoi(XSSFWorkbook wb, Styles s,
+       private void buildPopularPoi(XSSFWorkbook wb, Styles s,
                                  List<Route> routes, List<RoutePoint> allPoints, User author,
                                  LocalDate from, LocalDate to) {
 
@@ -98,11 +94,11 @@ public class GuideReportService {
                 "Топ мест по количеству включений в маршруты",
                 author, from, to);
 
-        // Шапка таблицы
+
         String[] headers = {"#", "Название точки", "Категория", "Включений в маршруты", "Ср. рейтинг"};
         writeTableHeader(sheet, s, r++, headers);
 
-        // Считаем по pointOfInterestId
+
         Set<Long> routeIds = routes.stream().map(Route::getRouteId).collect(Collectors.toSet());
         Map<Long, Long> poiCounts = allPoints.stream()
                 .filter(rp -> routeIds.contains(rp.getRoute().getRouteId()))
@@ -147,10 +143,7 @@ public class GuideReportService {
         }
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 2. АНАЛИЗ ТРАНСПОРТА
-    // ═════════════════════════════════════════════════════════
-    private void buildTransportAnalysis(XSSFWorkbook wb, Styles s,
+        private void buildTransportAnalysis(XSSFWorkbook wb, Styles s,
                                         List<Route> routes, User author, LocalDate from, LocalDate to) {
 
         XSSFSheet sheet = wb.createSheet("Анализ транспорта");
@@ -204,10 +197,7 @@ public class GuideReportService {
         }
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 3. СТОИМОСТЬ И ДЛИТЕЛЬНОСТЬ
-    // ═════════════════════════════════════════════════════════
-    private void buildPriceDuration(XSSFWorkbook wb, Styles s,
+        private void buildPriceDuration(XSSFWorkbook wb, Styles s,
                                     List<Route> routes, User author, LocalDate from, LocalDate to) {
 
         XSSFSheet sheet = wb.createSheet("Цена и длительность");
@@ -219,7 +209,7 @@ public class GuideReportService {
                 "Средние, минимальные и максимальные значения — ценовые диапазоны",
                 author, from, to);
 
-        // Общая статистика
+
         writeTableHeader(sheet, s, r++, "Показатель", "Среднее", "Минимум", "Максимум", "Медиана");
 
         DoubleSummaryStatistics priceStats = routes.stream()
@@ -241,9 +231,9 @@ public class GuideReportService {
                 round2(durStats.getAverage()), round2(durStats.getMin()),
                 round2(durStats.getMax()), round2(medianDuration));
 
-        r++; // пустая строка
+        r++;
 
-        // Ценовые диапазоны
+
         writeTableHeader(sheet, s, r++, "Ценовой диапазон", "Количество маршрутов", "Доля %", "", "");
         long total = routes.size();
         long free  = routes.stream().filter(rt -> rt.getTotalPrice() == null || rt.getTotalPrice().doubleValue() == 0).count();
@@ -265,10 +255,7 @@ public class GuideReportService {
         }
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 4. ПОПУЛЯРНЫЕ НАПРАВЛЕНИЯ
-    // ═════════════════════════════════════════════════════════
-    private void buildDestinations(XSSFWorkbook wb, Styles s,
+       private void buildDestinations(XSSFWorkbook wb, Styles s,
                                    List<Route> routes, User author, LocalDate from, LocalDate to) {
 
         XSSFSheet sheet = wb.createSheet("Направления");
@@ -306,10 +293,7 @@ public class GuideReportService {
         if (sorted.isEmpty()) writeEmptyRow(sheet, s, r, "Нет данных о направлениях");
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 5. АНАЛИЗ ИЗБРАННОГО
-    // ═════════════════════════════════════════════════════════
-    private void buildFavoritesAnalysis(XSSFWorkbook wb, Styles s,
+        private void buildFavoritesAnalysis(XSSFWorkbook wb, Styles s,
                                         List<Route> routes, List<RoutePoint> allPoints, User author,
                                         LocalDate from, LocalDate to) {
 
@@ -322,7 +306,7 @@ public class GuideReportService {
                 "Характеристики маршрутов добавленных в избранное vs обычных",
                 author, from, to);
 
-        // Маршруты из избранного
+
         Set<Long> favRouteIds = favoriteRepo.findAll().stream()
                 .map(fav -> fav.getRoute().getRouteId())
                 .collect(Collectors.toSet());
@@ -354,7 +338,7 @@ public class GuideReportService {
         }
 
         r++;
-        // Транспорт в избранных
+
         writeTableHeader(sheet, s, r++, "Транспорт", "В избранном", "Всего маршрутов", "% от типа");
         Map<String, Long> favByTransport = favRoutes.stream()
                 .filter(rt -> rt.getTransportType() != null)
@@ -378,10 +362,7 @@ public class GuideReportService {
         }
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 6. АКТИВНОСТЬ ПОЛЬЗОВАТЕЛЕЙ
-    // ═════════════════════════════════════════════════════════
-    private void buildUserActivity(XSSFWorkbook wb, Styles s,
+        private void buildUserActivity(XSSFWorkbook wb, Styles s,
                                    List<User> users, List<Route> routes, User author,
                                    LocalDate from, LocalDate to) {
 
@@ -394,7 +375,7 @@ public class GuideReportService {
                 "Регистрации по месяцам, роли, количество маршрутов на пользователя",
                 author, from, to);
 
-        // Регистрации по месяцам (текущий год)
+
         writeTableHeader(sheet, s, r++,
                 "Месяц", "Янв", "Фев", "Мар", "Апр", "Май", "Июн",
                 "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек");
@@ -434,7 +415,7 @@ public class GuideReportService {
 
         r++;
 
-        // Топ активных пользователей по количеству маршрутов
+
         writeTableHeader(sheet, s, r++, "#", "Пользователь (email)", "Роль", "Маршрутов создано", "");
         Map<Long, Long> routesByUser = routes.stream()
                 .filter(rt -> rt.getCreator() != null)
@@ -458,10 +439,7 @@ public class GuideReportService {
         }
     }
 
-    // ═════════════════════════════════════════════════════════
-    // 7. РЕЙТИНГИ ПО КАТЕГОРИЯМ
-    // ═════════════════════════════════════════════════════════
-    private void buildRatings(XSSFWorkbook wb, Styles s,
+        private void buildRatings(XSSFWorkbook wb, Styles s,
                               List<RoutePoint> allPoints, User author, LocalDate from, LocalDate to) {
 
         XSSFSheet sheet = wb.createSheet("Рейтинги по категориям");
@@ -516,9 +494,6 @@ public class GuideReportService {
         if (sortedCats.isEmpty()) writeEmptyRow(sheet, s, r, "Нет данных о точках интереса");
     }
 
-    // ═════════════════════════════════════════════════════════
-    // Вспомогательные методы
-    // ═════════════════════════════════════════════════════════
 
     private int writeReportHeader(XSSFSheet sheet, Styles s, int startRow,
                                   String title, String subtitle, User author, LocalDate from, LocalDate to) {
@@ -624,14 +599,11 @@ public class GuideReportService {
     private String nvl(String s, String def)   { return (s != null && !s.isBlank()) ? s : def; }
     private String nvl2(LocalDate d, String def) { return d != null ? d.toString() : def; }
 
-    // ─────────────────────────────────────────────────────────
-    // Стили POI
-    // ─────────────────────────────────────────────────────────
     private static class Styles {
         final XSSFCellStyle title, header, alt, metaKey;
 
         Styles(XSSFWorkbook wb) {
-            // Title
+
             XSSFFont titleFont = wb.createFont();
             titleFont.setBold(true); titleFont.setFontHeightInPoints((short)14);
             titleFont.setColor(IndexedColors.WHITE.getIndex());
@@ -640,7 +612,7 @@ public class GuideReportService {
             title.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
             title.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-            // Header
+
             XSSFFont headerFont = wb.createFont();
             headerFont.setBold(true); headerFont.setFontHeightInPoints((short)11);
             headerFont.setColor(IndexedColors.WHITE.getIndex());
@@ -651,12 +623,12 @@ public class GuideReportService {
             header.setAlignment(HorizontalAlignment.CENTER);
             header.setBorderBottom(BorderStyle.THIN);
 
-            // Alternating row
+
             alt = wb.createCellStyle();
             alt.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
             alt.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-            // Meta key (bold)
+
             XSSFFont metaFont = wb.createFont();
             metaFont.setItalic(true);
             metaKey = wb.createCellStyle();

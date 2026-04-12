@@ -17,7 +17,7 @@ import {
 } from "../../api/travelerApi";
 import "../../styles/traveler/TravelerCreateRoutePage.css";
 
-// ─── Fix Leaflet icons ────────────────────────────────────────────
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -36,13 +36,7 @@ const makeNumberedIcon = (num, color = "#0ea5e9") =>
     iconAnchor: [14, 14],
   });
 
-// const TRANSPORT_OPTIONS = [
-//   { value: "WALK",    label: "Пешком",    icon: "🚶", costPer100km: 0  },
-//   { value: "BIKE",    label: "Велосипед", icon: "🚴", costPer100km: 0  },
-//   { value: "CAR",     label: "Авто",      icon: "🚗", costPer100km: 8  },
-//   { value: "TRANSIT", label: "Транспорт", icon: "🚌", costPer100km: 3  },
-//   { value: "PLANE",   label: "Самолёт",   icon: "✈️", costPer100km: 15 },
-// ];
+
 
 const TRANSPORT_OPTIONS = [
   { value: "WALK",    label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png", costPer100km: 0 },
@@ -56,21 +50,17 @@ const OSRM_PROFILE = {
   WALK: "foot", BIKE: "cycling", CAR: "driving", TRANSIT: "driving", PLANE: "driving",
 };
 
-// ─────────────────────────────────────────────────────────────────
-// КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ 1:
-// Spring Boot по умолчанию сериализует LocalDate как массив [2026, 3, 9].
-// Эта функция принимает любой формат и возвращает "yyyy-MM-dd" строку.
-// ─────────────────────────────────────────────────────────────────
+
 function toDateStr(val) {
   if (!val) return "";
 
-  // Массив [year, month, day] от Spring без jackson-datatype-jsr310
+  
   if (Array.isArray(val)) {
     const [y, m, d] = val;
     return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
   }
 
-  // Строка "2026-04-10T00:00:00" или "2026-04-10"
+
   if (typeof val === "string") {
     return val.slice(0, 10);
   }
@@ -78,7 +68,7 @@ function toDateStr(val) {
   return "";
 }
 
-// Аналогично для datetime-local инпута (принимает [2026,4,10,14,30] или строку)
+
 function toDateTimeLocal(val) {
   if (!val) return "";
 
@@ -94,26 +84,23 @@ function toDateTimeLocal(val) {
   return "";
 }
 
-// ─────────────────────────────────────────────────────────────────
-// КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ 2:
-// Безопасно извлекает строку ошибки из любого формата ответа
-// ─────────────────────────────────────────────────────────────────
+
 function extractErrorMessage(e) {
-  // Axios error с ответом сервера
+ 
   if (e?.response?.data) {
     const d = e.response.data;
-    // Spring Boot error object: { message, error, status, ... }
+
     if (typeof d === "object" && d !== null) {
       return d.message || d.error || `Ошибка сервера (${d.status || e.response.status})`;
     }
     if (typeof d === "string") return d;
   }
-  // Network error
+  
   if (e?.message) return e.message;
   return "Неизвестная ошибка";
 }
 
-// ─── Map: click to add point ──────────────────────────────────────
+
 function weatherCodeMeta(code) {
   if ([0].includes(code)) return { icon: "☀", label: "Ясно" };
   if ([1, 2].includes(code)) return { icon: "⛅", label: "Переменная облачность" };
@@ -151,7 +138,6 @@ function MapClickHandler({ onMapClick }) {
   return null;
 }
 
-// ─── Map: fit bounds after edit-mode points load ──────────────────
 function MapFitter({ points }) {
   const map    = useMap();
   const fitted = useRef(false);
@@ -171,17 +157,15 @@ function MapFitter({ points }) {
   return null;
 }
 
-// ═════════════════════════════════════════════════════════════════
+
 export default function TravelerCreateRoutePage() {
   const navigate        = useNavigate();
   const { id: routeId } = useParams();
   const isEdit          = Boolean(routeId);
 
-  // ── Init loading state ────────────────────────────────────────
   const [initLoading, setInitLoading] = useState(isEdit);
   const [initError,   setInitError]   = useState("");
 
-  // ── Form fields ───────────────────────────────────────────────
   const [title,       setTitle]       = useState("");
   const [description, setDescription] = useState("");
   const [startDate,   setStartDate]   = useState("");
@@ -189,7 +173,7 @@ export default function TravelerCreateRoutePage() {
   const [transport,   setTransport]   = useState("CAR");
   const [budgetLimit, setBudgetLimit] = useState("");
 
-  // ── Points ────────────────────────────────────────────────────
+
   const [points,        setPoints]        = useState([]);
   const [searchQuery,   setSearchQuery]   = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -197,27 +181,22 @@ export default function TravelerCreateRoutePage() {
   const [activeSearch,  setActiveSearch]  = useState(false);
   const [weatherByPoint, setWeatherByPoint] = useState({});
 
-  // ── OSRM ──────────────────────────────────────────────────────
   const [routeGeometry, setRouteGeometry] = useState(null);
   const [routeStats,    setRouteStats]    = useState(null);
   const [calcLoading,   setCalcLoading]   = useState(false);
 
-  // ── Participants ──────────────────────────────────────────────
   const [existingParticipants, setExistingParticipants] = useState([]);
   const [inviteEmail,   setInviteEmail]   = useState("");
   const [inviteError,   setInviteError]   = useState("");
   const [pendingInvites, setPendingInvites] = useState([]);
 
-  // ── UI ────────────────────────────────────────────────────────
   const [saving,      setSaving]      = useState(false);
   const [saveError,   setSaveError]   = useState("");   // всегда строка!
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [savedId,     setSavedId]     = useState(null);
   const [activeTab,   setActiveTab]   = useState("map");
 
-  // ──────────────────────────────────────────────────────────────
-  // LOAD EXISTING DATA (edit mode)
-  // ──────────────────────────────────────────────────────────────
+
   useEffect(() => {
     if (!isEdit) return;
 
@@ -226,17 +205,15 @@ export default function TravelerCreateRoutePage() {
 
     getRouteById(routeId)
       .then(data => {
-        // ── Скалярные поля ──────────────────────────────────
+
         setTitle(data.title ?? "");
         setDescription(data.description ?? "");
         setTransport(data.transportType ?? "CAR");
         setBudgetLimit(data.budgetLimit != null ? String(data.budgetLimit) : "");
 
-        // ── ДАТЫ: конвертируем из массива или строки ────────
         setStartDate(toDateStr(data.startDate));
         setEndDate(toDateStr(data.endDate));
 
-        // ── Точки маршрута ──────────────────────────────────
         if (Array.isArray(data.points) && data.points.length > 0) {
           const sorted = [...data.points].sort((a, b) => (a.visitOrder ?? 0) - (b.visitOrder ?? 0));
           setPoints(sorted.map((p, i) => ({
@@ -250,7 +227,6 @@ export default function TravelerCreateRoutePage() {
           })));
         }
 
-        // ── Участники ───────────────────────────────────────
         if (Array.isArray(data.participants) && data.participants.length > 0) {
           setExistingParticipants(data.participants);
         }
@@ -261,9 +237,6 @@ export default function TravelerCreateRoutePage() {
       .finally(() => setInitLoading(false));
   }, [routeId, isEdit]);
 
-  // ──────────────────────────────────────────────────────────────
-  // OSRM recalculate
-  // ──────────────────────────────────────────────────────────────
   useEffect(() => {
     if (points.length < 2) {
       setRouteGeometry(null);
@@ -400,9 +373,7 @@ export default function TravelerCreateRoutePage() {
     });
   }, [points, weatherByPoint, startDate]);
 
-  // ──────────────────────────────────────────────────────────────
-  // SEARCH
-  // ──────────────────────────────────────────────────────────────
+
   const handleSearch = useCallback(async () => {
     if (!searchQuery.trim()) return;
     setSearchLoading(true);
@@ -453,9 +424,7 @@ export default function TravelerCreateRoutePage() {
     setPoints(next);
   };
 
-  // ──────────────────────────────────────────────────────────────
-  // INVITE
-  // ──────────────────────────────────────────────────────────────
+ 
   const addInvite = () => {
     const email = inviteEmail.trim();
     if (!email) return;
@@ -465,18 +434,14 @@ export default function TravelerCreateRoutePage() {
     setInviteError("");
   };
 
-  // ──────────────────────────────────────────────────────────────
-  // COMPUTED
-  // ──────────────────────────────────────────────────────────────
+ 
   const durationDays = startDate && endDate
     ? Math.max(1, Math.ceil((new Date(endDate) - new Date(startDate)) / 86400000) + 1)
     : null;
   const estimatedCost = routeStats ? parseFloat(routeStats.costEur) : 0;
   const overBudget    = budgetLimit && estimatedCost > parseFloat(budgetLimit);
 
-  // ──────────────────────────────────────────────────────────────
-  // SAVE
-  // ──────────────────────────────────────────────────────────────
+
   const handleSave = async () => {
     if (!title.trim())          { setSaveError("Введите название маршрута"); return; }
     if (!startDate || !endDate) { setSaveError("Выберите даты"); return; }
@@ -522,16 +487,14 @@ export default function TravelerCreateRoutePage() {
 
       setSaveSuccess(true);
     } catch (e) {
-      // ИСПРАВЛЕНИЕ 2: всегда строка, не объект
+    
       setSaveError(extractErrorMessage(e));
     } finally {
       setSaving(false);
     }
   };
 
-  // ──────────────────────────────────────────────────────────────
-  // EARLY RETURNS
-  // ──────────────────────────────────────────────────────────────
+
   if (initLoading) return (
     <div className="crc-root" style={{ display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ textAlign:"center", color:"#64748b" }}>
@@ -577,13 +540,11 @@ export default function TravelerCreateRoutePage() {
 
   const mapCenter = points.length > 0 ? [points[0].lat, points[0].lon] : [55.75, 37.61];
 
-  // ──────────────────────────────────────────────────────────────
-  // RENDER
-  // ──────────────────────────────────────────────────────────────
+  
   return (
     <div className="crc-root">
 
-      {/* ── Header ──────────────────────────────────────────── */}
+      {}
       <header className="crc-header">
         <button className="crc-back" onClick={() => navigate(-1)}>
           <FiArrowLeft />
@@ -606,7 +567,7 @@ export default function TravelerCreateRoutePage() {
         </button>
       </header>
 
-      {/* ИСПРАВЛЕНИЕ 2: saveError гарантированно строка */}
+      {}
       {saveError && (
         <div className="crc-error-bar">
           <FiInfo /> {saveError}
@@ -616,7 +577,7 @@ export default function TravelerCreateRoutePage() {
 
       <div className="crc-body">
 
-        {/* ── Left panel ────────────────────────────────────── */}
+        {}
         <aside className="crc-panel">
           <div className="crc-tabs">
             {[
@@ -634,7 +595,7 @@ export default function TravelerCreateRoutePage() {
             ))}
           </div>
 
-          {/* ── Tab: Points ──────────────────────────────── */}
+          {}
           {activeTab === "map" && (
             <div className="crc-tab-content">
               <div className="crc-search-box">
@@ -776,7 +737,7 @@ export default function TravelerCreateRoutePage() {
             </div>
           )}
 
-          {/* ── Tab: Settings ────────────────────────────── */}
+          {}
           {activeTab === "settings" && (
             <div className="crc-tab-content">
               <div className="crc-form-group">
@@ -805,16 +766,7 @@ export default function TravelerCreateRoutePage() {
 
               <div className="crc-form-group">
                 <label><FiTruck /> Тип транспорта</label>
-                {/* <div className="crc-transport-grid">
-                  {TRANSPORT_OPTIONS.map(t => (
-                    <button key={t.value}
-                      className={`crc-transport-btn ${transport === t.value ? "active" : ""}`}
-                      onClick={() => setTransport(t.value)}>
-                      <span className="crc-transport-btn__icon">{t.icon}</span>
-                      <span>{t.label}</span>
-                    </button>
-                  ))}
-                </div> */
+                {
                 
                 <div className="crc-transport-grid">
   {TRANSPORT_OPTIONS.map(t => (
@@ -894,7 +846,7 @@ export default function TravelerCreateRoutePage() {
             </div>
           )}
 
-          {/* ── Tab: Participants ─────────────────────────── */}
+          {}
           {activeTab === "participants" && (
             <div className="crc-tab-content">
               {isEdit && existingParticipants.length > 0 && (
@@ -956,7 +908,7 @@ export default function TravelerCreateRoutePage() {
           )}
         </aside>
 
-        {/* ── Map ─────────────────────────────────────────── */}
+        {}
         <div className="crc-map-wrapper">
           <MapContainer
             center={mapCenter}
@@ -968,13 +920,13 @@ export default function TravelerCreateRoutePage() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {/* Автоподбор масштаба после загрузки точек */}
+            {}
             <MapFitter points={points} />
 
-            {/* Клик на карту = новая точка */}
+            {}
             <MapClickHandler onMapClick={addPointFromMap} />
 
-            {/* Линия маршрута OSRM */}
+            {}
             {routeGeometry && (
               <Polyline
                 positions={routeGeometry}
@@ -982,7 +934,7 @@ export default function TravelerCreateRoutePage() {
               />
             )}
 
-            {/* Маркеры точек */}
+            {}
             {points.map((pt, idx) => (
               <Marker
                 key={`${pt.id}-${pt.lat}-${pt.lon}`}
@@ -1041,17 +993,7 @@ export default function TravelerCreateRoutePage() {
             </div>
           )}
 
-          {/* {routeStats && !calcLoading && (
-            <div className="crc-map-stats">
-              <span>📍 {routeStats.distanceKm} км</span>
-              <span><FiClock /> {routeStats.durationH} ч</span>
-              <span>💶 {routeStats.costEur} €</span>
-              {(() => {
-                const opt = TRANSPORT_OPTIONS.find(t => t.value === transport);
-                return opt ? <span>{opt.icon} {opt.label}</span> : null;
-              })()}
-            </div>
-          )} */
+          {
           routeStats && !calcLoading && (
   <div className="crc-map-stats">
     <span>📍 {routeStats.distanceKm} км</span>

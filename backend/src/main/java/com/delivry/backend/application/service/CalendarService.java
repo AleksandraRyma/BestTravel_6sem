@@ -28,23 +28,19 @@ public class CalendarService {
         this.userRepository        = userRepository;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Все маршруты пользователя (созданные + те, где он участник)
-    // как события для FullCalendar
-    // ─────────────────────────────────────────────────────────────
     @Transactional(readOnly = true)
     public List<CalendarEventResponse> getCalendarEvents(Long userId) {
-        // 1. Маршруты, которые пользователь создал
+
         List<Route> created = routeRepository.findByCreator_UserId(userId);
 
-        // 2. Маршруты, в которых пользователь является участником (ACCEPTED)
+
         List<Route> joined = participantRepository
                 .findByUser_UserIdAndParticipantStatus_Name(userId, "ACCEPTED")
                 .stream()
                 .map(RouteParticipant::getRoute)
                 .collect(Collectors.toList());
 
-        // Объединяем, убираем дубликаты по id
+
         List<Route> all = created;
         joined.stream()
                 .filter(r -> created.stream().noneMatch(c -> c.getRouteId().equals(r.getRouteId())))
@@ -56,13 +52,7 @@ public class CalendarService {
                 .collect(Collectors.toList());
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Добавить маршрут в календарь
-    // (у нас маршруты уже являются событиями, поэтому просто
-    //  проверяем доступ и возвращаем ОК; при желании можно
-    //  добавить отдельную таблицу calendar_entry)
-    // ─────────────────────────────────────────────────────────────
-    public void addToCalendar(Long userId, Long routeId) {
+        public void addToCalendar(Long userId, Long routeId) {
         Route route = routeRepository.findById(routeId)
                 .orElseThrow(() -> new EntityNotFoundException("Маршрут не найден"));
 
@@ -75,18 +65,10 @@ public class CalendarService {
         if (!isCreator && !isParticipant) {
             throw new RuntimeException("Нет доступа к этому маршруту");
         }
-        // Маршрут уже доступен в календаре (getCalendarEvents вернёт его)
-        // Если нужна отдельная отметка — добавьте поле in_calendar в таблицу route
-    }
+           }
 
-    // ─────────────────────────────────────────────────────────────
-    // Убрать маршрут из отображения в календаре
-    // ─────────────────────────────────────────────────────────────
-    public void removeFromCalendar(Long userId, Long routeId) {
-        // Аналогично — здесь можно хранить список скрытых маршрутов
-        // в отдельной таблице hidden_calendar_entry(user_id, route_id)
-        // Для MVP просто проверяем что маршрут существует
-        routeRepository.findById(routeId)
+       public void removeFromCalendar(Long userId, Long routeId) {
+               routeRepository.findById(routeId)
                 .orElseThrow(() -> new EntityNotFoundException("Маршрут не найден"));
     }
 

@@ -27,14 +27,14 @@ const RegisterForm = () => {
   const [success, setSuccess] = useState(false);
   const [countdown, setCountdown] = useState(3);
 
-  // ───────────── Валидация в реальном времени ─────────────
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Обновляем форму
+  
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Проверка ФИО (только буквы)
+
     if (["firstName", "lastName", "middleName"].includes(name)) {
       setErrors((prev) => ({
         ...prev,
@@ -45,7 +45,6 @@ const RegisterForm = () => {
       }));
     }
 
-    // Проверка пароля
     if (name === "password") {
       setErrors((prev) => ({
         ...prev,
@@ -57,7 +56,7 @@ const RegisterForm = () => {
       }));
     }
 
-    // Email валидируем простым regex
+
     if (name === "email") {
       setErrors((prev) => ({
         ...prev,
@@ -69,11 +68,11 @@ const RegisterForm = () => {
     }
   };
 
-  // ───────────── Отправка формы ─────────────
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Проверка на ошибки перед отправкой
+   
     if (Object.values(errors).some((err) => err) || !formData.email || !formData.password || !formData.firstName || !formData.lastName) {
       alert("Исправьте ошибки перед отправкой");
       return;
@@ -98,7 +97,7 @@ try {
     setErrors((prev) => ({ ...prev, email: res }));
   }
 } catch (err) {
-  // err.response.data содержит сообщение от Spring
+
   const message = err.response?.data || "Ошибка сервера";
   setErrors((prev) => ({ ...prev, email: message }));
 }
@@ -106,13 +105,13 @@ try {
 
   };
 
-  // ───────────── Обратный отсчёт после успешной регистрации ─────────────
+  
   useEffect(() => {
     if (success && countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
     } else if (success && countdown === 0) {
-      navigate("/login"); // редирект на страницу авторизации
+      navigate("/login"); 
     }
   }, [success, countdown, navigate]);
 

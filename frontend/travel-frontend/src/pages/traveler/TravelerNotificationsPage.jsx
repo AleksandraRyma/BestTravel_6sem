@@ -674,7 +674,7 @@ import {
   respondToInvite, getRouteById,
 } from "../../api/travelerApi";
 
-// Получить ID текущего пользователя из JWT токена
+
 function getCurrentUserId() {
   try {
     const token = localStorage.getItem("token");
@@ -686,7 +686,7 @@ function getCurrentUserId() {
   }
 }
 
-// Получить routeId маршрутов где пользователь PENDING
+
 async function getPendingRouteIds() {
   try {
     const { default: axiosClient } = await import("../../api/axiosClient");
@@ -698,7 +698,7 @@ async function getPendingRouteIds() {
 }
 import "../../styles/traveler/TravelerNotificationsPage.css";
 
-// ─── Sidebar nav ──────────────────────────────────────────────────
+
 const NAV = [
   { path: "/traveler",               icon: <FiHome />,     label: "Главная"         },
   { path: "/traveler/my-routes",     icon: <FiMap />,      label: "Мои маршруты"    },
@@ -712,7 +712,7 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль"         },
 ];
 
-// ─── Транспорт с картинками ──────────────────────────────────────
+
 const TRANSPORT = {
   WALK:    { label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png" },
   BIKE:    { label: "Велосипед", icon: "https://img.icons8.com/ios/50/000000/bicycle.png" },
@@ -721,7 +721,7 @@ const TRANSPORT = {
   PLANE:   { label: "Самолёт",   icon: "https://img.icons8.com/ios/50/000000/airplane-take-off.png" },
 };
 
-// Компонент для отображения иконки транспорта
+
 const TransportDisplay = ({ type }) => {
   const transport = TRANSPORT[type];
   if (!transport) return <span>{type}</span>;
@@ -738,7 +738,7 @@ const TransportDisplay = ({ type }) => {
   );
 };
 
-// Определяем тип уведомления по тексту сообщения.
+
 function detectType(msg = "") {
   const m = msg.toLowerCase();
   if (m.includes("принял") && m.includes("приглашение")) return "accepted";
@@ -748,7 +748,7 @@ function detectType(msg = "") {
   return "info";
 }
 
-// Извлекаем routeId из текста сообщения
+
 function extractRouteId(msg = "") {
   const m = msg.match(/маршрут[еу]?\s+[«"].*?[»"]\s*\(id:\s*(\d+)\)/i);
   return m ? Number(m[1]) : null;
@@ -775,7 +775,7 @@ const TYPE_META = {
   info:     { icon: <FiBell />,        color: "#8b5cf6", bg: "#f5f3ff", label: "Уведомление"   },
 };
 
-// MOCK данных
+
 const MOCK = [
   {
     id: 1, message: 'Вас пригласили в маршрут «Тур по Европе» (организатор: Алексей Иванов)',
@@ -823,7 +823,7 @@ export default function TravelerNotificationsPage() {
   const [responding, setResponding] = useState({});
   const clickTimer = useRef(null);
 
-  // ── Load currentUserId on mount ─────────────────────────────
+ 
   useEffect(() => {
     const uid = getCurrentUserId();
     if (uid) {
@@ -837,7 +837,7 @@ export default function TravelerNotificationsPage() {
     }
   }, []);
 
-  // ── Load notifications ───────────────────────────────────────
+  
   const load = async () => {
     setLoading(true);
     try {
@@ -877,18 +877,18 @@ export default function TravelerNotificationsPage() {
 
   useEffect(() => { load(); }, []);
 
-  // ── Unread count ─────────────────────────────────────────────
+ 
   const unreadCount = items.filter(n => !n.read).length;
   const inviteCount = items.filter(n => !n.read && detectType(n.message) === "invite").length;
 
-  // ── Filter ───────────────────────────────────────────────────
+  
   const filtered = items.filter(n => {
     if (filter === "unread") return !n.read;
     if (filter === "invite") return detectType(n.message) === "invite";
     return true;
   });
 
-  // ── Mark read ────────────────────────────────────────────────
+  
   const markRead = async (id) => {
     setItems(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
     try { await markNotificationRead(id); } catch {}
@@ -899,7 +899,7 @@ export default function TravelerNotificationsPage() {
     try { await markAllNotificationsRead(); } catch {}
   };
 
-  // ── Row click (single=mark read, double=preview) ─────────────
+  
   const handleRowClick = (notif) => {
     if (clickTimer.current) {
       clearTimeout(clickTimer.current);
@@ -917,7 +917,7 @@ export default function TravelerNotificationsPage() {
     }
   };
 
-  // ── Accept / Reject invite ───────────────────────────────────
+  
   const handleRespond = async (notif, status) => {
     const routeId = notif.routeId;
     if (!routeId) {
@@ -964,7 +964,7 @@ export default function TravelerNotificationsPage() {
   return (
     <div className="tnp-root">
 
-      {/* ══ SIDEBAR ══════════════════════════════════════════════ */}
+      {}
       <aside className={`tnp-sidebar ${sidebar ? "tnp-sidebar--open" : ""}`}>
         <div className="tnp-sidebar__brand">
           <span>✈️</span>
@@ -1003,10 +1003,10 @@ export default function TravelerNotificationsPage() {
 
       {sidebar && <div className="tnp-overlay" onClick={() => setSidebar(false)} />}
 
-      {/* ══ MAIN ═════════════════════════════════════════════════ */}
+      {}
       <main className="tnp-main">
 
-        {/* ── Topbar ─────────────────────────────────────────── */}
+        {}
         <header className="tnp-topbar">
           <button className="tnp-burger" onClick={() => setSidebar(true)}><FiMenu /></button>
           <div className="tnp-topbar__title">
@@ -1028,7 +1028,7 @@ export default function TravelerNotificationsPage() {
           </div>
         </header>
 
-        {/* ── Filter tabs ─────────────────────────────────────── */}
+        {}
         <div className="tnp-filters">
           {[
             { id: "all",    label: "Все",         count: items.length },
@@ -1048,12 +1048,12 @@ export default function TravelerNotificationsPage() {
           ))}
         </div>
 
-        {/* ── Hint ────────────────────────────────────────────── */}
+        {}
         <p className="tnp-hint">
           Одиночный клик — отметить прочитанным &nbsp;·&nbsp; Двойной клик — просмотр маршрута
         </p>
 
-        {/* ── List ────────────────────────────────────────────── */}
+        {}
         <div className="tnp-list">
           {loading ? (
             <div className="tnp-state">
@@ -1180,7 +1180,7 @@ export default function TravelerNotificationsPage() {
                       </div>
                     )}
 
-                    {/* Responded status */}
+                    {}
                     {(notif.responded || (notif.participantStatus && notif.participantStatus !== "PENDING")) && (
                       <div className={`tnp-responded ${
                         (notif.responded === "ACCEPTED" || notif.participantStatus === "ACCEPTED")
@@ -1209,7 +1209,7 @@ export default function TravelerNotificationsPage() {
         </div>
       </main>
 
-      {/* ══ ROUTE PREVIEW MODAL ══════════════════════════════════ */}
+      {}
       {preview && (
         <>
           <div className="tnp-modal-backdrop" onClick={() => setPreview(null)} />

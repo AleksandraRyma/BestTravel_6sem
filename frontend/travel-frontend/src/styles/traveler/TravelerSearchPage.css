@@ -191,7 +191,7 @@
 .tsp-checkbox__icon { font-size: 15px; line-height: 1; }
 .tsp-checkbox__label { white-space: nowrap; }
 
-/* ─── Range inputs ────────────────────────────────────────────── */
+
 .tsp-range { display: flex; align-items: center; gap: 8px; }
 .tsp-range input {
   width: 100px; padding: 8px 10px;
@@ -213,7 +213,6 @@
 }
 .tsp-reset-btn:hover { background: #fee2e2; }
 
-/* ─── Active chips ────────────────────────────────────────────── */
 .tsp-active-chips {
   display: flex; flex-wrap: wrap; gap: 7px;
   padding: 10px 28px;
@@ -230,11 +229,11 @@
 .tsp-chip:hover { background: #dbeafe; }
 .tsp-chip svg { font-size: 11px; }
 
-/* ─── Results header ──────────────────────────────────────────── */
+
 .tsp-results-header { padding: 12px 28px 0; }
 .tsp-results-count { font-size: 13px; color: var(--tsp-muted); font-weight: 600; }
 
-/* ─── States ─────────────────────────────────────────────────── */
+
 .tsp-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 80px 20px; color: var(--tsp-muted); font-size: 14px; }
 .tsp-state__icon { font-size: 52px; }
 .tsp-state h3 { font-size: 18px; font-weight: 800; color: var(--tsp-text); }
@@ -246,7 +245,7 @@
 .tsp-loading-dots span:nth-child(3) { animation-delay: 0.30s; }
 @keyframes tspBounce { 0%,100% { transform:scale(0.6); opacity:0.4; } 50% { transform:scale(1); opacity:1; } }
 
-/* ─── Grid ────────────────────────────────────────────────────── */
+
 .tsp-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -254,7 +253,7 @@
   padding: 16px 28px 0;
 }
 
-/* ─── Card ────────────────────────────────────────────────────── */
+
 .tsp-card {
   background: var(--tsp-surface); border: 1px solid var(--tsp-border);
   border-radius: var(--tsp-radius); display: flex; flex-direction: column;

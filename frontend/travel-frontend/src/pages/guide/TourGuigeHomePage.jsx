@@ -13,7 +13,7 @@ export default function TourGuigeHomePage() {
   const [stats,       setStats]       = useState(null);
   const [loading,     setLoading]     = useState(true);
 
-  // ── Load guide stats from backend ────────────────────────────
+
   useEffect(() => {
     (async () => {
       try {
@@ -21,7 +21,7 @@ export default function TourGuigeHomePage() {
         const res = await axiosClient.get("/guide/home");
         setStats(res.data);
       } catch {
-        // backend not available — show empty stats
+  
       } finally {
         setLoading(false);
       }
@@ -33,7 +33,7 @@ export default function TourGuigeHomePage() {
   return (
     <div className="guide-page">
 
-      {/* ── SIDEBAR ─────────────────────────────────────────── */}
+      {}
       <aside className={`guide-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="guide-sidebar__brand">
           <span>🗺️</span>
@@ -86,10 +86,10 @@ export default function TourGuigeHomePage() {
       </aside>
       {sidebarOpen && <div className="guide-overlay" onClick={() => setSidebarOpen(false)} />}
 
-      {/* ── MAIN ─────────────────────────────────────────────── */}
+      {}
       <main className="guide-main">
 
-        {/* Topbar */}
+        {}
         <header className="guide-topbar">
           <button className="guide-burger" onClick={() => setSidebarOpen(true)}>☰</button>
           <div className="guide-topbar__title">
@@ -99,7 +99,7 @@ export default function TourGuigeHomePage() {
           <button className="guide-topbar__logout" onClick={onLogout}>Выйти</button>
         </header>
 
-        {/* ── HERO / WELCOME ───────────────────────────────── */}
+        {}
         <section className="guide-hero">
           <div className="guide-hero__text">
             <h2>Добро пожаловать</h2>
@@ -123,12 +123,12 @@ export default function TourGuigeHomePage() {
           )}
         </section>
 
-        {/* ── USE CASES ────────────────────────────────────── */}
+        {}
         <section className="guide-actions-section">
           <h3 className="guide-section-title">Что вы хотите сделать?</h3>
           <div className="guide-actions">
 
-            {/* Create route */}
+            {}
             <div className="guide-action-card" onClick={() => navigate("/guide/create-tour")}>
               <div className="guide-action-card__icon guide-action-card__icon--green">➕</div>
               <div className="guide-action-card__content">
@@ -138,7 +138,7 @@ export default function TourGuigeHomePage() {
               <div className="guide-action-card__arrow">→</div>
             </div>
 
-            {/* Statistics */}
+            {}
             <div className="guide-action-card" onClick={() => navigate("/guide/stats")}>
 
               <div className="guide-action-card__icon guide-action-card__icon--blue">
@@ -179,7 +179,7 @@ export default function TourGuigeHomePage() {
         <footer className="guide-footer">© 2026 BestTravel</footer>
       </main>
 
-      {/* ── FLOATING NOTES ───────────────────────────────────── */}
+      {}
       <GuideNotesPanel />
     </div>
   );

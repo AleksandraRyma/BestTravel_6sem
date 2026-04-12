@@ -50,7 +50,7 @@ public class RouteDetailResponse {
         private Long userId;
         private String fullName;
         private String email;
-        private String status;   // PENDING | ACCEPTED | REJECTED
+        private String status;
         private String joinedAt;
     }
 }

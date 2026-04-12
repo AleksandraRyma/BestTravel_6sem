@@ -1,8 +1,6 @@
 import { useState, useCallback } from "react";
 
-// ─── Хранилище заметок гида в sessionStorage ──────────────────────
-// sessionStorage: очищается при закрытии вкладки, но живёт между
-// навигациями внутри приложения — идеально для "заметок на сессию"
+
 const STORAGE_KEY = "guide_notes";
 
 function loadNotes() {

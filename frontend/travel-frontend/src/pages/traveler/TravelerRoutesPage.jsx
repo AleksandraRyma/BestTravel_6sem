@@ -9,7 +9,7 @@ import {
 import { getMyRoutes, deleteRoute } from "../../api/travelerApi";
 import "../../styles/traveler/TravelerRoutesPage.css";
 
-// ─── Sidebar nav ──────────────────────────────────────────────────
+
 const NAV = [
   { path: "/traveler",               icon: <FiHome />,     label: "Главная" },
   { path: "/traveler/my-routes",     icon: <FiMap />,      label: "Мои маршруты" },
@@ -23,13 +23,7 @@ const NAV = [
   { path: "/traveler/profile",       icon: <FiUser />,     label: "Профиль" },
 ];
 
-// const TRANSPORT = {
-//   WALK:    { label: "Пешком",    icon: "🚶" },
-//   BIKE:    { label: "Велосипед", icon: "🚴" },
-//   CAR:     { label: "Авто",      icon: "🚗" },
-//   TRANSIT: { label: "Транспорт", icon: "🚌" },
-//   PLANE:   { label: "Самолёт",   icon: "✈️" },
-// };
+
 
 const TRANSPORT = {
   WALK:    { label: "Пешком",    icon: "https://img.icons8.com/ios/50/000000/walking.png" },
@@ -75,7 +69,7 @@ const MOCK = [
   { id:7, title:"Транссибирская",        startLocation:"Москва",   endLocation:"Владивосток",startDate:"2026-07-01", endDate:"2026-07-15", durationDays:15, transportType:"TRANSIT", totalPrice:280,  budgetLimit:350,  participantsCount:5 },
 ];
 
-// ─── Columns definition ───────────────────────────────────────────
+
 const COLS = [
   { key: "title",            label: "Маршрут",         sortable: true,  w: "22%" },
   { key: "startLocation",    label: "Откуда",          sortable: true,  w: "11%" },
@@ -98,26 +92,26 @@ export default function TravelerRoutesPage() {
   const [loading, setLoading]       = useState(true);
   const [sidebarOpen, setSidebar]   = useState(false);
 
-  // Filters
+  
   const [search, setSearch]         = useState("");
   const [fTransport, setFTransport] = useState("");
   const [fStatus, setFStatus]       = useState("");
-  const [fCollab, setFCollab]       = useState(false); // только совместные
+  const [fCollab, setFCollab]       = useState(false); 
   const [fDateFrom, setFDateFrom]   = useState("");
   const [fDateTo, setFDateTo]       = useState("");
   const [filtersOpen, setFilters]   = useState(false);
 
-  // Sort — default: startDate asc (самые ближайшие первыми)
+
   const [sortKey, setSortKey]       = useState("startDate");
   const [sortDir, setSortDir]       = useState("asc");
 
-  // Row interaction
+ 
   const [selected, setSelected]     = useState(null);
   const [deleteId, setDeleteId]     = useState(null);
   const [deleting, setDeleting]     = useState(false);
   const clickTimer                  = useRef(null);
 
-  // ─── Load ───────────────────────────────────────────────────────
+  
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -132,7 +126,7 @@ export default function TravelerRoutesPage() {
     })();
   }, []);
 
-  // ─── Filter + sort ───────────────────────────────────────────────
+  
   const processed = routes
     .filter(r => {
       const q = search.trim().toLowerCase();
@@ -146,7 +140,7 @@ export default function TravelerRoutesPage() {
       if (fStatus && st !== fStatus) return false;
       if (fDateFrom && r.startDate < fDateFrom) return false;
       if (fDateTo   && r.startDate > fDateTo)   return false;
-      // Совместные = маршруты где участников > 1 (есть другие участники)
+    
       if (fCollab && (r.participantsCount ?? 0) < 1) return false;
       return true;
     })
@@ -170,13 +164,13 @@ export default function TravelerRoutesPage() {
         : String(bv).localeCompare(String(av), "ru");
     });
 
-  // ─── Sort toggle ─────────────────────────────────────────────────
+  
   const toggleSort = (key) => {
     if (sortKey === key) setSortDir(d => d === "asc" ? "desc" : "asc");
     else { setSortKey(key); setSortDir("asc"); }
   };
 
-  // ─── Row click ───────────────────────────────────────────────────
+  
   const handleRowClick = (id) => {
     if (clickTimer.current) {
       clearTimeout(clickTimer.current);
@@ -188,7 +182,7 @@ export default function TravelerRoutesPage() {
     }
   };
 
-  // ─── Delete ──────────────────────────────────────────────────────
+ 
   const confirmDelete = async () => {
     if (!deleteId) return;
     setDeleting(true);
@@ -203,11 +197,11 @@ export default function TravelerRoutesPage() {
 
   const activeFilters = [fTransport, fStatus, fDateFrom, fDateTo, fCollab || ""].filter(Boolean).length;
 
-  // ─── Render ───────────────────────────────────────────────────────
+  
   return (
     <div className="trp-root">
 
-      {/* ══ SIDEBAR ══════════════════════════════════════════════ */}
+      {}
       <aside className={`trp-sidebar ${sidebarOpen ? "trp-sidebar--open" : ""}`}>
         <div className="trp-sidebar__brand">
           <span className="trp-sidebar__brand-icon">✈️</span>
@@ -244,10 +238,10 @@ export default function TravelerRoutesPage() {
         <div className="trp-overlay" onClick={() => setSidebar(false)} />
       )}
 
-      {/* ══ MAIN ═════════════════════════════════════════════════ */}
+      {}
       <main className="trp-main">
 
-        {/* ── Topbar ─────────────────────────────────────────── */}
+        {}
         <header className="trp-topbar">
           <button className="trp-burger" onClick={() => setSidebar(true)}>
             <FiMenu />
@@ -264,7 +258,7 @@ export default function TravelerRoutesPage() {
           </button>
         </header>
 
-        {/* ── Toolbar ────────────────────────────────────────── */}
+        {}
         <div className="trp-toolbar">
           <div className="trp-search-wrap">
             <FiSearch className="trp-search-wrap__icon" />
@@ -294,7 +288,7 @@ export default function TravelerRoutesPage() {
           </button>
         </div>
 
-        {/* ── Filter panel ───────────────────────────────────── */}
+        {}
         {filtersOpen && (
           <div className="trp-filters">
             <div className="trp-filters__group">
@@ -444,22 +438,22 @@ export default function TravelerRoutesPage() {
                         </div>
                       </td>
 
-                      {/* Откуда */}
+                      {}
                       <td>
                         <span className="trp-loc trp-loc--from">{r.startLocation}</span>
                       </td>
 
-                      {/* Куда */}
+                      {}
                       <td>
                         <span className="trp-loc trp-loc--to">{r.endLocation}</span>
                       </td>
 
-                      {/* Дата начала */}
+                      {}
                       <td>
                         <span className="trp-date">{fmt(r.startDate)}</span>
                       </td>
 
-                      {/* Дата конца */}
+                      {}
                       <td>
                         <span className="trp-date">{fmt(r.endDate)}</span>
                       </td>
@@ -472,10 +466,7 @@ export default function TravelerRoutesPage() {
                       {/* Транспорт */}
                       <td>
                         {tr ? (
-                        //   <span className="trp-transport">
-                        //     <span className="trp-transport__icon">{tr.icon}</span>
-                        //     <span className="trp-transport__label">{tr.label}</span>
-                        //   </span>
+                        
                         <span className="trp-transport">
       <span className="trp-transport__icon">
         <img 
@@ -543,7 +534,7 @@ export default function TravelerRoutesPage() {
           )}
         </div>
 
-        {/* ── Footer stats ───────────────────────────────────── */}
+        {}
         {!loading && routes.length > 0 && (
           <div className="trp-footer-stats">
             <div className="trp-fstat">
@@ -578,7 +569,7 @@ export default function TravelerRoutesPage() {
         )}
       </main>
 
-      {/* ══ DELETE CONFIRM MODAL ══════════════════════════════════ */}
+      {}
       {deleteId && (
         <div className="trp-modal-backdrop" onClick={() => setDeleteId(null)}>
           <div className="trp-modal" onClick={e => e.stopPropagation()}>

@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Наблюдатель для участников маршрута
- */
+
 @Slf4j
 @RequiredArgsConstructor
 public class ParticipantObserver implements RouteObserver {
@@ -19,12 +17,10 @@ public class ParticipantObserver implements RouteObserver {
 
     @Override
     public void update(Route route, String eventType, String message) {
-        // Здесь можно реализовать отправку уведомления участнику
+
         log.info("Уведомление для участника {} о маршруте {}: {} - {}",
                 participant.getFullName(), route.getTitle(), eventType, message);
 
-        // Сохранить уведомление в базу данных
-        // notificationService.createNotification(participant, message);
     }
 
     public User getParticipant() {

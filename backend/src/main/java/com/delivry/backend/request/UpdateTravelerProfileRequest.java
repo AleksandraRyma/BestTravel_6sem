@@ -12,9 +12,9 @@ public class UpdateTravelerProfileRequest {
     @NotBlank
     private String email;
 
-    private String password; // необязательный, если менять пароль
+    private String password;
 
-    // Геттеры и сеттеры
+
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 

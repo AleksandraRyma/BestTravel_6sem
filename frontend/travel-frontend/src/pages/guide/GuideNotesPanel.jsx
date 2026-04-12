@@ -2,26 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { useGuideNotes } from "../../hooks/useGuideNotes";
 import "../../styles/tour_guide/GuideNotesPanel.css";
 
-/**
- * Панель заметок гида — плавающая кнопка + выдвижная панель.
- * Подключается на любой странице гида:
- *
- *   import GuideNotesPanel from "../../components/guide/GuideNotesPanel";
- *   ...
- *   return (
- *     <div className="page">
- *       ...контент...
- *       <GuideNotesPanel />
- *     </div>
- *   );
- */
+
 export default function GuideNotesPanel() {
   const { notes, addNote, toggleNote, deleteNote, clearDone } = useGuideNotes();
   const [open,     setOpen]     = useState(false);
   const [inputVal, setInputVal] = useState("");
   const inputRef = useRef(null);
 
-  // Авто-фокус при открытии
+  
   useEffect(() => {
     if (open && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 120);
@@ -44,7 +32,7 @@ export default function GuideNotesPanel() {
 
   return (
     <>
-      {/* ── Floating trigger button ──────────────────────────── */}
+      {}
       <button
         className={`gnp-trigger ${open ? "gnp-trigger--open" : ""}`}
         onClick={() => setOpen(v => !v)}
@@ -66,12 +54,12 @@ export default function GuideNotesPanel() {
         )}
       </button>
 
-      {/* ── Panel overlay ────────────────────────────────────── */}
+      {}
       {open && (
         <div className="gnp-overlay" onClick={() => setOpen(false)} />
       )}
 
-      {/* ── Panel ────────────────────────────────────────────── */}
+      {}
       <div className={`gnp-panel ${open ? "gnp-panel--open" : ""}`}>
         <div className="gnp-panel__header">
           <div className="gnp-panel__title">
@@ -97,7 +85,7 @@ export default function GuideNotesPanel() {
           </div>
         </div>
 
-        {/* Input */}
+        {}
         <div className="gnp-input-row">
           <input
             ref={inputRef}
@@ -117,7 +105,7 @@ export default function GuideNotesPanel() {
           </button>
         </div>
 
-        {/* Notes list */}
+        {}
         <div className="gnp-list">
           {notes.length === 0 ? (
             <div className="gnp-empty">
@@ -140,7 +128,7 @@ export default function GuideNotesPanel() {
                 key={note.id}
                 className={`gnp-note ${note.done ? "gnp-note--done" : ""}`}
               >
-                {/* Checkbox-circle */}
+                {}
                 <button
                   className={`gnp-note__circle ${note.done ? "gnp-note__circle--checked" : ""}`}
                   onClick={() => toggleNote(note.id)}
@@ -153,10 +141,10 @@ export default function GuideNotesPanel() {
                   )}
                 </button>
 
-                {/* Text */}
+                {}
                 <span className="gnp-note__text">{note.text}</span>
 
-                {/* Delete */}
+                {}
                 <button
                   className="gnp-note__delete"
                   onClick={() => deleteNote(note.id)}

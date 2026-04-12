@@ -408,7 +408,7 @@
 }
 .tcp-upcoming-card__days.ongoing { color: #16a34a; }
 
-/* ─── Stats ─────────────────────────────────────────────────────── */
+
 .tcp-stats {
   display: flex;
   border-top: 1px solid var(--tcp-border);
@@ -437,7 +437,7 @@
   color: var(--tcp-muted);
 }
 
-/* ─── Status badges ─────────────────────────────────────────────── */
+
 .tcp-status {
   display: inline-flex;
   align-items: center;
@@ -452,7 +452,7 @@
 .tcp-status--ongoing  { background: #f0fdf4; color: #16a34a; }
 .tcp-status--past     { background: #f8fafc; color: #94a3b8; }
 
-/* ─── Calendar container ────────────────────────────────────────── */
+
 .tcp-calendar {
   flex: 1;
   overflow: hidden;
@@ -471,16 +471,15 @@
   font-size: 14px;
 }
 
-/* ─── FullCalendar overrides ────────────────────────────────────── */
+
 .tcp-calendar .fc {
   height: 100%;
   font-family: 'Onest', sans-serif;
 }
 
-/* Remove default header (we have our own) */
 .tcp-calendar .fc .fc-header-toolbar { display: none; }
 
-/* Day header cells */
+
 .tcp-calendar .fc .fc-col-header-cell {
   background: var(--tcp-surface);
   border-color: var(--tcp-border);
@@ -495,7 +494,7 @@
   text-decoration: none;
 }
 
-/* Day cells */
+
 .tcp-calendar .fc .fc-daygrid-day {
   background: var(--tcp-surface);
   border-color: var(--tcp-border) !important;
@@ -510,7 +509,7 @@
   padding: 6px 8px;
 }
 
-/* Today highlight */
+
 .tcp-calendar .fc .fc-day-today {
   background: #fefce8 !important;
 }
@@ -519,7 +518,7 @@
   font-weight: 800;
 }
 
-/* Events */
+
 .tcp-calendar .fc .fc-daygrid-event {
   border-radius: 6px !important;
   border-width: 0 0 0 3px !important;
@@ -533,7 +532,7 @@
   transform: translateY(-1px);
 }
 
-/* Custom event content */
+
 .tcp-fc-event {
   display: flex;
   align-items: center;
@@ -553,14 +552,14 @@
   text-overflow: ellipsis;
 }
 
-/* More link */
+
 .tcp-calendar .fc .fc-daygrid-more-link {
   font-size: 11px;
   font-weight: 700;
   color: var(--tcp-accent);
 }
 
-/* List view */
+
 .tcp-calendar .fc .fc-list {
   border: none;
   border-radius: var(--tcp-radius);
@@ -584,11 +583,11 @@
   text-decoration: none;
 }
 
-/* Scrollbar */
+
 .tcp-calendar .fc-scroller::-webkit-scrollbar { width: 4px; height: 4px; }
 .tcp-calendar .fc-scroller::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
 
-/* ─── Spinner ───────────────────────────────────────────────────── */
+
 .tcp-spinner {
   width: 28px; height: 28px;
   border: 3px solid var(--tcp-border);
@@ -599,7 +598,7 @@
 .tcp-spinner--lg { width: 40px; height: 40px; }
 @keyframes tcpSpin { to { transform: rotate(360deg); } }
 
-/* ─── Popup ─────────────────────────────────────────────────────── */
+
 .tcp-popup {
   position: fixed;
   z-index: 500;
@@ -688,7 +687,7 @@
 }
 .tcp-popup__open-btn:hover { background: #1e293b; }
 
-/* ─── Responsive ────────────────────────────────────────────────── */
+
 @media (max-width: 768px) {
   .tcp-topbar { padding: 10px 14px; gap: 8px; }
   .tcp-legend { padding: 8px 14px; }

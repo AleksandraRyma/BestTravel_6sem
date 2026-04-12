@@ -6,9 +6,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Фабрика стратегий для выбора нужной стратегии расчета стоимости
- */
+
 @Component
 public class CostStrategyFactory {
 

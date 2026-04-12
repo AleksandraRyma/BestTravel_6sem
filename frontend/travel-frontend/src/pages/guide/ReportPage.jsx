@@ -7,7 +7,7 @@ import {
 } from "react-icons/fi";
 import "../../styles/tour_guide/ReportPage.css";
 
-// ─── Описание доступных отчётов ───────────────────────────────
+
 const REPORT_TYPES = [
   {
     id: "popular_poi",
@@ -99,7 +99,7 @@ export default function ReportPage() {
     setSelected(prev => {
       const next = new Set(prev);
       if (id === "full_report") {
-        // Полный отчёт — снимаем все остальные
+      
         if (next.has("full_report")) { next.delete("full_report"); }
         else { next.clear(); next.add("full_report"); }
       } else {
@@ -155,7 +155,7 @@ export default function ReportPage() {
 
   const downloadSelected = async () => {
     if (selected.size === 0) { showToast("Выберите хотя бы один отчёт"); return; }
-    // Скачиваем по одному
+    
     for (const id of selected) {
       await download(id);
     }
@@ -169,7 +169,7 @@ export default function ReportPage() {
   return (
     <div className="rp-root">
 
-      {/* ── HEADER ──────────────────────────────────────────── */}
+      {/* ── HEADER */}
       <header className="rp-header">
         <div className="rp-header__left">
           <button className="rp-back" onClick={() => navigate("/guide")}><FiArrowLeft /></button>
@@ -203,7 +203,7 @@ export default function ReportPage() {
         </div>
       </header>
 
-      {/* ── FILTER PANEL ────────────────────────────────────── */}
+      {}
       {panelOpen && (
         <div className="rp-panel">
           <span className="rp-panel__title">Период данных:</span>
@@ -234,7 +234,7 @@ export default function ReportPage() {
         </div>
       )}
 
-      {/* ── INTRO ───────────────────────────────────────────── */}
+      {}
       <div className="rp-intro">
         <div className="rp-intro__text">
           <h2>Используй данные для создания лучших маршрутов</h2>
@@ -243,7 +243,7 @@ export default function ReportPage() {
         
       </div>
 
-      {/* ── REPORT CARDS ────────────────────────────────────── */}
+      {}
       <div className="rp-grid">
         {REPORT_TYPES.map(report => {
           const isSelected  = selected.has(report.id);
@@ -256,7 +256,7 @@ export default function ReportPage() {
               style={{ "--rc": report.color, "--rbg": report.bg }}
               onClick={() => toggle(report.id)}
             >
-              {/* Selection checkbox */}
+              {}
               <div className={`rp-card__check ${isSelected ? "checked" : ""}`}>
                 {isSelected && <FiCheckCircle />}
               </div>
@@ -286,7 +286,7 @@ export default function ReportPage() {
         })}
       </div>
 
-      {/* Toast */}
+      {}
       {toast && <div className="rp-toast">{toast}</div>}
     </div>
   );

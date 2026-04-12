@@ -14,24 +14,15 @@ public class CreateEmployeeRequest {
     @Email(message = "Некорректный email")
     private String email;
 
-    /**
-     * Пароль для нового пользователя.
-     * На фронте может быть необязательным при расширении логики,
-     * но при создании сотрудника через этот эндпоинт он обязателен.
-     */
+
     @NotBlank(message = "Пароль обязателен")
     private String password;
 
-    /**
-     * Роль пользователя: ADMIN, TOUR_GUIDE, TRAVELER.
-     */
+
     @NotBlank(message = "Роль обязательна")
     private String role;
 
-    /**
-     * Статус пользователя: ACTIVE, BLOCKED.
-     * Если не передан – на уровне сервиса можно выставить ACTIVE по умолчанию.
-     */
+
     private String status;
 
     public String getFullName() {

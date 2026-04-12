@@ -594,7 +594,7 @@
   background: rgba(255,255,255,0.2);
 }
 
-/* ─── Delete confirm ────────────────────────────────────────────── */
+
 .rdp-del-backdrop {
   position: fixed;
   inset: 0;
@@ -637,7 +637,6 @@
   justify-content: center;
 }
 
-/* ─── Spinner ───────────────────────────────────────────────────── */
 .rdp-spinner {
   width: 40px; height: 40px;
   border: 3px solid #e2e8f0;
@@ -649,7 +648,6 @@
 
 .spin { animation: rdpSpin 1s linear infinite; }
 
-/* ─── Print ─────────────────────────────────────────────────────── */
 @media print {
   .rdp-overlay { display: none; }
   .rdp-modal {
@@ -663,7 +661,7 @@
   .rdp-panel { width: 100%; border: none; }
 }
 
-/* ─── Responsive ────────────────────────────────────────────────── */
+
 @media (max-width: 900px) {
   .rdp-modal { inset: 0; border-radius: 0; }
   .rdp-body { flex-direction: column; }

@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 public class CalendarEventResponse {
     private Long       id;
     private String     title;
-    private String     startDate;       // "yyyy-MM-dd"
-    private String     endDate;         // "yyyy-MM-dd"
+    private String     startDate;
+    private String     endDate;
     private String     startLocation;
     private String     endLocation;
     private Integer    durationDays;
