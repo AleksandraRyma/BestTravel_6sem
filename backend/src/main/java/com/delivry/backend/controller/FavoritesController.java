@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/traveler/favorites")
@@ -66,10 +68,15 @@ public class FavoritesController {
     // POST /api/traveler/favorites/{routeId}
     // ─────────────────────────────────────────────────────────────
     @PostMapping("/{routeId}")
-    public ResponseEntity<String> add(Authentication auth, @PathVariable Long routeId) {
+    public ResponseEntity<Map<String, Serializable>> add(Authentication auth, @PathVariable Long routeId) {
         User user = resolve(auth);
         favoritesService.addFavorite(user.getUserId(), routeId);
-        return ResponseEntity.ok("Добавлено в избранное");
+        //return ResponseEntity.ok("Добавлено в избранное");
+        return ResponseEntity.ok(Map.of(
+                "message", "Added to favorites",
+                "routeId", routeId
+        ));
+
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -79,7 +86,7 @@ public class FavoritesController {
     public ResponseEntity<String> remove(Authentication auth, @PathVariable Long routeId) {
         User user = resolve(auth);
         favoritesService.removeFavorite(user.getUserId(), routeId);
-        return ResponseEntity.ok("Убрано из избранного");
+        return ResponseEntity.ok("Removed from favorites");
     }
 
     // ─────────────────────────────────────────────────────────────
